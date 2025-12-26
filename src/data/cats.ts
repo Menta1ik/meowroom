@@ -1,0 +1,58 @@
+import { Cat } from '../components/cards/CatCard';
+
+export const catsData: Cat[] = [
+  {
+    id: '1',
+    name: 'Барсик',
+    age: '2 года',
+    gender: 'Мальчик',
+    description: 'Ласковый и спокойный кот, который обожает спать на коленях. Идеальный компаньон для уютных вечеров.',
+    image: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Cute%20fluffy%20tabby%20cat%20portrait%2C%20soft%20lighting%2C%20bokeh%20background%2C%20high%20resolution&image_size=square',
+    tags: ['Ласковый', 'Спокойный', 'Привит'],
+  },
+  {
+    id: '2',
+    name: 'Муся',
+    age: '1.5 года',
+    gender: 'Девочка',
+    description: 'Игривая и любопытная кошечка. Любит охотиться за игрушечными мышками и исследовать новые места.',
+    image: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Playful%20calico%20cat%20jumping%20for%20a%20toy%2C%20dynamic%20pose%2C%20bright%20colors&image_size=square',
+    tags: ['Игривая', 'Активная', 'Стерилизована'],
+  },
+  {
+    id: '3',
+    name: 'Рыжик',
+    age: '3 года',
+    gender: 'Мальчик',
+    description: 'Солнечный кот с большим сердцем. Очень общительный и всегда встречает гостей у двери.',
+    image: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Orange%20ginger%20cat%20looking%20at%20camera%20with%20big%20green%20eyes%2C%20sunlight%2C%20cozy&image_size=square',
+    tags: ['Общительный', 'Добрый', 'Привит'],
+  },
+  {
+    id: '4',
+    name: 'Луна',
+    age: '1 год',
+    gender: 'Девочка',
+    description: 'Немного застенчивая, но очень преданная. Ей нужно немного времени, чтобы привыкнуть, но потом она не отойдет от вас ни на шаг.',
+    image: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Elegant%20black%20cat%20sitting%20gracefully%2C%20mysterious%20atmosphere%2C%20sharp%20focus&image_size=square',
+    tags: ['Застенчивая', 'Верная', 'Стерилизована'],
+  },
+  {
+    id: '5',
+    name: 'Саймон',
+    age: '4 года',
+    gender: 'Мальчик',
+    description: 'Мудрый и важный кот. Любит наблюдать за происходящим с высокой полки. Не навязчив, но ценит внимание.',
+    image: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Fluffy%20grey%20cat%20sleeping%20on%20a%20blue%20cushion%2C%20peaceful%2C%20close%20up&image_size=square',
+    tags: ['Спокойный', 'Независимый', 'Привит'],
+  },
+  {
+    id: '6',
+    name: 'Белла',
+    age: '6 месяцев',
+    gender: 'Девочка',
+    description: 'Маленький ураган энергии. Ей все интересно, все нужно потрогать и везде залезть.',
+    image: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=White%20kitten%20with%20blue%20eyes%20playing%20in%20a%20basket%2C%20adorable%2C%20soft%20colors&image_size=square',
+    tags: ['Котенок', 'Активная', 'Любопытная'],
+  },
+];
