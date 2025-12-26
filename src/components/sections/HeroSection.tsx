@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import { BookingModal } from '../ui/BookingModal';
 
 export const HeroSection: React.FC = () => {
+  const { t } = useTranslation();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   return (
@@ -27,10 +29,10 @@ export const HeroSection: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight">
-            Мяурум: Приют и Антикафе
+            {t('hero.title')}
           </h1>
           <p className="text-lg md:text-2xl mb-8 max-w-2xl mx-auto font-light text-primary-50">
-            Уютный дом, где наши котики живут в любви и безопасности. Приходите пообщаться с пушистыми друзьями или возьмите их под опеку.
+            {t('hero.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
@@ -38,7 +40,7 @@ export const HeroSection: React.FC = () => {
               size="lg"
               className="w-full sm:w-auto text-lg px-8 py-4 bg-accent-500 hover:bg-accent-400 text-primary-900"
             >
-              Записаться в гости
+              {t('hero.cta_visit')}
             </Button>
             <Button
               href="/cats"
@@ -46,7 +48,7 @@ export const HeroSection: React.FC = () => {
               size="lg"
               className="w-full sm:w-auto text-lg px-8 py-4 border-white text-white hover:bg-white hover:text-primary-700"
             >
-              Стать опекуном
+              {t('hero.cta_adopt')}
             </Button>
           </div>
         </motion.div>

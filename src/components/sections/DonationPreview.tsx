@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button } from '../ui/Button';
+import { useTranslation } from 'react-i18next';
 
 export const DonationPreview: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="py-20 bg-primary-600 text-white relative overflow-hidden">
       {/* Background Pattern */}
@@ -9,11 +12,10 @@ export const DonationPreview: React.FC = () => {
 
       <div className="container mx-auto px-4 relative z-10 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-          Помогите нам спасать жизни
+          {t('donation_preview.title')}
         </h2>
         <p className="text-xl text-primary-100 mb-10 max-w-2xl mx-auto">
-          "Мяурум" существует благодаря вашим визитам и добровольным пожертвованиям. 
-          Каждая гривна превращается в корм, лекарства и тепло для наших подопечных.
+          {t('donation_preview.text')}
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -23,7 +25,7 @@ export const DonationPreview: React.FC = () => {
             size="lg"
             className="font-bold"
           >
-            Поддержать проект
+            {t('donation_preview.cta_support')}
           </Button>
           <Button 
             href="/cats" 
@@ -31,7 +33,7 @@ export const DonationPreview: React.FC = () => {
             size="lg"
             className="border-white text-white hover:bg-white hover:text-primary-700"
           >
-            Стать волонтером
+            {t('donation_preview.cta_volunteer')}
           </Button>
         </div>
       </div>

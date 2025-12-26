@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import Logo from '../ui/Logo';
 import { BookingModal } from '../ui/BookingModal';
+import LanguageSelector from '../ui/LanguageSelector';
 
 export const Header: React.FC = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -27,12 +30,11 @@ export const Header: React.FC = () => {
   }, [location]);
 
   const navLinks = [
-    { name: 'О нас', path: '/about' },
-    { name: 'Наши котики', path: '/cats' },
-    { name: 'Посетить', path: '/visit' },
-    { name: 'Поддержать', path: '/donate' },
-    { name: 'Спонсорам', path: '/become-sponsor' },
-    { name: 'Контакты', path: '/contacts' },
+    { name: t('nav.about'), path: '/about' },
+    { name: t('nav.cats'), path: '/cats' },
+    { name: t('nav.visit'), path: '/visit' },
+    { name: t('nav.donate'), path: '/donate' },
+    { name: t('nav.contacts'), path: '/contacts' },
   ];
 
   return (
@@ -71,25 +73,29 @@ export const Header: React.FC = () => {
                   {link.name}
                 </Link>
               ))}
+              <LanguageSelector isTransparent={isTransparent} />
               <Button
                 onClick={() => setIsBookingOpen(true)}
                 variant="secondary"
                 size="sm"
               >
-                Забронировать
+                {t('hero.cta_visit')}
               </Button>
             </nav>
 
             {/* Mobile Menu Button */}
-            <button
-              className={`md:hidden p-2 transition-colors hover:text-primary-500 ${
-                isTransparent ? 'text-white' : 'text-neutral-600'
-              }`}
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <div className="flex items-center gap-4 md:hidden">
+              <LanguageSelector isTransparent={isTransparent} />
+              <button
+                className={`p-2 transition-colors hover:text-primary-500 ${
+                  isTransparent ? 'text-white' : 'text-neutral-600'
+                }`}
+                onClick={() => setIsOpen(!isOpen)}
+                aria-label="Toggle menu"
+              >
+                {isOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -124,7 +130,7 @@ export const Header: React.FC = () => {
                   variant="secondary"
                   className="w-full"
                 >
-                  Забронировать визит
+                  {t('hero.cta_visit')}
                 </Button>
               </div>
             </motion.div>

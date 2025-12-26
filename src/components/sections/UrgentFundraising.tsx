@@ -1,5 +1,6 @@
 import React from 'react';
 import { AlertCircle, CreditCard, ExternalLink } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
 
@@ -20,11 +21,12 @@ export const UrgentFundraising: React.FC<UrgentFundraisingProps> = ({
   jarLink,
   cardNumber,
 }) => {
+  const { t } = useTranslation();
   const percentage = Math.min(Math.round((currentAmount / targetAmount) * 100), 100);
 
   const copyCardNumber = () => {
     navigator.clipboard.writeText(cardNumber.replace(/\s/g, ''));
-    alert('Номер карты скопирован!');
+    alert(t('urgent.copy_success'));
   };
 
   return (
@@ -35,7 +37,7 @@ export const UrgentFundraising: React.FC<UrgentFundraisingProps> = ({
           <AlertCircle className="text-white animate-pulse" size={28} />
         </div>
         <div>
-          <h3 className="font-bold text-red-100 text-sm uppercase tracking-wider mb-1">Срочный сбор</h3>
+          <h3 className="font-bold text-red-100 text-sm uppercase tracking-wider mb-1">{t('urgent.label')}</h3>
           <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">{title}</h2>
         </div>
       </div>
@@ -59,21 +61,21 @@ export const UrgentFundraising: React.FC<UrgentFundraisingProps> = ({
            <div className="grid grid-cols-3 gap-3 md:gap-4">
               <div className="space-y-2 group/photo">
                 <div className="aspect-square rounded-xl overflow-hidden shadow-sm border-2 border-white ring-1 ring-neutral-200 group-hover/photo:ring-red-300 transition-all">
-                  <img src="/jordan-before.jpg" alt="До лечения" className="w-full h-full object-cover" />
+                  <img src="/jordan-before.jpg" alt={t('urgent.timeline.before')} className="w-full h-full object-cover" />
                 </div>
-                <p className="text-xs text-center font-bold text-neutral-500 uppercase tracking-wide">ДО ОПЕРАЦИИ</p>
+                <p className="text-xs text-center font-bold text-neutral-500 uppercase tracking-wide">{t('urgent.timeline.before')}</p>
               </div>
               <div className="space-y-2 group/photo">
                 <div className="aspect-square rounded-xl overflow-hidden shadow-sm border-2 border-white ring-1 ring-neutral-200 group-hover/photo:ring-red-300 transition-all">
-                  <img src="/jordan-stitches.jpg" alt="После операции" className="w-full h-full object-cover" />
+                  <img src="/jordan-stitches.jpg" alt={t('urgent.timeline.after_op')} className="w-full h-full object-cover" />
                 </div>
-                <p className="text-xs text-center font-bold text-neutral-500 uppercase tracking-wide">После операции</p>
+                <p className="text-xs text-center font-bold text-neutral-500 uppercase tracking-wide">{t('urgent.timeline.after_op')}</p>
               </div>
               <div className="space-y-2 group/photo">
                 <div className="aspect-square rounded-xl overflow-hidden shadow-sm border-2 border-white ring-1 ring-neutral-200 group-hover/photo:ring-red-300 transition-all">
-                  <img src="/jordan-after.jpg" alt="Восстановление" className="w-full h-full object-cover" />
+                  <img src="/jordan-after.jpg" alt={t('urgent.timeline.recovery')} className="w-full h-full object-cover" />
                 </div>
-                <p className="text-xs text-center font-bold text-neutral-500 uppercase tracking-wide">Восстановление</p>
+                <p className="text-xs text-center font-bold text-neutral-500 uppercase tracking-wide">{t('urgent.timeline.recovery')}</p>
               </div>
            </div>
         </div>
@@ -90,18 +92,18 @@ export const UrgentFundraising: React.FC<UrgentFundraisingProps> = ({
               <div className="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
               <div className="flex justify-between items-end mb-4 relative z-10">
                 <div>
-                  <span className="block text-sm font-medium text-neutral-500 mb-1">Уже собрано</span>
+                  <span className="block text-sm font-medium text-neutral-500 mb-1">{t('urgent.collected')}</span>
                   <span className="text-3xl font-bold text-primary-800 tracking-tight">{currentAmount.toLocaleString('ru-RU')} ₴</span>
                 </div>
                 <div className="text-right">
-                  <span className="block text-sm font-medium text-neutral-500 mb-1">Цель</span>
+                  <span className="block text-sm font-medium text-neutral-500 mb-1">{t('urgent.goal')}</span>
                   <span className="text-xl font-bold text-neutral-400">{targetAmount.toLocaleString('ru-RU')} ₴</span>
                 </div>
               </div>
               <ProgressBar progress={percentage} colorClass="bg-gradient-to-r from-red-500 to-red-400" className="h-3 bg-red-50" />
               <div className="mt-3 flex justify-between items-center text-sm">
                  <span className="font-bold text-red-600">{percentage}%</span>
-                 <span className="text-neutral-400">Осталось собрать: <span className="font-medium text-neutral-600">{(targetAmount - currentAmount).toLocaleString('ru-RU')} ₴</span></span>
+                 <span className="text-neutral-400">{t('urgent.remaining')} <span className="font-medium text-neutral-600">{(targetAmount - currentAmount).toLocaleString('ru-RU')} ₴</span></span>
               </div>
             </div>
           </div>
@@ -114,7 +116,7 @@ export const UrgentFundraising: React.FC<UrgentFundraisingProps> = ({
               className="w-full bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-100 py-4 text-xl border-0"
               size="lg"
             >
-              Помочь Джордану
+              {t('urgent.cta_help')}
             </Button>
             <button 
               onClick={copyCardNumber}
@@ -124,7 +126,7 @@ export const UrgentFundraising: React.FC<UrgentFundraisingProps> = ({
               <span className="font-mono text-lg text-neutral-600 group-hover:text-red-700 font-medium tracking-wide">{cardNumber}</span>
             </button>
             <p className="text-center text-xs text-neutral-400">
-              Нажмите на номер карты, чтобы скопировать
+              {t('urgent.copy_hint')}
             </p>
           </div>
         </div>

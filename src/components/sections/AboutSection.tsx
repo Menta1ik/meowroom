@@ -1,23 +1,26 @@
 import React from 'react';
 import { ShieldCheck, Heart, Home, Coffee } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation, Trans } from 'react-i18next';
 
 export const AboutSection: React.FC = () => {
+  const { t } = useTranslation();
+
   const features = [
     {
       icon: <Home size={32} />,
-      title: 'Уютный дом',
-      description: 'Безопасное пространство, где котики живут в любви и заботе, окруженные вниманием наших гостей.',
+      title: t('about_section.features.home.title'),
+      description: t('about_section.features.home.desc'),
     },
     {
       icon: <ShieldCheck size={32} />,
-      title: 'Здоровье и безопасность',
-      description: 'Все наши подопечные здоровы, привиты, стерилизованы и имеют ветеринарные паспорта.',
+      title: t('about_section.features.health.title'),
+      description: t('about_section.features.health.desc'),
     },
     {
       icon: <Heart size={32} />,
-      title: 'Благотворительность',
-      description: 'Мы работаем совместно с фондом "BlueCross for Cats". Все средства идут на помощь животным.',
+      title: t('about_section.features.charity.title'),
+      description: t('about_section.features.charity.desc'),
     },
   ];
 
@@ -25,13 +28,15 @@ export const AboutSection: React.FC = () => {
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-700 mb-6">Что такое Мяурум?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary-700 mb-6">{t('about_section.title')}</h2>
           <p className="text-lg text-neutral-600 leading-relaxed mb-4">
-            "Мяурум" — это уникальное пространство в Харькове, объединяющее формат <strong>антикафе</strong> и приюта. 
-            Это не обычное кафе: у нас нет кухни и меню. Вы платите только за время пребывания, наслаждаясь обществом котиков.
+            <Trans i18nKey="about_section.text_1">
+              "Мяурум" — это уникальное пространство в Харькове, объединяющее формат <strong>антикафе</strong> и приюта. 
+              Это не обычное кафе: у нас нет кухни и меню. Вы платите только за время пребывания, наслаждаясь обществом котиков.
+            </Trans>
           </p>
           <p className="text-lg text-neutral-600 leading-relaxed">
-            Мяурум стал настоящим домом для спасенных котиков. Здесь они живут в безопасности и любви. Вы можете приходить к нам, чтобы пообщаться с пушистыми друзьями, а при желании — взять кого-то из них под свою опеку.
+            {t('about_section.text_2')}
           </p>
         </div>
 

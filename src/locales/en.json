@@ -1,0 +1,206 @@
+{
+  "nav": {
+    "about": "About",
+    "cats": "Our Cats",
+    "visit": "Visit",
+    "donate": "Donate",
+    "contacts": "Contacts"
+  },
+  "hero": {
+    "title": "Meowroom: Shelter & Anticafe",
+    "subtitle": "A cozy home where our cats live in love and safety. Come to meet our furry friends or take them under your care.",
+    "cta_visit": "Book a Visit",
+    "cta_adopt": "Become a Guardian",
+    "cta_donate": "Support Us"
+  },
+  "about": {
+    "title": "About Us",
+    "story_1": "Hello friends! We are an ordinary family from Kharkiv with a passion for cats. But with the start of the war, our world changed. We couldn't remain indifferent to the disasters they are experiencing.",
+    "story_2": "Today, hundreds of homeless animals are on the streets of our city looking for love and care. We couldn't stay indifferent and started to act. We feed street cats, rescue them from terrible situations, provide medical care, and give them a HOME.",
+    "story_3": "We founded the charity fund \"BlueCross for Cats\" and opened a home for cats - Meowroom, where they find shelter, warmth, and a loving family. We care for over 60 tails! This is a real home where they feel good. They are loved and cared for, have water, tasty healthy food, and toys for entertainment.",
+    "story_4": "We really hope and count on the help of all caring people! Only together can we help our four-legged friends. And they will demonstrate their gratitude with purring. We really need your help and support.",
+    "quote": "\"We become responsible, forever, for what we have tamed.\"",
+    "media_title": "Meowroom in Media",
+    "vitaly": "Vitaliy Fatsky",
+    "veronika": "Veronika Fatskaya"
+  },
+  "services": {
+    "title": "How does it work?",
+    "description": "First and foremost, we are a <0>shelter</0>, and only secondly, we are an <1>anticafe</1>. The cats' peace of mind is most important to us. Your payment goes to support the cats in the shelter.",
+    "features": {
+      "relax": { "title": "Tasty Relaxation", "desc": "Tea, coffee, and sweets included" },
+      "fun": { "title": "Entertainment", "desc": "Board games" },
+      "coworking": { "title": "Coworking", "desc": "Work on your computer" },
+      "schedule": { "title": "Opening Hours", "desc": "Daily from 12:00 to 17:00" }
+    },
+    "cta": "Check Rules & Prices"
+  },
+  "urgent": {
+    "label": "Urgent Fundraising",
+    "collected": "Raised",
+    "goal": "Goal",
+    "remaining": "Left to raise:",
+    "cta_help": "Help",
+    "copy_hint": "Click on card number to copy",
+    "copy_success": "Card number copied!",
+    "timeline": {
+      "before": "BEFORE SURGERY",
+      "after_op": "After surgery",
+      "recovery": "Recovery"
+    }
+  },
+  "about_section": {
+    "title": "What is Meowroom?",
+    "text_1": "\"Meowroom\" is a unique space in Kharkiv combining the format of an <0>anticafe</0> and a shelter. It's not a regular cafe: we have no kitchen or menu. You only pay for the time spent, enjoying the company of cats.",
+    "text_2": "Meowroom has become a real home for rescued cats. Here they live in safety and love. You can come to us to chat with furry friends, and if you wish — take one of them under your care.",
+    "features": {
+      "home": { "title": "Cozy Home", "desc": "A safe space where cats live in love and care, surrounded by the attention of our guests." },
+      "health": { "title": "Health & Safety", "desc": "All our wards are healthy, vaccinated, sterilized, and have veterinary passports." },
+      "charity": { "title": "Charity", "desc": "We work together with the \"BlueCross for Cats\" foundation. All funds go to help animals." }
+    }
+  },
+  "donation_preview": {
+    "title": "Help Us Save Lives",
+    "text": "\"Meowroom\" exists thanks to your visits and voluntary donations. Every hryvnia turns into food, medicine, and warmth for our wards.",
+    "cta_support": "Support Project",
+    "cta_volunteer": "Become a Volunteer"
+  },
+  "cats": {
+    "title": "Our Cats",
+    "subtitle": "Here they found a loving family and a warm home. Meet them and find your favorite to become their friend and guardian.",
+    "filters": {
+      "all": "All Cats",
+      "boy": "Boys",
+      "girl": "Girls",
+      "kitten": "Kittens"
+    },
+    "empty": "Unfortunately, no cats found for your request.",
+    "card": {
+      "meet": "Meet"
+    }
+  },
+  "visit": {
+    "title": "Visit Meowroom",
+    "subtitle": "Spend time in the coziest company in Kharkiv.",
+    "info": {
+      "title": "Important Format Information",
+      "text": "We operate as an <0>anticafe</0>. This means we have no kitchen, chefs, or food menu. You pay for the time spent in the company of cats. You can read, play board games, work, or just relax."
+    },
+    "pricing": {
+      "title": "Visit Cost",
+      "hour_1": "1 hour",
+      "hour_2": "2 hours",
+      "hour_3": "3 hours",
+      "note": "* All funds raised go to purchase food, litter, pay for veterinary services, and ensure a comfortable life for our wards.",
+      "book_btn": "Book Online",
+      "book_note": "It's quick and convenient. Please book at least one day before your planned visit"
+    },
+    "rules": {
+      "title": "Visit Rules",
+      "items": {
+        "clean": { "title": "Cleanliness is Health", "desc": "Please disinfect your hands upon entry and before interacting with cats. We provide sanitizer." },
+        "shoes": { "title": "Change of Shoes", "desc": "We ask you to change into slippers or shoe covers to maintain the cleanliness of the floor where cats play." },
+        "sleep": { "title": "Don't Wake Sleepers", "desc": "Cats sleep a lot and sweetly. Please do not disturb their sleep, better pet those who are awake." },
+        "food": { "title": "No Outside Food", "desc": "Our wards are on a strict diet. Please do not feed them with brought food." }
+      }
+    }
+  },
+  "donate": {
+    "title": "Support Meowroom",
+    "subtitle": "Your help saves lives and gives cats hope.",
+    "urgent": {
+      "title": "For Jordan's Surgery",
+      "desc": "The surgery to remove the air rifle bullet from the nasal cavity was successful, Jordan is already recovering! Now we need to cover the debt to the clinic for his rescue."
+    },
+    "sponsor": {
+      "title": "Become Our Partner",
+      "text": "We are looking for a general sponsor to create a full-fledged rehabilitation center. Learn more about our project.",
+      "btn": "Learn More"
+    },
+    "block": {
+      "title": "Help the Shelter",
+      "subtitle": "Your support ensures warmth, comfort, and care for each of our wards",
+      "monobank": "Zero Fee Jar",
+      "paypal": "International Transfer",
+      "privat": "Envelope",
+      "btn_topup": "Top Up",
+      "btn_transfer": "Transfer"
+    },
+    "requisites": {
+      "title": "Foundation Requisites"
+    },
+    "expenses": {
+      "title": "Where does the money go?",
+      "utilities": "Utilities",
+      "utilities_desc": "Electricity, gas, water — maintaining warmth and comfort for cats.",
+      "litter": "Litter",
+      "litter_desc": "Every month we need over 100 kg of litter.",
+      "vet": "Veterinary",
+      "vet_desc": "Medicines, vaccines, treatment, surgeries, tests."
+    },
+    "other": {
+      "title": "Other Ways to Help",
+      "items": {
+        "stuff": { "title": "Bring Things", "desc": "We always need: wet wipes for cleaning, garbage bags with handles (40l), litter boxes and quality bowls, scratchers, beds, treats, and toys. Wet food Royal Canin: Recovery, Gastrointestinal, Babycat." },
+        "volunteer": { "title": "Become a Volunteer", "desc": "Come help with cleaning (cleanliness of the shelter is the key to cats' health) or photography for advertising the shelter in social networks and mass media to promote the project." },
+        "guardian": { "title": "Become a Guardian", "desc": "Take a cat under your care. Your support will provide a friend with everything necessary: litter, treats, and care, and you can visit your ward and follow their success." }
+      }
+    }
+  },
+  "become_sponsor": {
+    "hero": {
+      "title": "Become a Partner of the Future",
+      "text": "We are looking for a general sponsor to create a full-fledged animal rehabilitation and adoption center of European level in Kharkiv.",
+      "btn": "Contact Us"
+    },
+    "vision": {
+      "title": "Our Dream and Goal",
+      "text": "\"Meowroom\" aims to become not just a shelter, but a large-scale social project. We want to create a space where care for animals intertwines with support for people and public education.",
+      "items": {
+        "integration": { "title": "Social Integration", "desc": "Creating jobs for people with disabilities, providing them with decent work and socialization within our project." },
+        "clinic": { "title": "Own Vet Clinic", "desc": "Modern veterinary cabinet with a full range of equipment for timely and high-quality treatment of our wards." },
+        "culture": { "title": "Culture and Education", "desc": "Educational work: we bring to the masses the culture of humane and responsible treatment of domestic animals." }
+      }
+    },
+    "offer": {
+      "title": "What We Offer the Sponsor",
+      "items": {
+        "pr": { "title": "Image and PR", "desc": "Mention in all media, logo on the building facade and all project resources. Status of general partner of a socially significant project." },
+        "csr": { "title": "CSR Programs", "desc": "Implementation of your company's corporate social responsibility strategy. Volunteer days for employees." },
+        "future": { "title": "Contribution to Future", "desc": "Opportunity to leave a mark in the city's history by creating a unique object that will serve people and animals for many years." }
+      }
+    },
+    "contact": {
+      "title": "Ready to Discuss Cooperation?",
+      "text": "We are open to dialogue and ready to present a detailed business plan and development concept. Contact us directly.",
+      "email_btn": "Email Us",
+      "call_btn": "Call Us"
+    }
+  },
+  "contacts": {
+    "title": "Contacts",
+    "subtitle": "Get in Touch",
+    "address": { "label": "Address", "value": "23 Kultury Str., Kharkiv, 61000", "note": "Metro \"Naukova\"" },
+    "phone": "Phone",
+    "schedule": { "label": "Opening Hours", "days": "Daily" },
+    "email": "Email",
+    "social": "Social Networks"
+  },
+  "footer": {
+    "about": "A unique space in Kharkiv combining the format of \"Cat Cafe\" and a shelter for cats. Find your furry friend or just spend time in cozy company.",
+    "nav": "Navigation",
+    "contacts": "Contacts",
+    "social": "We are on social media:",
+    "copyright": "© 2025 Meowroom & BlueCross for Cats. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  },
+  "booking": {
+    "title": "Book a Visit",
+    "loading": "Loading form..."
+  },
+  "common": {
+    "loading": "Loading...",
+    "read_more": "Read more"
+  }
+}

@@ -1,58 +1,61 @@
 import React from 'react';
 import { MapPin, Phone, Clock, Mail, Instagram, Facebook } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { TikTokIcon } from '../components/ui/TikTokIcon';
 
 const Contacts: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="pt-20 min-h-screen bg-neutral-50 pb-20">
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-12 text-primary-700 text-center">Контакты</h1>
+      <div className="bg-primary-600 text-white py-16 mb-12">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('contacts.title')}</h1>
+          <p className="text-xl text-primary-100 max-w-2xl mx-auto">{t('contacts.subtitle')}</p>
+        </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Contact Info */}
-          <div className="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-neutral-100">
-            <h2 className="text-2xl font-bold text-primary-700 mb-8">Свяжитесь с нами</h2>
-            
-            <div className="space-y-8">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center shrink-0">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          {/* Info */}
+          <div className="space-y-8">
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-neutral-100">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="p-3 bg-primary-50 text-primary-600 rounded-xl">
                   <MapPin size={24} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg text-neutral-800 mb-1">Адрес</h3>
-                  <p className="text-neutral-600">вул. Культури, 23,<br />Харків, 61000</p>
-                  <p className="text-sm text-neutral-400 mt-2">Метро "Научная"</p>
+                  <h3 className="text-lg font-bold text-neutral-800 mb-1">{t('contacts.address.label')}</h3>
+                  <p className="text-neutral-600">{t('contacts.address.value')}</p>
+                  <p className="text-sm text-neutral-400 mt-1">{t('contacts.address.note')}</p>
                 </div>
               </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center shrink-0">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="p-3 bg-primary-50 text-primary-600 rounded-xl">
                   <Phone size={24} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg text-neutral-800 mb-1">Телефон</h3>
-                  <a href="tel:+380661732463" className="text-neutral-600 hover:text-primary-600 transition-colors text-lg">
-                    +380 66 173 2463
+                  <h3 className="text-lg font-bold text-neutral-800 mb-1">{t('contacts.phone')}</h3>
+                  <a href="tel:+380661732463" className="text-neutral-600 hover:text-primary-600 transition-colors">
+                    +38 (066) 173 24 63
                   </a>
                 </div>
               </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center shrink-0">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="p-3 bg-primary-50 text-primary-600 rounded-xl">
                   <Clock size={24} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg text-neutral-800 mb-1">График работы</h3>
-                  <p className="text-neutral-600">Ежедневно</p>
-                  <p className="text-xl font-bold text-primary-600 mt-1">12:00 - 17:00</p>
+                  <h3 className="text-lg font-bold text-neutral-800 mb-1">{t('contacts.schedule.label')}</h3>
+                  <p className="text-neutral-600">{t('contacts.schedule.days')}: 12:00 - 17:00</p>
                 </div>
               </div>
-
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center shrink-0">
+                <div className="p-3 bg-primary-50 text-primary-600 rounded-xl">
                   <Mail size={24} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg text-neutral-800 mb-1">Email</h3>
+                  <h3 className="text-lg font-bold text-neutral-800 mb-1">{t('contacts.email')}</h3>
                   <a href="mailto:info@meowroom.kh.ua" className="text-neutral-600 hover:text-primary-600 transition-colors">
                     info@meowroom.kh.ua
                   </a>
@@ -60,58 +63,48 @@ const Contacts: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-12 pt-8 border-t border-neutral-100">
-              <h3 className="font-bold text-lg text-neutral-800 mb-4">Социальные сети</h3>
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-neutral-100">
+              <h3 className="text-xl font-bold text-neutral-800 mb-6">{t('contacts.social')}</h3>
               <div className="flex gap-4">
                 <a 
-                  href="https://instagram.com" 
+                  href="https://www.instagram.com/meowroom.kh" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-6 py-3 bg-white border border-neutral-200 text-neutral-800 rounded-full hover:bg-neutral-50 transition-colors font-medium shadow-sm group"
+                  className="w-12 h-12 bg-neutral-50 text-neutral-600 rounded-xl flex items-center justify-center hover:bg-pink-50 hover:text-pink-600 transition-all"
                 >
-                  <Instagram className="w-5 h-5 group-hover:text-[#E4405F] transition-colors" />
-                  Instagram
+                  <Instagram size={24} />
                 </a>
                 <a 
-                  href="https://www.facebook.com/profile.php?id=61551609639660" 
+                  href="https://www.facebook.com/1alxdmm6yh" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-6 py-3 bg-white border border-neutral-200 text-neutral-800 rounded-full hover:bg-neutral-50 transition-colors font-medium shadow-sm group"
+                  className="w-12 h-12 bg-neutral-50 text-neutral-600 rounded-xl flex items-center justify-center hover:bg-blue-50 hover:text-blue-600 transition-all"
                 >
-                  <Facebook className="w-5 h-5 group-hover:text-[#1877F2] transition-colors" />
-                  Facebook
+                  <Facebook size={24} />
                 </a>
                 <a 
-                  href="https://tiktok.com" 
+                  href="https://www.tiktok.com/@meowroom.kh" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-6 py-3 bg-white border border-neutral-200 text-neutral-800 rounded-full hover:bg-neutral-50 transition-colors font-medium shadow-sm group"
+                  className="w-12 h-12 bg-neutral-50 text-neutral-600 rounded-xl flex items-center justify-center hover:bg-black hover:text-white transition-all"
                 >
-                  <svg 
-                    viewBox="0 0 24 24" 
-                    fill="currentColor" 
-                    className="w-5 h-5 group-hover:text-[#000000] transition-colors"
-                  >
-                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-                  </svg>
-                  TikTok
+                  <TikTokIcon size={24} />
                 </a>
               </div>
             </div>
           </div>
 
           {/* Map */}
-          <div className="h-[600px] bg-neutral-200 rounded-3xl overflow-hidden shadow-sm border border-neutral-100">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2564.336976646777!2d36.2289!3d50.0051!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4127a0f19690623d%3A0x2804365778486518!2z0LLRg9C7LiDQmtGD0LvRjNGC0YPRgNC4LCAyMywg0KXQsNGA0YzQutC-0LIsINCf0L7Qu9GC0LDQstGB0LrQsNGPINC-0LHQu9Cw0YHRgtGMLCA2MTAwMA!5e0!3m2!1suk!2sua!4v1703581234567!5m2!1suk!2sua"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen={true}
-              loading="lazy"
+          <div className="bg-neutral-200 rounded-3xl overflow-hidden min-h-[400px] shadow-sm border border-neutral-100">
+            <iframe 
+              src="https://maps.google.com/maps?q=266G%2BJ4%20Kharkiv%2C%20Kharkiv%20Oblast&t=&z=17&ie=UTF8&iwloc=&output=embed"
+              width="100%" 
+              height="100%" 
+              style={{ border: 0, minHeight: '400px' }} 
+              allowFullScreen={true} 
+              loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
-              title="Meowroom Location"
-            />
+            ></iframe>
           </div>
         </div>
       </div>

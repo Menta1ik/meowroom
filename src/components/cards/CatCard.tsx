@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 
 export interface Cat {
@@ -18,6 +19,8 @@ interface CatCardProps {
 }
 
 export const CatCard: React.FC<CatCardProps> = ({ cat }) => {
+  const { t } = useTranslation();
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -68,7 +71,7 @@ export const CatCard: React.FC<CatCardProps> = ({ cat }) => {
         {/* Action */}
         <div className="mt-auto">
           <Button variant="outline" size="sm" className="w-full">
-            Познакомиться
+            {t('cats.card.meet')}
           </Button>
         </div>
       </div>

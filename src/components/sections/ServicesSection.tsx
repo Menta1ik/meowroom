@@ -1,8 +1,11 @@
 import React from 'react';
 import { Button } from '../ui/Button';
 import { Coffee, Gamepad2, BookOpen, Clock, Laptop } from 'lucide-react';
+import { useTranslation, Trans } from 'react-i18next';
 
 export const ServicesSection: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="py-20 bg-primary-50 overflow-hidden">
       <div className="container mx-auto px-4">
@@ -24,11 +27,13 @@ export const ServicesSection: React.FC = () => {
           {/* Content Side */}
           <div className="w-full lg:w-1/2">
             <h2 className="text-3xl md:text-4xl font-bold text-primary-700 mb-6">
-              Как это работает?
+              {t('services.title')}
             </h2>
             <p className="text-lg text-neutral-600 mb-8 leading-relaxed">
-              В первую очередь, мы <span className="font-bold text-primary-600">приют</span>, а уж только во вторую, мы <span className="font-bold text-primary-600">антикафе</span>. 
-              Спокойствие котиков для нас важнее всего. Ваша оплата идет на поддержку котиков в приюте.
+              <Trans i18nKey="services.description">
+                В первую очередь, мы <span className="font-bold text-primary-600">приют</span>, а уж только во вторую, мы <span className="font-bold text-primary-600">антикафе</span>. 
+                Спокойствие котиков для нас важнее всего. Ваша оплата идет на поддержку котиков в приюте.
+              </Trans>
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
@@ -37,8 +42,8 @@ export const ServicesSection: React.FC = () => {
                   <Coffee size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-primary-700">Вкусный отдых</h4>
-                  <p className="text-sm text-neutral-500">Чай, кофе и сладости включены</p>
+                  <h4 className="font-bold text-primary-700">{t('services.features.relax.title')}</h4>
+                  <p className="text-sm text-neutral-500">{t('services.features.relax.desc')}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -46,8 +51,8 @@ export const ServicesSection: React.FC = () => {
                   <Gamepad2 size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-primary-700">Развлечения</h4>
-                  <p className="text-sm text-neutral-500">Настольные игры</p>
+                  <h4 className="font-bold text-primary-700">{t('services.features.fun.title')}</h4>
+                  <p className="text-sm text-neutral-500">{t('services.features.fun.desc')}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -55,8 +60,8 @@ export const ServicesSection: React.FC = () => {
                   <Laptop size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-primary-700">Коворкинг</h4>
-                  <p className="text-sm text-neutral-500">Поработать на компьютере</p>
+                  <h4 className="font-bold text-primary-700">{t('services.features.coworking.title')}</h4>
+                  <p className="text-sm text-neutral-500">{t('services.features.coworking.desc')}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -64,14 +69,14 @@ export const ServicesSection: React.FC = () => {
                   <Clock size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-primary-700">График работы</h4>
-                  <p className="text-sm text-neutral-500">Ежедневно с 12:00 до 17:00</p>
+                  <h4 className="font-bold text-primary-700">{t('services.features.schedule.title')}</h4>
+                  <p className="text-sm text-neutral-500">{t('services.features.schedule.desc')}</p>
                 </div>
               </div>
             </div>
 
             <Button href="/visit" variant="primary">
-              Узнать правила и цены
+              {t('services.cta')}
             </Button>
           </div>
         </div>

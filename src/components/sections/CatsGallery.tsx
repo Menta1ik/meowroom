@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CatCard, Cat } from '../cards/CatCard';
 import { catsData } from '../../data/cats';
 
 export const CatsGallery: React.FC = () => {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState<'all' | 'boy' | 'girl' | 'kitten'>('all');
 
   const filteredCats = catsData.filter((cat) => {
@@ -14,10 +16,10 @@ export const CatsGallery: React.FC = () => {
   });
 
   const tabs = [
-    { id: 'all', label: 'Все котики' },
-    { id: 'boy', label: 'Мальчики' },
-    { id: 'girl', label: 'Девочки' },
-    { id: 'kitten', label: 'Котята' },
+    { id: 'all', label: t('cats.filters.all') },
+    { id: 'boy', label: t('cats.filters.boy') },
+    { id: 'girl', label: t('cats.filters.girl') },
+    { id: 'kitten', label: t('cats.filters.kitten') },
   ];
 
   return (
@@ -50,7 +52,7 @@ export const CatsGallery: React.FC = () => {
         {/* Empty State */}
         {filteredCats.length === 0 && (
           <div className="text-center py-20 text-neutral-500">
-            <p>К сожалению, по вашему запросу котиков не найдено.</p>
+            <p>{t('cats.empty')}</p>
           </div>
         )}
       </div>

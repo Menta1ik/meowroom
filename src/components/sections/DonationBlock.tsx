@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { CreditCard, Wallet, Copy, Check, Building, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { useTranslation } from 'react-i18next';
 
 interface RequisiteItemProps {
   icon: string;
@@ -76,14 +77,14 @@ const RequisiteItem: React.FC<RequisiteItemProps> = ({ icon, title, fields, deta
 };
 
 export const DonationBlock: React.FC = () => {
-
+  const { t } = useTranslation();
   const [isRequisitesOpen, setIsRequisitesOpen] = React.useState(false);
 
   return (
     <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
       <div className="bg-primary-600 p-8 text-white text-center">
-        <h2 className="text-3xl font-bold mb-2">Помощь приюту</h2>
-        <p className="text-primary-100">Ваша поддержка обеспечивает тепло, уют и заботу для каждого нашего подопечного</p>
+        <h2 className="text-3xl font-bold mb-2">{t('donate.block.title')}</h2>
+        <p className="text-primary-100">{t('donate.block.subtitle')}</p>
       </div>
       
       <div className="p-8">
@@ -95,7 +96,7 @@ export const DonationBlock: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-lg leading-tight mb-1">Monobank</h3>
-                <p className="text-sm text-neutral-500 leading-tight">Банка без комиссии</p>
+                <p className="text-sm text-neutral-500 leading-tight">{t('donate.block.monobank')}</p>
               </div>
             </div>
             <Button 
@@ -104,7 +105,7 @@ export const DonationBlock: React.FC = () => {
               className="w-full group-hover:bg-primary-50 mt-auto"
               variant="outline"
             >
-              Пополнить
+              {t('donate.block.btn_topup')}
             </Button>
           </div>
 
@@ -115,7 +116,7 @@ export const DonationBlock: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-lg leading-tight mb-1">PayPal</h3>
-                <p className="text-sm text-neutral-500 leading-tight">Международный перевод</p>
+                <p className="text-sm text-neutral-500 leading-tight">{t('donate.block.paypal')}</p>
               </div>
             </div>
             <Button 
@@ -124,7 +125,7 @@ export const DonationBlock: React.FC = () => {
               className="w-full group-hover:bg-primary-50 mt-auto"
               variant="outline"
             >
-              Перевести
+              {t('donate.block.btn_transfer')}
             </Button>
           </div>
 
@@ -135,7 +136,7 @@ export const DonationBlock: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-lg leading-tight mb-1">PrivatBank</h3>
-                <p className="text-sm text-neutral-500 leading-tight">Конверт</p>
+                <p className="text-sm text-neutral-500 leading-tight">{t('donate.block.privat')}</p>
               </div>
             </div>
             <Button 
@@ -144,7 +145,7 @@ export const DonationBlock: React.FC = () => {
               className="w-full group-hover:bg-primary-50 mt-auto"
               variant="outline"
             >
-              Пополнить
+              {t('donate.block.btn_topup')}
             </Button>
           </div>
         </div>
@@ -157,7 +158,7 @@ export const DonationBlock: React.FC = () => {
           >
             <h3 className="text-xl font-bold text-primary-800 flex items-center gap-2">
               <Building className="text-primary-600" size={24} />
-              Реквизиты фонда
+              {t('donate.requisites.title')}
             </h3>
             {isRequisitesOpen ? <ChevronUp className="text-neutral-500" /> : <ChevronDown className="text-neutral-500" />}
           </button>
