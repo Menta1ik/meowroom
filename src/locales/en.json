@@ -97,11 +97,46 @@
     },
     "rules": {
       "title": "Visit Rules",
-      "items": {
-        "clean": { "title": "Cleanliness is Health", "desc": "Please disinfect your hands upon entry and before interacting with cats. We provide sanitizer." },
-        "shoes": { "title": "Change of Shoes", "desc": "We ask you to change into slippers or shoe covers to maintain the cleanliness of the floor where cats play." },
-        "sleep": { "title": "Don't Wake Sleepers", "desc": "Cats sleep a lot and sweetly. Please do not disturb their sleep, better pet those who are awake." },
-        "food": { "title": "No Outside Food", "desc": "Our wards are on a strict diet. Please do not feed them with brought food." }
+      "intro": "Meowroom is not a petting zoo. It is a home for cats and cats set their own rules. Remember that when you come to them, you are visiting them.",
+      "list": {
+        "1": "Entry for children under 12 is prohibited, from 12 to 14 years old - only with parents.",
+        "2": "You must enter the premises without street shoes (you can wear rubber slippers or shoe covers, or bring your own indoor shoes).",
+        "3": "Be sure to wash your hands before interacting with the animals.",
+        "4": "Smoking and drinking alcohol is not allowed.",
+        "5": "Watch your children so they do not offend the animals.",
+        "6": "You cannot bring, eat, or give your own food to the cats.",
+        "7": "You cannot pick up cats (unless the cat comes to you itself), and you cannot hold them against their will.",
+        "8": "Do not wake the cat, do not pull the tail, do not disturb while eating.",
+        "9": "Do not shout in the room (cats are afraid of loud sounds).",
+        "10": "Photography is allowed, but without flash.",
+        "11": "You cannot bring other animals with you.",
+        "12": "We ask you not to smoke before visiting the cat cafe (cats are very sensitive to smells).",
+        "13": "Please wear comfortable, inexpensive clothing (cats may jump, make a snag, leave fur on your clothes)."
+      },
+      "outro": "Cats are the owners, and you are their guests! Please remember this.",
+      "disclaimer": "The administration of the cat club reserves the right to ask you to leave the premises if our rules are not followed."
+    }
+  },
+  "reviews": {
+    "title": "What Our Guests Say",
+    "google_rating": "Google Rating",
+    "based_on": "Based on 350+ reviews",
+    "read_more": "Read all reviews on Google",
+    "items": {
+      "1": {
+        "name": "Maria K.",
+        "date": "2 weeks ago",
+        "text": "Wonderful place! The cats are so friendly and well-cared for. The atmosphere is very relaxing. I highly recommend visiting to recharge with positive energy!"
+      },
+      "2": {
+        "name": "Oleksandr P.",
+        "date": "1 month ago",
+        "text": "A great initiative to help homeless animals. You can feel the love and care here. It's clean, cozy, and the staff is very friendly."
+      },
+      "3": {
+        "name": "Iryna S.",
+        "date": "3 months ago",
+        "text": "The best place for cat lovers in Kharkiv! Delicious coffee, board games, and most importantly - purring therapists. I will definitely come back!"
       }
     }
   },
