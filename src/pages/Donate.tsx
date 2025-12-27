@@ -5,12 +5,17 @@ import { UrgentFundraising } from '../components/sections/UrgentFundraising';
 import { Button } from '../components/ui/Button';
 import { Package, Camera, Heart, Building, ShoppingBag, Gift } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { SEO } from '../components/SEO';
 
 const Donate: React.FC = () => {
   const { t } = useTranslation();
 
   return (
     <div className="pt-20 min-h-screen bg-neutral-50 pb-20">
+      <SEO 
+        title={t('donate.title')} 
+        description={t('donate.subtitle')} 
+      />
       {/* Header */}
       <div className="bg-primary-600 text-white py-16 mb-12">
         <div className="container mx-auto px-4 text-center">

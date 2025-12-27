@@ -2,12 +2,17 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../components/ui/Button';
 import { Building2, Handshake, HeartHandshake, Phone, Mail } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 const BecomeSponsor: React.FC = () => {
   const { t } = useTranslation();
 
   return (
     <div className="pt-20 min-h-screen bg-neutral-50 pb-20">
+      <SEO 
+        title={t('become_sponsor.hero.title')} 
+        description={t('become_sponsor.hero.text')} 
+      />
       {/* Hero */}
       <div className="bg-primary-900 text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>

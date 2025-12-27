@@ -1,12 +1,17 @@
 import React from 'react';
 import { PawPrint } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { SEO } from '../components/SEO';
 
 const About: React.FC = () => {
   const { t } = useTranslation();
 
   return (
     <div className="pt-24 pb-20 bg-white min-h-screen">
+      <SEO 
+        title={t('about.title')} 
+        description={t('about.story_1')} 
+      />
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 mb-8">

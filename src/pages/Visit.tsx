@@ -4,6 +4,7 @@ import { VisitRules } from '../components/sections/VisitRules';
 import { Button } from '../components/ui/Button';
 import { Info } from 'lucide-react';
 import { BookingModal } from '../components/ui/BookingModal';
+import { SEO } from '../components/SEO';
 
 const Visit: React.FC = () => {
   const { t } = useTranslation();
@@ -11,6 +12,10 @@ const Visit: React.FC = () => {
 
   return (
     <div className="pt-20 min-h-screen bg-neutral-50 pb-20">
+      <SEO 
+        title={t('visit.title')} 
+        description={t('visit.subtitle')} 
+      />
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
       
       {/* Header */}
