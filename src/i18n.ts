@@ -15,9 +15,26 @@ i18n
       en: {
         translation: en,
       },
+      // Alias Russian, Belarusian, Kazakh to Ukrainian content
+      ru: {
+        translation: uk,
+      },
+      be: {
+        translation: uk,
+      },
+      kk: {
+        translation: uk,
+      }
     },
-    fallbackLng: 'uk',
-    supportedLngs: ['uk', 'en'],
+    // Global fallback to English (for Europe, World, etc.)
+    fallbackLng: 'en',
+    
+    // List all supported/aliased languages so detector accepts them
+    supportedLngs: ['uk', 'en', 'ru', 'be', 'kk'],
+    
+    // Simplify locale codes (e.g., 'ru-RU' -> 'ru')
+    load: 'languageOnly',
+
     debug: import.meta.env.DEV,
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
@@ -25,6 +42,7 @@ i18n
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage'],
+      // If user has 'ru' in localStorage, it will load 'ru' resource (which is 'uk' content)
     },
   });
 
