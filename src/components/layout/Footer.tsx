@@ -68,7 +68,7 @@ export const Footer: React.FC = () => {
             <h4 className="font-bold text-lg text-primary-800 mb-6">{t('footer.social')}</h4>
             <div className="flex gap-4">
               <a 
-                href="https://www.instagram.com/meowroom.kh" 
+                href="https://www.instagram.com/meowroom.kharkiv" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center hover:bg-primary-100 transition-colors"
@@ -76,7 +76,7 @@ export const Footer: React.FC = () => {
                 <Instagram size={20} />
               </a>
               <a 
-                href="https://www.facebook.com/1alxdmm6yh" 
+                href="https://www.facebook.com/profile.php?id=61551609639660" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center hover:bg-primary-100 transition-colors"
@@ -84,7 +84,7 @@ export const Footer: React.FC = () => {
                 <Facebook size={20} />
               </a>
               <a 
-                href="https://www.tiktok.com/@meowroom.kh" 
+                href="https://www.tiktok.com/@bluecrossforcats" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center hover:bg-primary-100 transition-colors"
