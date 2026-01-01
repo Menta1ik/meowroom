@@ -82,7 +82,7 @@ export const AdoptionRequests: React.FC = () => {
       ) : (
         <div className="divide-y divide-neutral-100">
           {requests.map((req) => (
-            <div key={req.id} className="p-6 hover:bg-neutral-50 transition-colors">
+            <div key={req.id} className="p-6">
               <div className="flex flex-col md:flex-row justify-between gap-4">
                 
                 {/* Request Info */}
