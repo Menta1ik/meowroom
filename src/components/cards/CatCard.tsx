@@ -28,10 +28,11 @@ export const CatCard: React.FC<CatCardProps> = ({ cat, onAdopt }) => {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       whileHover={{ y: -5 }}
-      className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full"
+      className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full cursor-pointer group"
+      onClick={() => onAdopt?.(cat)}
     >
       {/* Image Container */}
-      <div className="relative h-64 overflow-hidden group">
+      <div className="relative h-64 overflow-hidden">
         <img
           src={cat.images[0]}
           alt={cat.name}
@@ -40,46 +41,33 @@ export const CatCard: React.FC<CatCardProps> = ({ cat, onAdopt }) => {
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary-700 shadow-sm">
           {cat.age}
         </div>
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-          <p className="text-white text-sm line-clamp-2">{cat.history}</p>
-        </div>
       </div>
 
       {/* Content */}
-      <div className="p-6 flex flex-col flex-grow">
-        <div className="flex justify-between items-start mb-4">
+      <div className="p-5 flex flex-col flex-grow">
+        <div className="flex justify-between items-start mb-2">
           <div>
-            <h3 className="text-xl font-bold text-primary-700">{cat.name}</h3>
-            <p className="text-sm text-neutral-500">{cat.gender}</p>
+            <h3 className="text-xl font-bold text-neutral-800">{cat.name}</h3>
+            <p className="text-sm text-neutral-500 font-medium">{cat.gender}</p>
           </div>
-          <button className="text-neutral-300 hover:text-red-500 transition-colors">
-            <Heart size={20} />
-          </button>
+          <div className="flex gap-1 flex-wrap justify-end max-w-[50%]">
+            {cat.tags.slice(0, 2).map((tag, i) => (
+              <span key={i} className="text-xs bg-neutral-100 text-neutral-600 px-2 py-1 rounded-full">
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
+        
+        <p className="text-neutral-600 text-sm line-clamp-3 mb-4 flex-grow leading-relaxed">
+          {cat.history}
+        </p>
 
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {cat.tags.map((tag, index) => (
-            <span
-              key={index}
-              className="px-2 py-1 bg-primary-50 text-primary-600 text-xs rounded-md font-medium"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* Action */}
-        <div className="mt-auto">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="w-full"
-            onClick={() => onAdopt?.(cat)}
-          >
-            {t('cats.card.meet')}
-          </Button>
-        </div>
+        <button 
+          className="w-full py-2.5 rounded-xl border border-primary-200 text-primary-700 font-medium hover:bg-primary-50 transition-colors text-sm mt-auto"
+        >
+          {t('cats.card.meet')}
+        </button>
       </div>
     </motion.div>
   );
