@@ -17,6 +17,7 @@ export const AdoptionModal: React.FC<AdoptionModalProps> = ({ isOpen, onClose, c
   // Default to guardian since adopt is hidden for now
   const [type, setType] = useState<'adopt' | 'guardian'>('guardian');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -31,6 +32,7 @@ export const AdoptionModal: React.FC<AdoptionModalProps> = ({ isOpen, onClose, c
       setFormData({ name: '', phone: '', email: '', message: '' });
       // Default to guardian
       setType('guardian');
+      setSelectedImageIndex(0);
     }
   }, [isOpen]);
 
@@ -131,21 +133,57 @@ export const AdoptionModal: React.FC<AdoptionModalProps> = ({ isOpen, onClose, c
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    {/* Cat Summary */}
-                    <div className="flex items-start gap-4 p-4 bg-neutral-50 rounded-xl">
-                      <img 
-                        src={cat.image} 
-                        alt={cat.name} 
-                        className="w-20 h-20 rounded-lg object-cover shadow-sm"
-                      />
+                    {/* 1. Header Info (Name, Age, Tags) */}
+                    <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                       <div>
-                        <h4 className="font-bold text-lg text-neutral-800">{cat.name}</h4>
-                        <p className="text-sm text-neutral-500">{cat.age} • {cat.gender}</p>
-                        <p className="text-sm text-neutral-600 mt-1 line-clamp-2">{cat.description}</p>
+                        <h4 className="font-bold text-2xl text-neutral-800">{cat.name}</h4>
+                        <p className="text-lg text-neutral-500 font-medium mt-1">{cat.age} • {cat.gender}</p>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {cat.tags.map((tag, i) => (
+                          <span key={i} className="text-sm bg-neutral-100 border border-neutral-200 px-3 py-1 rounded-full text-neutral-700">
+                            {tag}
+                          </span>
+                        ))}
                       </div>
                     </div>
 
-                    {/* Support Type Selection */}
+                    {/* 2. Gallery */}
+                    <div className="bg-neutral-900 rounded-xl overflow-hidden shadow-sm">
+                      <div className="w-full relative flex items-center justify-center h-[300px] sm:h-[450px]">
+                        <img 
+                          src={cat.images[selectedImageIndex]} 
+                          alt={cat.name} 
+                          className="max-w-full max-h-full object-contain"
+                        />
+                      </div>
+                      
+                      {cat.images.length > 1 && (
+                        <div className="bg-white p-2 border-t border-neutral-200 overflow-x-auto flex gap-2">
+                          {cat.images.map((img, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => setSelectedImageIndex(idx)}
+                              className={`relative w-20 h-20 rounded-lg overflow-hidden shrink-0 border-2 transition-all ${
+                                selectedImageIndex === idx 
+                                  ? 'border-primary-500 opacity-100' 
+                                  : 'border-transparent opacity-60 hover:opacity-100'
+                              }`}
+                            >
+                              <img src={img} alt={`${cat.name} ${idx + 1}`} className="w-full h-full object-cover" />
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 3. History / Description */}
+                    <div className="bg-neutral-50 p-6 rounded-xl border border-neutral-100">
+                      <h5 className="font-bold text-lg text-neutral-800 mb-2">Історія {cat.name}</h5>
+                      <p className="text-neutral-600 leading-relaxed whitespace-pre-wrap">{cat.history}</p>
+                    </div>
+
+                    {/* 4. Support Type Selection */}
                     <div>
                       <label className="block text-sm font-medium text-neutral-700 mb-2">
                         {t('adoption.type.label')}

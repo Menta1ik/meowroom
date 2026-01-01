@@ -9,8 +9,8 @@ export interface Cat {
   name: string;
   age: string;
   gender: 'Мальчик' | 'Девочка';
-  description: string;
-  image: string;
+  history: string;
+  images: string[];
   tags: string[];
 }
 
@@ -33,7 +33,7 @@ export const CatCard: React.FC<CatCardProps> = ({ cat, onAdopt }) => {
       {/* Image Container */}
       <div className="relative h-64 overflow-hidden group">
         <img
-          src={cat.image}
+          src={cat.images[0]}
           alt={cat.name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
@@ -41,7 +41,7 @@ export const CatCard: React.FC<CatCardProps> = ({ cat, onAdopt }) => {
           {cat.age}
         </div>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-          <p className="text-white text-sm line-clamp-2">{cat.description}</p>
+          <p className="text-white text-sm line-clamp-2">{cat.history}</p>
         </div>
       </div>
 
