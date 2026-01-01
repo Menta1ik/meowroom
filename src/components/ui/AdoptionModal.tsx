@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Button } from './Button';
 import { Cat } from '../cards/CatCard';
+import { supabase } from '../../lib/supabase';
 
 interface AdoptionModalProps {
   isOpen: boolean;
@@ -45,13 +46,31 @@ export const AdoptionModal: React.FC<AdoptionModalProps> = ({ isOpen, onClose, c
     };
   }, [isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate API call
-    console.log('Form submitted:', { catId: cat?.id, type, ...formData });
-    setTimeout(() => {
+    
+    try {
+      const { error } = await supabase
+        .from('adoption_requests')
+        .insert([
+          {
+            cat_id: cat?.id,
+            type,
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            message: formData.message
+          }
+        ]);
+
+      if (error) throw error;
+
       setIsSubmitted(true);
-    }, 500);
+    } catch (err) {
+      console.error('Error submitting request:', err);
+      // Ideally show error message to user
+      alert('Something went wrong. Please try again.');
+    }
   };
 
   if (!cat) return null;
