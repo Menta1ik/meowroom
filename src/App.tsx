@@ -11,22 +11,30 @@ import Donate from './pages/Donate';
 import Contacts from './pages/Contacts';
 import BecomeSponsor from './pages/BecomeSponsor';
 import About from './pages/About';
+import { Navigate } from 'react-router-dom';
 import { LoginPage } from './pages/admin/Login';
-import { Dashboard } from './pages/admin/Dashboard';
 import { CreateCat } from './pages/admin/CreateCat';
 import { EditCat } from './pages/admin/EditCat';
+import { CatsList } from './pages/admin/CatsList';
+import { AdoptionRequests } from './pages/admin/AdoptionRequests';
+import { AdminLayout } from './components/admin/AdminLayout';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          {/* Admin Routes (No Header/Footer) */}
+          {/* Admin Routes */}
           <Route path="/admin/login" element={<LoginPage />} />
+          
           <Route element={<ProtectedRoute />}>
-            <Route path="/admin" element={<Dashboard />} />
-            <Route path="/admin/cats/new" element={<CreateCat />} />
-            <Route path="/admin/cats/:id" element={<EditCat />} />
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<Navigate to="cats" replace />} />
+              <Route path="cats" element={<CatsList />} />
+              <Route path="cats/new" element={<CreateCat />} />
+              <Route path="cats/:id" element={<EditCat />} />
+              <Route path="requests" element={<AdoptionRequests />} />
+            </Route>
           </Route>
 
           {/* Public Routes */}
