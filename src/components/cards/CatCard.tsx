@@ -16,9 +16,10 @@ export interface Cat {
 
 interface CatCardProps {
   cat: Cat;
+  onAdopt?: (cat: Cat) => void;
 }
 
-export const CatCard: React.FC<CatCardProps> = ({ cat }) => {
+export const CatCard: React.FC<CatCardProps> = ({ cat, onAdopt }) => {
   const { t } = useTranslation();
 
   return (
@@ -70,7 +71,12 @@ export const CatCard: React.FC<CatCardProps> = ({ cat }) => {
 
         {/* Action */}
         <div className="mt-auto">
-          <Button variant="outline" size="sm" className="w-full">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="w-full"
+            onClick={() => onAdopt?.(cat)}
+          >
             {t('cats.card.meet')}
           </Button>
         </div>

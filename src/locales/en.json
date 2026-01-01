@@ -21,6 +21,9 @@
     "story_4": "We really hope and count on the help of all caring people! Only together can we help our four-legged friends. And they will demonstrate their gratitude with purring. We really need your help and support.",
     "quote": "\"We become responsible, forever, for what we have tamed.\"",
     "media_title": "Meowroom in Media",
+    "partners_title": "Our Partners",
+    "josera": "Josera",
+    "josera_desc": "For 4 years now, Josera has been helping our shelter. Every month they provide 100 kg of high-quality holistic food for our cats.",
     "vitaly": "Vitaliy Fatsky",
     "veronika": "Veronika Fatskaya"
   },
@@ -233,6 +236,27 @@
   "booking": {
     "title": "Book a Visit",
     "loading": "Loading form..."
+  },
+  "adoption": {
+    "title": "Become a friend to {{name}}",
+    "subtitle": "Choose how you want to help this wonderful cat",
+    "type": {
+      "label": "Type of support",
+      "adopt": "Adoption (Take home)",
+      "guardian": "Guardianship (Remote support)"
+    },
+    "form": {
+      "name": "Your Name",
+      "phone": "Phone",
+      "email": "Email",
+      "message": "Message (optional)",
+      "submit": "Send Request",
+      "success": "Thank you! We received your request and will contact you shortly."
+    },
+    "info": {
+      "adopt_desc": "We are very happy you want to give a home! The adoption process includes an interview and signing a contract.",
+      "guardian_desc": "Guardianship is a monthly financial support for the cat (food, litter). You can visit them and receive photo updates."
+    }
   },
   "common": {
     "loading": "Loading...",

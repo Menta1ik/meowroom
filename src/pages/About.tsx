@@ -62,6 +62,39 @@ const About: React.FC = () => {
               </p>
             </div>
             
+            {/* Partners Section */}
+            <div className="mt-16 bg-neutral-50 rounded-3xl p-8 border border-neutral-100">
+              <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 mb-8 text-center">{t('about.partners_title')}</h2>
+              <div className="flex flex-col md:flex-row items-center gap-8 justify-center">
+                <div className="flex items-center justify-center w-full md:w-auto md:min-w-[200px] h-[120px]">
+                  <img 
+                    src="/josera-logo.png" 
+                    alt="Josera Logo" 
+                    className="w-full h-full object-contain max-w-[180px]"
+                  />
+                </div>
+                <div className="max-w-xl text-center md:text-left">
+                  <h3 className="text-xl font-bold text-neutral-800 mb-2">{t('about.josera')}</h3>
+                  <p className="text-neutral-600 mb-6">
+                    {t('about.josera_desc')}
+                  </p>
+                  
+                  {/* Josera Products */}
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 h-32 md:h-36">
+                    {['dailycat', 'marinesse', 'naturecat', 'naturelle'].map((product) => (
+                      <div key={product} className="h-full w-auto aspect-[0.7] relative transition-transform hover:scale-110 duration-300">
+                        <img 
+                          src={`/josera-${product}.webp`} 
+                          alt={`Josera ${product}`} 
+                          className="w-full h-full object-contain drop-shadow-md"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="mt-24">
               <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 mb-8 text-center">{t('about.media_title')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
