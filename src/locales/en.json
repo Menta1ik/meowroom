@@ -261,5 +261,19 @@
   "common": {
     "loading": "Loading...",
     "read_more": "Read more"
+  },
+  "seo": {
+    "default_title": "Meowroom - Cat Shelter & Anticafe in Kharkiv",
+    "default_description": "Meowroom is a unique space in Kharkiv combining a cat shelter and an anticafe. Visit us to relax with cats or adopt a friend.",
+    "keywords": "cat shelter, anticafe, kharkiv, adopt cat, meowroom, charity, animals, cat cafe, pet adoption, animal aid",
+    "schema": {
+      "name": "Meowroom",
+      "description": "Meowroom is a unique space in Kharkiv combining a cat shelter and an anticafe. Visit us to relax with cats or adopt a friend.",
+      "address_country": "UA",
+      "address_locality": "Kharkiv",
+      "address_street": "23 Kultury Str.",
+      "opening_hours": "Mo-Su 12:00-17:00",
+      "price_range": "250-400 UAH"
+    }
   }
 }

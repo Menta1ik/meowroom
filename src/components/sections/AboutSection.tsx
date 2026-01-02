@@ -30,12 +30,9 @@ export const AboutSection: React.FC = () => {
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-700 mb-6">{t('about_section.title')}</h2>
           <p className="text-lg text-neutral-600 leading-relaxed mb-4">
-            <Trans i18nKey="about_section.text_1">
-              "Мяурум" — это уникальное пространство в Харькове, объединяющее формат <strong>антикафе</strong> и приюта. 
-              Это не обычное кафе: у нас нет кухни и меню. Вы платите только за время пребывания, наслаждаясь обществом котиков.
-            </Trans>
+            {t('about_section.text_1')}
           </p>
-          <p className="text-lg text-neutral-600 leading-relaxed">
+          <p className="text-lg text-neutral-600 leading-relaxed mb-8">
             {t('about_section.text_2')}
           </p>
         </div>
