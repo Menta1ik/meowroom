@@ -20,7 +20,7 @@ interface AdoptionRequest {
 }
 
 export const AdoptionRequests: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [requests, setRequests] = useState<AdoptionRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
