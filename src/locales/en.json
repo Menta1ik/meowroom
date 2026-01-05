@@ -10,7 +10,7 @@
     "title": "Meowroom: Shelter & Anticafe",
     "subtitle": "A cozy home where our cats live in love and safety. Come to meet our furry friends or take them under your care.",
     "cta_visit": "Book a Visit",
-    "cta_adopt": "Become a Guardian",
+    "cta_cats": "Become a Guardian",
     "cta_donate": "Support Us"
   },
   "about": {
@@ -55,18 +55,36 @@
   "about_section": {
     "title": "What is Meowroom?",
     "text_1": "\"Meowroom\" is a unique space in Kharkiv combining the format of an <0>anticafe</0> and a shelter. It's not a regular cafe: we have no kitchen or menu. You only pay for the time spent, enjoying the company of cats.",
-    "text_2": "Meowroom has become a real home for rescued cats. Here they live in safety and love. You can come to us to chat with furry friends, and if you wish — take one of them under your care.",
-    "features": {
+    "text_2": "Meowroom has become a real home for rescued cats. Here they live in safety and love. You can come to us to communicate with furry friends, and if you wish, take one of them under your care."
+  },
+  "booking": {
+    "title": "Booking at Meowroom",
+    "subtitle": "Choose a time and come visit the cats",
+    "step_service": "Select Service",
+    "step_date": "Select Date & Time",
+    "step_details": "Booking Details",
+    "duration": "min",
+    "per_person": "/ person",
+    "select_date": "Select Date",
+    "no_slots": "No available slots for this day",
+    "next": "Next",
+    "back": "Back",
+    "guests_label": "Number of guests (1-3)",
+    "name_label": "Name",
+    "phone_label": "Phone",
+    "email_label": "Email (for receipt)",
+    "total": "Total to pay:",
+    "pay_btn": "Proceed to Payment",
+    "processing": "Processing...",
+    "terms": "By clicking the button, you agree to the visit rules",
+    "success_title": "Booking Created!",
+    "success_msg": "Thank you, {{name}}! Your request has been received.",
+    "book_more": "Book Another"
+  },
+  "cats_section": {
       "home": { "title": "Cozy Home", "desc": "A safe space where cats live in love and care, surrounded by the attention of our guests." },
       "health": { "title": "Health & Safety", "desc": "All our wards are healthy, vaccinated, sterilized, and have veterinary passports." },
       "charity": { "title": "Charity", "desc": "We work together with the \"BlueCross for Cats\" foundation. All funds go to help animals." }
-    }
-  },
-  "donation_preview": {
-    "title": "Help Us Save Lives",
-    "text": "\"Meowroom\" exists thanks to your visits and voluntary donations. Every hryvnia turns into food, medicine, and warmth for our wards.",
-    "cta_support": "Support Project",
-    "cta_volunteer": "Become a Volunteer"
   },
   "cats": {
     "title": "Our Cats",
@@ -142,6 +160,12 @@
         "text": "The best place for cat lovers in Kharkiv! Delicious coffee, board games, and most importantly - purring therapists. I will definitely come back!"
       }
     }
+  },
+  "donation_preview": {
+    "title": "Help Us Save Lives",
+    "text": "\"Meowroom\" exists thanks to your visits and voluntary donations. Every hryvnia turns into food, medicine, and warmth for our wards.",
+    "cta_support": "Support Project",
+    "cta_volunteer": "Become a Volunteer"
   },
   "donate": {
     "title": "Support Meowroom",

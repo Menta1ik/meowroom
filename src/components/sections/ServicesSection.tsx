@@ -30,10 +30,13 @@ export const ServicesSection: React.FC = () => {
               {t('services.title')}
             </h2>
             <p className="text-lg text-neutral-600 mb-8 leading-relaxed">
-              <Trans i18nKey="services.description">
-                В первую очередь, мы <span className="font-bold text-primary-600">приют</span>, а уж только во вторую, мы <span className="font-bold text-primary-600">антикафе</span>. 
-                Спокойствие котиков для нас важнее всего. Ваша оплата идет на поддержку котиков в приюте.
-              </Trans>
+              <Trans 
+                i18nKey="services.description" 
+                components={[
+                  <span className="font-bold text-primary-600" key="0">shelter</span>, 
+                  <span className="font-bold text-primary-600" key="1">anticafe</span>
+                ]} 
+              />
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">

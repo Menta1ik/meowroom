@@ -5,13 +5,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import Logo from '../ui/Logo';
-import { BookingModal } from '../ui/BookingModal';
 import LanguageSelector from '../ui/LanguageSelector';
+import { useBooking } from '../../context/BookingContext';
 
 export const Header: React.FC = () => {
   const { t } = useTranslation();
+  const { openBooking } = useBooking();
   const [isOpen, setIsOpen] = useState(false);
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
@@ -39,14 +39,12 @@ export const Header: React.FC = () => {
   const navLinks = [
     { name: t('nav.about'), path: '/about' },
     { name: t('nav.cats'), path: '/cats' },
-    { name: t('nav.visit'), path: '/visit' },
     { name: t('nav.donate'), path: '/donate' },
     { name: t('nav.contacts'), path: '/contacts' },
   ];
 
   return (
     <>
-      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           // Background logic:
@@ -122,7 +120,7 @@ export const Header: React.FC = () => {
             <div className="hidden md:flex items-center gap-4 shrink-0">
                <LanguageSelector isTransparent={isTransparent} />
                <Button
-                onClick={() => setIsBookingOpen(true)}
+                onClick={openBooking}
                 variant="secondary"
                 size="sm"
               >
@@ -172,7 +170,7 @@ export const Header: React.FC = () => {
                 <Button
                   onClick={() => {
                     setIsOpen(false);
-                    setIsBookingOpen(true);
+                    openBooking();
                   }}
                   variant="secondary"
                   className="w-full"

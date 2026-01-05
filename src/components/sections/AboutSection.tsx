@@ -9,18 +9,18 @@ export const AboutSection: React.FC = () => {
   const features = [
     {
       icon: <Home size={32} />,
-      title: t('about_section.features.home.title'),
-      description: t('about_section.features.home.desc'),
+      title: t('cats_section.home.title'),
+      description: t('cats_section.home.desc'),
     },
     {
       icon: <ShieldCheck size={32} />,
-      title: t('about_section.features.health.title'),
-      description: t('about_section.features.health.desc'),
+      title: t('cats_section.health.title'),
+      description: t('cats_section.health.desc'),
     },
     {
       icon: <Heart size={32} />,
-      title: t('about_section.features.charity.title'),
-      description: t('about_section.features.charity.desc'),
+      title: t('cats_section.charity.title'),
+      description: t('cats_section.charity.desc'),
     },
   ];
 

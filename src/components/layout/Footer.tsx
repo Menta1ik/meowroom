@@ -4,9 +4,11 @@ import { Instagram, Facebook, Mail, MapPin, Phone } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Logo from '../ui/Logo';
 import { TikTokIcon } from '../ui/TikTokIcon';
+import { useBooking } from '../../context/BookingContext';
 
 export const Footer: React.FC = () => {
   const { t } = useTranslation();
+  const { openBooking } = useBooking();
 
   return (
     <footer className="bg-white border-t border-neutral-100 pt-16 pb-8">
@@ -36,7 +38,7 @@ export const Footer: React.FC = () => {
                 <Link to="/cats" className="text-neutral-600 hover:text-primary-600 transition-colors">{t('nav.cats')}</Link>
               </li>
               <li>
-                <Link to="/visit" className="text-neutral-600 hover:text-primary-600 transition-colors">{t('nav.visit')}</Link>
+                <button onClick={openBooking} className="text-neutral-600 hover:text-primary-600 transition-colors text-left">{t('nav.visit')}</button>
               </li>
               <li>
                 <Link to="/donate" className="text-neutral-600 hover:text-primary-600 transition-colors">{t('nav.donate')}</Link>

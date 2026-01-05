@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../ui/Button';
-import { LogOut, Cat, MessageSquare, Menu, X, PawPrint, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LogOut, Cat, MessageSquare, Menu, X, PawPrint, ChevronLeft, ChevronRight, Settings, Calendar } from 'lucide-react';
 import { useState } from 'react';
 
 export const AdminLayout: React.FC = () => {
@@ -19,6 +19,9 @@ export const AdminLayout: React.FC = () => {
   const navItems = [
     { to: '/admin/cats', icon: Cat, label: 'Котики' },
     { to: '/admin/requests', icon: MessageSquare, label: 'Заявки' },
+    { to: '/admin/services', icon: Settings, label: 'Сервіси' },
+    { to: '/admin/schedule', icon: Calendar, label: 'Графік' },
+    { to: '/admin/bookings', icon: PawPrint, label: 'Бронювання' },
   ];
 
   return (

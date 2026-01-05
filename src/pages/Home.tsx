@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useBooking } from '../context/BookingContext';
 import { HeroSection } from '../components/sections/HeroSection';
 import { AboutSection } from '../components/sections/AboutSection';
 import { ServicesSection } from '../components/sections/ServicesSection';
@@ -9,13 +10,15 @@ import { SEO } from '../components/SEO';
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
+  const { openBooking } = useBooking();
+
   return (
     <div className="flex flex-col">
       <SEO 
         title={t('hero.title')} 
         description={t('hero.subtitle')} 
       />
-      <HeroSection />
+      <HeroSection onBooking={openBooking} />
       <AboutSection />
       <ServicesSection />
       <ReviewsSection />

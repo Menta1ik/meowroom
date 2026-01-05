@@ -5,11 +5,11 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { HelmetProvider } from 'react-helmet-async';
+import { BookingProvider } from './context/BookingContext';
 
 // Lazy load pages for performance
 const Home = React.lazy(() => import('./pages/Home'));
 const Cats = React.lazy(() => import('./pages/Cats'));
-const Visit = React.lazy(() => import('./pages/Visit'));
 const Donate = React.lazy(() => import('./pages/Donate'));
 const Contacts = React.lazy(() => import('./pages/Contacts'));
 const BecomeSponsor = React.lazy(() => import('./pages/BecomeSponsor'));
@@ -19,6 +19,9 @@ const CreateCat = React.lazy(() => import('./pages/admin/CreateCat').then(module
 const EditCat = React.lazy(() => import('./pages/admin/EditCat').then(module => ({ default: module.EditCat })));
 const CatsList = React.lazy(() => import('./pages/admin/CatsList').then(module => ({ default: module.CatsList })));
 const AdoptionRequests = React.lazy(() => import('./pages/admin/AdoptionRequests').then(module => ({ default: module.AdoptionRequests })));
+const ServicesList = React.lazy(() => import('./pages/admin/ServicesList').then(module => ({ default: module.ServicesList })));
+const ScheduleSettings = React.lazy(() => import('./pages/admin/ScheduleSettings').then(module => ({ default: module.ScheduleSettings })));
+const BookingsList = React.lazy(() => import('./pages/admin/BookingsList').then(module => ({ default: module.BookingsList })));
 const AdminLayout = React.lazy(() => import('./components/admin/AdminLayout').then(module => ({ default: module.AdminLayout })));
 
 const LoadingSpinner = () => (
@@ -31,9 +34,10 @@ function App() {
   return (
     <HelmetProvider>
       <AuthProvider>
-        <Router>
-          <Suspense fallback={<LoadingSpinner />}>
-            <Routes>
+        <BookingProvider>
+          <Router>
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
               {/* Admin Routes */}
               <Route path="/admin/login" element={<LoginPage />} />
               
@@ -44,6 +48,9 @@ function App() {
                   <Route path="cats/new" element={<CreateCat />} />
                   <Route path="cats/:id" element={<EditCat />} />
                   <Route path="requests" element={<AdoptionRequests />} />
+                  <Route path="services" element={<ServicesList />} />
+                  <Route path="schedule" element={<ScheduleSettings />} />
+                  <Route path="bookings" element={<BookingsList />} />
                 </Route>
               </Route>
 
@@ -58,7 +65,6 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/cats" element={<Cats />} />
-                        <Route path="/visit" element={<Visit />} />
                         <Route path="/donate" element={<Donate />} />
                         <Route path="/contacts" element={<Contacts />} />
                         <Route path="/become-sponsor" element={<BecomeSponsor />} />
@@ -68,9 +74,10 @@ function App() {
                   </div>
                 }
               />
-            </Routes>
-          </Suspense>
-        </Router>
+              </Routes>
+            </Suspense>
+          </Router>
+        </BookingProvider>
       </AuthProvider>
     </HelmetProvider>
   );

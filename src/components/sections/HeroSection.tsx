@@ -1,25 +1,55 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../ui/Button';
-import { BookingModal } from '../ui/BookingModal';
+import { Link } from 'react-router-dom';
 
-export const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  onBooking?: () => void;
+}
+
+const images = [
+  "https://images.unsplash.com/photo-1513245543132-31f507417b26?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80", // Wide shot, cozy interior
+  "https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80", // Cat sleeping on furniture
+  "https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"  // Cat looking out window/interior
+];
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
   const { t } = useTranslation();
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    // Randomize start image
+    setCurrentImageIndex(Math.floor(Math.random() * images.length));
+    
+    // Optional: Auto-rotate images every 10 seconds
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
       {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=cozy%20cat%20shelter%20anti-cafe%20interior%20with%20comfortable%20seating%20and%20cats%20relaxing%2C%20warm%20lighting%2C%20photorealistic%2C%204k&image_size=landscape_16_9"
-          alt="Meowroom interior"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-[2px]"></div>
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentImageIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.5 }}
+          className="absolute inset-0 z-0"
+        >
+          <img
+            src={images[currentImageIndex]}
+            alt="Meowroom interior"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-[2px]"></div>
+        </motion.div>
+      </AnimatePresence>
 
       {/* Content */}
       <div className="container mx-auto px-4 z-10 text-center text-white">
@@ -36,20 +66,21 @@ export const HeroSection: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
-              onClick={() => setIsBookingOpen(true)}
+              onClick={onBooking}
               size="lg"
               className="w-full sm:w-auto text-lg px-8 py-4 bg-accent-500 hover:bg-accent-400 text-primary-900"
             >
               {t('hero.cta_visit')}
             </Button>
-            <Button
-              href="/cats"
-              variant="outline"
-              size="lg"
-              className="w-full sm:w-auto text-lg px-8 py-4 border-white text-white hover:bg-white hover:text-primary-700"
-            >
-              {t('hero.cta_adopt')}
-            </Button>
+            <Link to="/cats">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto text-lg px-8 py-4 border-white text-white hover:bg-white hover:text-primary-700"
+              >
+                {t('hero.cta_cats')}
+              </Button>
+            </Link>
           </div>
         </motion.div>
       </div>
