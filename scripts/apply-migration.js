@@ -24,7 +24,7 @@ async function runMigration() {
     await client.connect();
     console.log('Connected successfully!');
 
-    const sqlPath = path.join(process.cwd(), 'supabase/migrations/20250102_booking_system_schema.sql');
+    const sqlPath = path.join(process.cwd(), 'supabase/migrations/20250105_fix_rls.sql');
     const sql = fs.readFileSync(sqlPath, 'utf8');
 
     console.log('Running migration...');

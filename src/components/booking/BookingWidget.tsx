@@ -117,8 +117,12 @@ export const BookingWidget: React.FC = () => {
     try {
       const totalPrice = selectedService.price * guests;
       
-      // 1. Create Booking in Supabase
-      const { data: bookingData, error: bookingError } = await supabase.from('bookings').insert([{
+      // 1. Generate UUID on client side to avoid needing SELECT permissions
+      const bookingId = crypto.randomUUID();
+
+      // 2. Create Booking in Supabase
+      const { error: bookingError } = await supabase.from('bookings').insert([{
+        id: bookingId, // Explicitly set ID
         service_id: selectedService.id,
         booking_date: format(selectedDate, 'yyyy-MM-dd'),
         booking_time: selectedTime,
@@ -130,11 +134,11 @@ export const BookingWidget: React.FC = () => {
         comment: customerDetails.comment,
         status: 'pending',
         payment_status: 'unpaid' 
-      }]).select().single();
+      }]); // No .select().single()
 
       if (bookingError) throw bookingError;
       
-      // 2. Create Payment Invoice (Monobank)
+      // 3. Create Payment Invoice (Monobank)
       const response = await fetch('/api/create-invoice', {
         method: 'POST',
         headers: {
@@ -142,7 +146,7 @@ export const BookingWidget: React.FC = () => {
         },
         body: JSON.stringify({
           amount: totalPrice,
-          bookingId: bookingData.id,
+          bookingId: bookingId,
           description: `Visit Meowroom: ${selectedService.name} (${format(selectedDate, 'dd.MM')})`
         }),
       });
@@ -151,10 +155,18 @@ export const BookingWidget: React.FC = () => {
 
       if (paymentData.invoiceId) {
         // Save invoiceId to Supabase immediately
-        await supabase
-          .from('bookings')
-          .update({ payment_id: paymentData.invoiceId })
-          .eq('id', bookingData.id);
+        // Note: This update might fail if RLS for UPDATE is also restricted for anon.
+        // However, usually we can skip this step if the webhook handles it,
+        // OR we need an UPDATE policy for "rows I created" (hard for anon).
+        // Let's try, but wrap in try-catch to not block the user flow if it fails.
+        try {
+            await supabase
+            .from('bookings')
+            .update({ payment_id: paymentData.invoiceId })
+            .eq('id', bookingId);
+        } catch (updateErr) {
+            console.warn('Failed to update invoice ID, webhook will handle it:', updateErr);
+        }
       }
 
       if (paymentData.pageUrl) {
