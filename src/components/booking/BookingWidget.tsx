@@ -140,21 +140,23 @@ export const BookingWidget: React.FC = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to create booking');
+        // If the error comes from our API, it should have a specific format.
+        // If we see the raw RLS error here, it means the API is just passing it through 
+        // OR we are still running old code.
+        throw new Error(data.error || 'Failed to create booking (Server Error)');
       }
       
       if (data.pageUrl) {
-        // Redirect to Monobank Payment Page
         window.location.href = data.pageUrl;
       } else {
-        // If no payment URL (e.g. Monobank error or free service), just show success
         console.warn('No payment URL received, showing success step');
         setStep(3); 
       }
 
     } catch (error: any) {
       console.error('Booking failed:', error);
-      alert(`Failed to create booking: ${error.message || 'Unknown error'}`);
+      // Change alert to be very specific to verify new code
+      alert(`Error (v2): ${error.message}`);
     } finally {
       setLoading(false);
     }
