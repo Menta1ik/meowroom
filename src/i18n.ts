@@ -15,7 +15,10 @@ i18n
       en: {
         translation: en,
       },
-      // Alias Russian, Belarusian, Kazakh to Ukrainian content
+      // Alias Russian, Belarusian, Kazakh to Ukrainian content (fallback)
+      // User asked to remove explicit RU support but fallbacks might be useful for detection
+      // However, user said "Верни украинский везде", implying if someone has RU browser, they should see UK.
+      // So mapping RU to UK is actually what achieves "Ukrainian everywhere" for RU users without RU translation.
       ru: {
         translation: uk,
       },
@@ -26,23 +29,20 @@ i18n
         translation: uk,
       }
     },
-    // Global fallback to English (for Europe, World, etc.)
-    fallbackLng: 'en',
+    // Global fallback to Ukrainian as per user request ("Верни украинский везде")
+    fallbackLng: 'uk',
     
-    // List all supported/aliased languages so detector accepts them
     supportedLngs: ['uk', 'en', 'ru', 'be', 'kk'],
     
-    // Simplify locale codes (e.g., 'ru-RU' -> 'ru')
     load: 'languageOnly',
 
     debug: import.meta.env.DEV,
     interpolation: {
-      escapeValue: false, // not needed for react as it escapes by default
+      escapeValue: false,
     },
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage'],
-      // If user has 'ru' in localStorage, it will load 'ru' resource (which is 'uk' content)
     },
   });
 

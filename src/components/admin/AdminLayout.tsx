@@ -3,6 +3,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
+import LanguageSelector from '../ui/LanguageSelector';
 import { LogOut, Cat, MessageSquare, Menu, X, PawPrint, ChevronLeft, ChevronRight, Settings, Calendar } from 'lucide-react';
 import { useState } from 'react';
 
