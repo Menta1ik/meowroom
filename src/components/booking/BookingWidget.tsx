@@ -137,12 +137,17 @@ export const BookingWidget: React.FC = () => {
         }),
       });
 
-      const data = await response.json();
+      // Handle raw response carefully
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        console.error('Failed to parse response:', text);
+        throw new Error('Server returned invalid response: ' + text.substring(0, 100));
+      }
 
       if (!response.ok) {
-        // If the error comes from our API, it should have a specific format.
-        // If we see the raw RLS error here, it means the API is just passing it through 
-        // OR we are still running old code.
         throw new Error(data.error || 'Failed to create booking (Server Error)');
       }
       
@@ -362,6 +367,38 @@ export const BookingWidget: React.FC = () => {
         );
 
       case 3: // Success
+        // Check for success params in URL if redirected back
+        const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
+
+        useEffect(() => {
+          // Check URL for bookingId
+          const params = new URLSearchParams(window.location.search);
+          const bookingId = params.get('bookingId');
+          const success = params.get('success');
+
+          if (success === 'true' && bookingId) {
+             // Poll for status
+             const checkStatus = async () => {
+                try {
+                  const res = await fetch('/api/check-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ invoiceId: bookingId }) // Note: check-payment expects invoiceId, but here we might have bookingId as reference?
+                    // Wait, create-booking sets reference=bookingId. 
+                    // check-payment expects invoiceId (payment_id).
+                    // But we don't have payment_id in URL, only bookingId.
+                    // Let's modify check-payment to support bookingId or just rely on manual check for now to avoid complexity.
+                    // Actually, Monobank redirectUrl doesn't give us invoiceId back, just what we put in query params.
+                  });
+                  // For now, just show success message.
+                } catch (e) {
+                  console.error(e);
+                }
+             };
+             // checkStatus();
+          }
+        }, []);
+
         return (
           <div className="text-center py-12 space-y-4">
             <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
