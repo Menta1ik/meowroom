@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { format, parseISO, isToday, isFuture } from 'date-fns';
 import { uk, enUS } from 'date-fns/locale';
-import { Calendar, Clock, User, Phone, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { Calendar, Clock, User, Phone, CheckCircle, XCircle, AlertCircle, CreditCard, RefreshCw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Booking {
@@ -18,6 +18,7 @@ interface Booking {
   comment: string;
   status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
   payment_status: 'unpaid' | 'paid' | 'refunded' | 'failed';
+  payment_id?: string;
   services: {
     name: string;
   };
@@ -68,6 +69,71 @@ export const BookingsList: React.FC = () => {
     } catch (error) {
       console.error('Error updating status:', error);
       alert(t('admin.schedule.save_error', 'Failed to update status'));
+    }
+  };
+
+  const handlePayment = async (booking: Booking) => {
+    if (!confirm(t('admin.bookings.confirm_payment_generation', 'Створити рахунок для цього бронювання?'))) return;
+
+    try {
+      const response = await fetch('/api/create-invoice', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: booking.total_price,
+          bookingId: booking.id,
+          description: `Visit Meowroom: ${booking.services?.name} (${booking.booking_date})`
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.invoiceId) {
+         // Save invoiceId to Supabase
+         await supabase
+          .from('bookings')
+          .update({ payment_id: data.invoiceId })
+          .eq('id', booking.id);
+      }
+
+      if (data.pageUrl) {
+        window.open(data.pageUrl, '_blank');
+        fetchBookings(); // Refresh to see payment_id if we showed it
+      } else {
+        alert('Error creating invoice: ' + (data.error || 'Unknown error'));
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert('Failed to create invoice');
+    }
+  };
+
+  const checkPaymentStatus = async (booking: Booking) => {
+    if (!booking.payment_id) {
+      alert('No invoice ID found for this booking.');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/check-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ invoiceId: booking.payment_id }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.status === 'paid') {
+        alert('Payment confirmed! Status updated.');
+        fetchBookings();
+      } else {
+        alert(`Payment status: ${data.status}`);
+      }
+    } catch (error) {
+      console.error('Check status error:', error);
+      alert('Failed to check status');
     }
   };
 
@@ -179,6 +245,28 @@ export const BookingsList: React.FC = () => {
                 </td>
                 <td className="p-4 text-right">
                   <div className="flex justify-end gap-2">
+                    {/* Check Status Button */}
+                    {booking.payment_status === 'unpaid' && booking.payment_id && (
+                      <button
+                        onClick={() => checkPaymentStatus(booking)}
+                        className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                        title={t('admin.bookings.actions.check_status', 'Check Status')}
+                      >
+                        <RefreshCw size={18} />
+                      </button>
+                    )}
+
+                    {/* Create Invoice Button */}
+                    {booking.payment_status === 'unpaid' && booking.status !== 'cancelled' && !booking.payment_id && (
+                      <button
+                        onClick={() => handlePayment(booking)}
+                        className="p-1.5 text-purple-600 hover:bg-purple-50 rounded transition-colors"
+                        title={t('admin.bookings.actions.pay', 'Create Invoice')}
+                      >
+                        <CreditCard size={18} />
+                      </button>
+                    )}
+
                     {booking.status === 'pending' && (
                       <button
                         onClick={() => updateStatus(booking.id, 'confirmed')}

@@ -149,6 +149,14 @@ export const BookingWidget: React.FC = () => {
 
       const paymentData = await response.json();
 
+      if (paymentData.invoiceId) {
+        // Save invoiceId to Supabase immediately
+        await supabase
+          .from('bookings')
+          .update({ payment_id: paymentData.invoiceId })
+          .eq('id', bookingData.id);
+      }
+
       if (paymentData.pageUrl) {
         // Redirect to Monobank Payment Page
         window.location.href = paymentData.pageUrl;
