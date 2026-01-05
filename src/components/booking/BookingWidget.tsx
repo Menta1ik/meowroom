@@ -117,58 +117,39 @@ export const BookingWidget: React.FC = () => {
     try {
       const totalPrice = selectedService.price * guests;
       
-      // Use RPC call to bypass RLS issues securely
-      const { data: bookingId, error: bookingError } = await supabase.rpc('create_booking', {
-        p_service_id: selectedService.id,
-        p_booking_date: format(selectedDate, 'yyyy-MM-dd'),
-        p_booking_time: selectedTime,
-        p_guests_count: guests,
-        p_total_price: totalPrice,
-        p_customer_name: customerDetails.name,
-        p_customer_phone: customerDetails.phone,
-        p_customer_email: customerDetails.email,
-        p_comment: customerDetails.comment
-      });
-
-      if (bookingError) throw bookingError;
-      if (!bookingId) throw new Error('Failed to create booking ID');
-      
-      // 3. Create Payment Invoice (Monobank)
-      const response = await fetch('/api/create-invoice', {
+      // Use Serverless Function to create booking securely (Bypassing RLS)
+      const response = await fetch('/api/create-booking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: totalPrice,
-          bookingId: bookingId,
-          description: `Visit Meowroom: ${selectedService.name} (${format(selectedDate, 'dd.MM')})`
+          service_id: selectedService.id,
+          booking_date: format(selectedDate, 'yyyy-MM-dd'),
+          booking_time: selectedTime,
+          guests_count: guests,
+          total_price: totalPrice,
+          customer_name: customerDetails.name,
+          customer_phone: customerDetails.phone,
+          customer_email: customerDetails.email,
+          comment: customerDetails.comment,
+          service_name: selectedService.name
         }),
       });
 
-      const paymentData = await response.json();
+      const data = await response.json();
 
-      if (paymentData.invoiceId) {
-        // Update payment_id. Since we are using RPC for insert, we might still face RLS on update.
-        // However, standard flow is that webhook handles it. 
-        // We try to update optimistically, but don't fail if it doesn't work.
-        try {
-            await supabase
-            .from('bookings')
-            .update({ payment_id: paymentData.invoiceId })
-            .eq('id', bookingId);
-        } catch (updateErr) {
-            console.warn('Update payment_id warning:', updateErr);
-        }
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create booking');
       }
-
-      if (paymentData.pageUrl) {
+      
+      if (data.pageUrl) {
         // Redirect to Monobank Payment Page
-        window.location.href = paymentData.pageUrl;
+        window.location.href = data.pageUrl;
       } else {
-        console.error('Payment creation failed:', paymentData);
-        alert('Failed to initialize payment. Please try again.');
-        setStep(3); // Fallback to success page without payment redirect (manual handling)
+        // If no payment URL (e.g. Monobank error or free service), just show success
+        console.warn('No payment URL received, showing success step');
+        setStep(3); 
       }
 
     } catch (error: any) {
