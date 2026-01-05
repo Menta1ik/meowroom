@@ -9,9 +9,9 @@ interface HeroSectionProps {
 }
 
 const images = [
-  "https://images.unsplash.com/photo-1513245543132-31f507417b26?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80", // Wide shot, cozy interior
-  "https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80", // Cat sleeping on furniture
-  "https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"  // Cat looking out window/interior
+  "https://images.unsplash.com/photo-1513245543132-31f507417b26?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80",
+  "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80", 
+  "https://images.unsplash.com/photo-1519052537078-e6302a4968d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
 ];
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {

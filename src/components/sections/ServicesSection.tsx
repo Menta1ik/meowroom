@@ -14,7 +14,7 @@ export const ServicesSection: React.FC = () => {
           <div className="w-full lg:w-1/2 relative">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3]">
               <img
-                src="https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=People%20playing%20board%20games%20in%20a%20cozy%20cafe%20with%20cats%20around%2C%20happy%20atmosphere%2C%20soft%20lighting&image_size=landscape_4_3"
+                src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
                 alt="Visitors enjoying Meowroom"
                 className="w-full h-full object-cover object-top"
               />
