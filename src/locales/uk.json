@@ -299,5 +299,159 @@
       "opening_hours": "Mo-Su 12:00-17:00",
       "price_range": "250-400 грн"
     }
+  },
+  "admin": {
+    "login": {
+      "title": "Вхід в адмін-панель",
+      "email": "Email",
+      "password": "Пароль",
+      "submit": "Увійти",
+      "loading": "Вхід...",
+      "error": "Невірний email або пароль"
+    },
+    "nav": {
+      "cats": "Котики",
+      "requests": "Заявки",
+      "services": "Сервіси",
+      "schedule": "Графік",
+      "bookings": "Бронювання",
+      "logout": "Вийти"
+    },
+    "cats": {
+      "title": "Управління котиками",
+      "add_new": "Додати котика",
+      "table": {
+        "image": "Фото",
+        "name": "Ім'я",
+        "gender": "Стать",
+        "age": "Вік",
+        "status": "Статус",
+        "actions": "Дії"
+      },
+      "form": {
+        "title_new": "Додати нового котика",
+        "title_edit": "Редагувати котика",
+        "name": "Ім'я",
+        "age": "Вік",
+        "gender": "Стать",
+        "breed": "Порода",
+        "description_uk": "Опис (UK)",
+        "description_en": "Опис (EN)",
+        "status": "Статус",
+        "history": "Історія",
+        "health": "Здоров'я",
+        "social": "Характер",
+        "save": "Зберегти",
+        "saving": "Збереження...",
+        "cancel": "Скасувати",
+        "image": "Фото котика",
+        "upload_image": "Завантажити фото",
+        "change_image": "Змінити фото"
+      },
+      "gender": {
+        "boy": "Хлопчик",
+        "girl": "Дівчинка"
+      },
+      "statuses": {
+        "available": "Шукає дім",
+        "adopted": "У сім'ї",
+        "pending": "Заброньовано"
+      }
+    },
+    "requests": {
+      "title": "Заявки на усиновлення",
+      "empty": "Заявок поки немає.",
+      "wants_support": "хоче підтримати",
+      "unknown_cat": "Невідомий котик",
+      "table": {
+        "date": "Дата",
+        "cat": "Котик",
+        "applicant": "Заявник",
+        "type": "Тип",
+        "message": "Повідомлення",
+        "status": "Статус",
+        "actions": "Дії"
+      },
+      "types": {
+        "adopt": "Усиновлення",
+        "guardian": "Опікунство"
+      },
+      "statuses": {
+        "new": "Нова",
+        "contacted": "Зв'язалися",
+        "closed": "Закрито"
+      }
+    },
+    "services": {
+      "title": "Сервіси та ціни",
+      "add_new": "Додати сервіс",
+      "table": {
+        "name": "Назва",
+        "duration": "Тривалість",
+        "price": "Ціна",
+        "active": "Активний",
+        "actions": "Дії"
+      },
+      "form": {
+        "title_new": "Новий сервіс",
+        "title_edit": "Редагувати сервіс",
+        "name": "Назва сервісу",
+        "duration": "Тривалість (хв)",
+        "price": "Ціна (грн)",
+        "description": "Опис",
+        "prepayment": "Вимагати передоплату (онлайн)",
+        "active": "Активний (Видно клієнтам)",
+        "save": "Зберегти",
+        "cancel": "Скасувати"
+      }
+    },
+    "schedule": {
+      "title": "Графік роботи",
+      "table": {
+        "day": "День",
+        "open": "Відкрито",
+        "hours": "Години роботи",
+        "break": "Перерва"
+      },
+      "days": ["Неділя", "Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця", "Субота"],
+      "closed": "Вихідний",
+      "save": "Зберегти зміни",
+      "saving": "Збереження..."
+    },
+    "bookings": {
+      "title": "Бронювання",
+      "filter": {
+        "all": "Всі",
+        "upcoming": "Майбутні",
+        "today": "Сьогодні"
+      },
+      "table": {
+        "date": "Дата та час",
+        "customer": "Клієнт",
+        "service": "Послуга",
+        "payment": "Оплата",
+        "status": "Статус",
+        "actions": "Дії"
+      },
+      "empty": "Бронювань не знайдено.",
+      "guests": "гостей",
+      "unknown_service": "Невідома послуга",
+      "actions": {
+        "confirm": "Підтвердити",
+        "cancel": "Скасувати"
+      },
+      "payment_status": {
+        "paid": "ОПЛАЧЕНО",
+        "unpaid": "НЕ ОПЛАЧЕНО",
+        "refunded": "ПОВЕРНЕНО",
+        "failed": "ПОМИЛКА"
+      },
+      "status": {
+        "pending": "ОЧІКУЄ",
+        "confirmed": "ПІДТВЕРДЖЕНО",
+        "cancelled": "СКАСОВАНО",
+        "completed": "ЗАВЕРШЕНО"
+      }
+    }
   }
 }

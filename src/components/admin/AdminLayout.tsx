@@ -1,12 +1,14 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import { LogOut, Cat, MessageSquare, Menu, X, PawPrint, ChevronLeft, ChevronRight, Settings, Calendar } from 'lucide-react';
 import { useState } from 'react';
 
 export const AdminLayout: React.FC = () => {
   const { user, signOut } = useAuth();
+  const { t } = useTranslation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
@@ -17,11 +19,11 @@ export const AdminLayout: React.FC = () => {
   };
 
   const navItems = [
-    { to: '/admin/cats', icon: Cat, label: 'Котики' },
-    { to: '/admin/requests', icon: MessageSquare, label: 'Заявки' },
-    { to: '/admin/services', icon: Settings, label: 'Сервіси' },
-    { to: '/admin/schedule', icon: Calendar, label: 'Графік' },
-    { to: '/admin/bookings', icon: PawPrint, label: 'Бронювання' },
+    { to: '/admin/cats', icon: Cat, label: t('admin.nav.cats') },
+    { to: '/admin/requests', icon: MessageSquare, label: t('admin.nav.requests') },
+    { to: '/admin/services', icon: Settings, label: t('admin.nav.services') },
+    { to: '/admin/schedule', icon: Calendar, label: t('admin.nav.schedule') },
+    { to: '/admin/bookings', icon: PawPrint, label: t('admin.nav.bookings') },
   ];
 
   return (
@@ -78,7 +80,7 @@ export const AdminLayout: React.FC = () => {
               </div>
               <Button variant="outline" onClick={handleSignOut} className="w-full flex items-center justify-center gap-2">
                 <LogOut size={18} />
-                Вихід
+                {t('admin.nav.logout')}
               </Button>
             </>
           ) : (
@@ -86,7 +88,7 @@ export const AdminLayout: React.FC = () => {
               <button 
                 onClick={handleSignOut}
                 className="p-2 text-neutral-500 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                title="Вихід"
+                title={t('admin.nav.logout')}
               >
                 <LogOut size={20} />
               </button>
@@ -128,7 +130,7 @@ export const AdminLayout: React.FC = () => {
           <div className="p-4 border-t border-neutral-100">
             <Button variant="outline" onClick={handleSignOut} className="w-full flex items-center justify-center gap-2">
               <LogOut size={18} />
-              Вихід
+              {t('admin.nav.logout')}
             </Button>
           </div>
         </div>

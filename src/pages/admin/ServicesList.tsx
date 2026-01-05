@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Plus, Edit2, Trash2, Check, X, Clock } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
+import { useTranslation } from 'react-i18next';
 
 interface Service {
   id: string;
@@ -18,6 +19,7 @@ export const ServicesList: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
+  const { t } = useTranslation();
 
   // Form State
   const [formData, setFormData] = useState({
@@ -124,10 +126,10 @@ export const ServicesList: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
       <div className="p-6 border-b border-neutral-100 flex justify-between items-center">
-        <h2 className="text-xl font-bold text-neutral-800">Services & Pricing</h2>
+        <h2 className="text-xl font-bold text-neutral-800">{t('admin.services.title')}</h2>
         <Button onClick={openCreateModal} className="flex items-center gap-2">
           <Plus size={18} />
-          Add Service
+          {t('admin.services.add_new')}
         </Button>
       </div>
 
@@ -135,12 +137,12 @@ export const ServicesList: React.FC = () => {
         <table className="w-full">
           <thead className="bg-neutral-50 text-left text-sm font-semibold text-neutral-600">
             <tr>
-              <th className="p-4">Name</th>
-              <th className="p-4">Duration</th>
-              <th className="p-4">Price (UAH)</th>
-              <th className="p-4">Prepayment</th>
-              <th className="p-4">Status</th>
-              <th className="p-4 text-right">Actions</th>
+              <th className="p-4">{t('admin.services.table.name')}</th>
+              <th className="p-4">{t('admin.services.table.duration')}</th>
+              <th className="p-4">{t('admin.services.table.price')}</th>
+              <th className="p-4">{t('admin.services.table.active')}</th>
+              <th className="p-4">{t('admin.services.table.actions')}</th>
+              <th className="p-4 text-right"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-neutral-100">
@@ -160,7 +162,7 @@ export const ServicesList: React.FC = () => {
                 <td className="p-4">
                   {service.requires_prepayment ? (
                     <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-medium">
-                      Required
+                      {t('admin.services.form.prepayment')}
                     </span>
                   ) : (
                     <span className="text-neutral-400 text-sm">Optional</span>
@@ -210,7 +212,7 @@ export const ServicesList: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
             <div className="p-6 border-b border-neutral-100 flex justify-between items-center">
               <h3 className="text-lg font-bold text-neutral-800">
-                {editingService ? 'Edit Service' : 'New Service'}
+                {editingService ? t('admin.services.form.title_edit') : t('admin.services.form.title_new')}
               </h3>
               <button onClick={() => setIsModalOpen(false)} className="text-neutral-400 hover:text-neutral-600">
                 <X size={24} />
@@ -219,7 +221,7 @@ export const ServicesList: React.FC = () => {
             
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1">Service Name</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">{t('admin.services.form.name')}</label>
                 <input
                   type="text"
                   required
@@ -232,7 +234,7 @@ export const ServicesList: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">Duration (min)</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">{t('admin.services.form.duration')}</label>
                   <input
                     type="number"
                     required
@@ -244,7 +246,7 @@ export const ServicesList: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">Price (UAH)</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">{t('admin.services.form.price')}</label>
                   <input
                     type="number"
                     required
@@ -257,7 +259,7 @@ export const ServicesList: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1">Description (Optional)</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">{t('admin.services.form.description')}</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
@@ -274,9 +276,9 @@ export const ServicesList: React.FC = () => {
                     onChange={(e) => setFormData({...formData, requires_prepayment: e.target.checked})}
                     className="w-5 h-5 rounded border-neutral-300 text-primary-600 focus:ring-primary-500"
                   />
-                  <span className="text-sm text-neutral-700">Require Prepayment (Online)</span>
+                  <span className="text-sm text-neutral-700">{t('admin.services.form.prepayment')}</span>
                 </label>
-
+                
                 <label className="flex items-center gap-3 cursor-pointer">
                   <input
                     type="checkbox"
@@ -284,16 +286,16 @@ export const ServicesList: React.FC = () => {
                     onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
                     className="w-5 h-5 rounded border-neutral-300 text-primary-600 focus:ring-primary-500"
                   />
-                  <span className="text-sm text-neutral-700">Active (Visible to customers)</span>
+                  <span className="text-sm text-neutral-700">{t('admin.services.form.active')}</span>
                 </label>
               </div>
 
               <div className="pt-4 flex gap-3">
                 <Button type="button" variant="outline" className="w-full" onClick={() => setIsModalOpen(false)}>
-                  Cancel
+                  {t('admin.services.form.cancel')}
                 </Button>
                 <Button type="submit" className="w-full">
-                  {editingService ? 'Save Changes' : 'Create Service'}
+                  {editingService ? t('admin.services.form.save') : t('admin.services.form.save')}
                 </Button>
               </div>
             </form>

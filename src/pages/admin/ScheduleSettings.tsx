@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Button } from '../../components/ui/Button';
 import { Save, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface WorkingHours {
   id: string;
@@ -13,12 +14,14 @@ interface WorkingHours {
   break_end: string | null;
 }
 
-const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
 export const ScheduleSettings: React.FC = () => {
+  const { t } = useTranslation();
   const [schedule, setSchedule] = useState<WorkingHours[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+
+  // Use type assertion to tell TS that we expect a string array
+  const days = t('admin.schedule.days', { returnObjects: true }) as string[];
 
   const fetchSchedule = async () => {
     try {
@@ -75,24 +78,24 @@ export const ScheduleSettings: React.FC = () => {
         .upsert(updates);
 
       if (error) throw error;
-      alert('Schedule updated successfully!');
+      alert(t('admin.schedule.save_success', 'Schedule updated successfully!'));
     } catch (error) {
       console.error('Error saving schedule:', error);
-      alert('Failed to save schedule');
+      alert(t('admin.schedule.save_error', 'Failed to save schedule'));
     } finally {
       setSaving(false);
     }
   };
 
-  if (loading) return <div className="p-8 text-center">Loading schedule...</div>;
+  if (loading) return <div className="p-8 text-center">{t('common.loading')}</div>;
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
       <div className="p-6 border-b border-neutral-100 flex justify-between items-center">
-        <h2 className="text-xl font-bold text-neutral-800">Weekly Schedule</h2>
+        <h2 className="text-xl font-bold text-neutral-800">{t('admin.schedule.title')}</h2>
         <Button onClick={saveSchedule} disabled={saving} className="flex items-center gap-2">
           <Save size={18} />
-          {saving ? 'Saving...' : 'Save Changes'}
+          {saving ? t('admin.schedule.saving') : t('admin.schedule.save')}
         </Button>
       </div>
 
@@ -113,7 +116,7 @@ export const ScheduleSettings: React.FC = () => {
                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-100 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
               </label>
               <span className={`font-bold ${day.is_open ? 'text-neutral-800' : 'text-neutral-400'}`}>
-                {DAYS[day.day_of_week]}
+                {days[day.day_of_week] || 'Day ' + day.day_of_week}
               </span>
             </div>
 
@@ -122,7 +125,7 @@ export const ScheduleSettings: React.FC = () => {
               <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
                 <div className="flex items-center gap-2">
                   <Clock size={16} className="text-neutral-400" />
-                  <span className="text-sm text-neutral-500 w-12">Open:</span>
+                  <span className="text-sm text-neutral-500 w-12">{t('admin.schedule.table.open', 'Open')}:</span>
                   <input
                     type="time"
                     value={day.open_time.slice(0, 5)}
@@ -131,7 +134,7 @@ export const ScheduleSettings: React.FC = () => {
                   />
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-neutral-500 w-12">Close:</span>
+                  <span className="text-sm text-neutral-500 w-12">{t('admin.schedule.table.close', 'Close')}:</span>
                   <input
                     type="time"
                     value={day.close_time.slice(0, 5)}
@@ -142,7 +145,7 @@ export const ScheduleSettings: React.FC = () => {
                 
                 {/* Break (Optional) */}
                 <div className="flex items-center gap-2 lg:border-l lg:pl-4 border-neutral-200">
-                  <span className="text-sm text-neutral-500 whitespace-nowrap">Break Start:</span>
+                  <span className="text-sm text-neutral-500 whitespace-nowrap">{t('admin.schedule.table.break_start', 'Break Start')}:</span>
                   <input
                     type="time"
                     value={day.break_start ? day.break_start.slice(0, 5) : ''}
@@ -151,7 +154,7 @@ export const ScheduleSettings: React.FC = () => {
                   />
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-neutral-500 whitespace-nowrap">Break End:</span>
+                  <span className="text-sm text-neutral-500 whitespace-nowrap">{t('admin.schedule.table.break_end', 'Break End')}:</span>
                   <input
                     type="time"
                     value={day.break_end ? day.break_end.slice(0, 5) : ''}
@@ -164,7 +167,7 @@ export const ScheduleSettings: React.FC = () => {
             
             {!day.is_open && (
               <div className="flex-grow text-neutral-400 text-sm italic">
-                Closed
+                {t('admin.schedule.closed')}
               </div>
             )}
           </div>

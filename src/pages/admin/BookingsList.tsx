@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { format, parseISO, isToday, isFuture } from 'date-fns';
 import { Calendar, Clock, User, Phone, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Booking {
   id: string;
@@ -22,6 +23,7 @@ interface Booking {
 }
 
 export const BookingsList: React.FC = () => {
+  const { t } = useTranslation();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'today' | 'upcoming'>('all');
@@ -64,7 +66,7 @@ export const BookingsList: React.FC = () => {
       fetchBookings();
     } catch (error) {
       console.error('Error updating status:', error);
-      alert('Failed to update status');
+      alert(t('admin.schedule.save_error', 'Failed to update status'));
     }
   };
 
@@ -93,12 +95,12 @@ export const BookingsList: React.FC = () => {
     }
   };
 
-  if (loading) return <div className="p-8 text-center">Loading bookings...</div>;
+  if (loading) return <div className="p-8 text-center">{t('common.loading')}</div>;
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
       <div className="p-6 border-b border-neutral-100 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <h2 className="text-xl font-bold text-neutral-800">Bookings</h2>
+        <h2 className="text-xl font-bold text-neutral-800">{t('admin.bookings.title')}</h2>
         
         <div className="flex bg-neutral-100 p-1 rounded-lg">
           {(['all', 'upcoming', 'today'] as const).map((f) => (
@@ -111,7 +113,7 @@ export const BookingsList: React.FC = () => {
                   : 'text-neutral-500 hover:text-neutral-700'
               }`}
             >
-              {f.charAt(0).toUpperCase() + f.slice(1)}
+              {t(`admin.bookings.filter.${f}`)}
             </button>
           ))}
         </div>
@@ -121,12 +123,12 @@ export const BookingsList: React.FC = () => {
         <table className="w-full">
           <thead className="bg-neutral-50 text-left text-sm font-semibold text-neutral-600">
             <tr>
-              <th className="p-4">Date & Time</th>
-              <th className="p-4">Customer</th>
-              <th className="p-4">Service</th>
-              <th className="p-4">Payment</th>
-              <th className="p-4">Status</th>
-              <th className="p-4 text-right">Actions</th>
+              <th className="p-4">{t('admin.bookings.table.date')}</th>
+              <th className="p-4">{t('admin.bookings.table.customer')}</th>
+              <th className="p-4">{t('admin.bookings.table.service')}</th>
+              <th className="p-4">{t('admin.bookings.table.payment')}</th>
+              <th className="p-4">{t('admin.bookings.table.status')}</th>
+              <th className="p-4 text-right">{t('admin.bookings.table.actions')}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-neutral-100">
@@ -153,12 +155,12 @@ export const BookingsList: React.FC = () => {
                     </a>
                   </div>
                   <div className="text-xs text-neutral-400 mt-0.5">
-                    {booking.guests_count} guest(s)
+                    {booking.guests_count} {t('admin.bookings.guests')}
                   </div>
                 </td>
                 <td className="p-4">
                   <div className="text-sm font-medium text-neutral-700">
-                    {booking.services?.name || 'Unknown Service'}
+                    {booking.services?.name || t('admin.bookings.unknown_service')}
                   </div>
                   <div className="text-xs text-neutral-500">
                     {booking.total_price} ₴
@@ -166,12 +168,12 @@ export const BookingsList: React.FC = () => {
                 </td>
                 <td className="p-4">
                   <span className={`text-sm ${getPaymentColor(booking.payment_status)} uppercase text-xs tracking-wider`}>
-                    {booking.payment_status}
+                    {t(`admin.bookings.payment_status.${booking.payment_status}`)}
                   </span>
                 </td>
                 <td className="p-4">
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide ${getStatusColor(booking.status)}`}>
-                    {booking.status}
+                    {t(`admin.bookings.status.${booking.status}`)}
                   </span>
                 </td>
                 <td className="p-4 text-right">
@@ -180,7 +182,7 @@ export const BookingsList: React.FC = () => {
                       <button
                         onClick={() => updateStatus(booking.id, 'confirmed')}
                         className="p-1.5 text-green-600 hover:bg-green-50 rounded transition-colors"
-                        title="Confirm"
+                        title={t('admin.bookings.actions.confirm')}
                       >
                         <CheckCircle size={18} />
                       </button>
@@ -189,7 +191,7 @@ export const BookingsList: React.FC = () => {
                       <button
                         onClick={() => updateStatus(booking.id, 'cancelled')}
                         className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
-                        title="Cancel"
+                        title={t('admin.bookings.actions.cancel')}
                       >
                         <XCircle size={18} />
                       </button>
@@ -201,7 +203,7 @@ export const BookingsList: React.FC = () => {
             {filteredBookings.length === 0 && (
               <tr>
                 <td colSpan={6} className="p-8 text-center text-neutral-500">
-                  No bookings found for this filter.
+                  {t('admin.bookings.empty')}
                 </td>
               </tr>
             )}

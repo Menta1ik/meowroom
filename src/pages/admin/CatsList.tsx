@@ -4,10 +4,12 @@ import { Button } from '../../components/ui/Button';
 import { Plus, Edit, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import { useTranslation } from 'react-i18next';
 
 export const CatsList: React.FC = () => {
   const { cats, loading, error } = useCats();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this cat?')) return;
@@ -29,10 +31,10 @@ export const CatsList: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
       <div className="p-6 border-b border-neutral-100 flex justify-between items-center">
-        <h2 className="text-xl font-bold text-neutral-800">Manage Cats</h2>
+        <h2 className="text-xl font-bold text-neutral-800">{t('admin.cats.title')}</h2>
         <Button onClick={() => navigate('/admin/cats/new')} className="flex items-center gap-2">
           <Plus size={18} />
-          Add New Cat
+          {t('admin.cats.add_new')}
         </Button>
       </div>
       
@@ -40,11 +42,11 @@ export const CatsList: React.FC = () => {
         <table className="w-full text-left">
           <thead className="bg-neutral-50">
             <tr>
-              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">Photo</th>
-              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">Name</th>
-              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">Age</th>
-              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">Gender</th>
-              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">Actions</th>
+              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">{t('admin.cats.table.image')}</th>
+              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">{t('admin.cats.table.name')}</th>
+              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">{t('admin.cats.table.age')}</th>
+              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">{t('admin.cats.table.gender')}</th>
+              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">{t('admin.cats.table.actions')}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-neutral-100">
@@ -59,7 +61,10 @@ export const CatsList: React.FC = () => {
                 </td>
                 <td className="px-6 py-4 font-medium text-neutral-800">{cat.name}</td>
                 <td className="px-6 py-4 text-neutral-600">{cat.age}</td>
-                <td className="px-6 py-4 text-neutral-600">{cat.gender}</td>
+                <td className="px-6 py-4 text-neutral-600">
+                  {cat.gender === 'boy' || cat.gender === 'Мальчик' ? t('admin.cats.gender.boy') : 
+                   cat.gender === 'girl' || cat.gender === 'Девочка' ? t('admin.cats.gender.girl') : cat.gender}
+                </td>
                 <td className="px-6 py-4">
                   <div className="flex gap-2">
                     <button 

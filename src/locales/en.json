@@ -289,15 +289,169 @@
   "seo": {
     "default_title": "Meowroom - Cat Shelter & Anticafe in Kharkiv",
     "default_description": "Meowroom is a unique space in Kharkiv combining a cat shelter and an anticafe. Visit us to relax with cats or adopt a friend.",
-    "keywords": "cat shelter, anticafe, kharkiv, adopt cat, meowroom, charity, animals, cat cafe, pet adoption, animal aid",
+    "keywords": "cat shelter, anticafe, kharkiv, adopt a cat, meowroom, charity, animals, cat cafe, cat adoption, help animals",
     "schema": {
       "name": "Meowroom",
-      "description": "Meowroom is a unique space in Kharkiv combining a cat shelter and an anticafe. Visit us to relax with cats or adopt a friend.",
+      "description": "Meowroom is a unique space in Kharkiv combining a cat shelter and an anti-cafe. Come relax with cats or find a friend.",
       "address_country": "UA",
       "address_locality": "Kharkiv",
-      "address_street": "23 Kultury Str.",
+      "address_street": "Kultury St, 23",
       "opening_hours": "Mo-Su 12:00-17:00",
       "price_range": "250-400 UAH"
+    }
+  },
+  "admin": {
+    "login": {
+      "title": "Admin Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Login",
+      "loading": "Logging in...",
+      "error": "Invalid email or password"
+    },
+    "nav": {
+      "cats": "Cats",
+      "requests": "Requests",
+      "services": "Services",
+      "schedule": "Schedule",
+      "bookings": "Bookings",
+      "logout": "Logout"
+    },
+    "cats": {
+      "title": "Manage Cats",
+      "add_new": "Add Cat",
+      "table": {
+        "image": "Photo",
+        "name": "Name",
+        "gender": "Gender",
+        "age": "Age",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "form": {
+        "title_new": "Add New Cat",
+        "title_edit": "Edit Cat",
+        "name": "Name",
+        "age": "Age",
+        "gender": "Gender",
+        "breed": "Breed",
+        "description_uk": "Description (UK)",
+        "description_en": "Description (EN)",
+        "status": "Status",
+        "history": "History",
+        "health": "Health",
+        "social": "Character",
+        "save": "Save",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "image": "Cat Photo",
+        "upload_image": "Upload Photo",
+        "change_image": "Change Photo"
+      },
+      "gender": {
+        "boy": "Boy",
+        "girl": "Girl"
+      },
+      "statuses": {
+        "available": "Available",
+        "adopted": "Adopted",
+        "pending": "Reserved"
+      }
+    },
+    "requests": {
+      "title": "Adoption & Guardianship Requests",
+      "empty": "No requests yet.",
+      "wants_support": "wants to support",
+      "unknown_cat": "Unknown Cat",
+      "table": {
+        "date": "Date",
+        "cat": "Cat",
+        "applicant": "Applicant",
+        "type": "Type",
+        "message": "Message",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "types": {
+        "adopt": "Adoption",
+        "guardian": "Guardianship"
+      },
+      "statuses": {
+        "new": "New",
+        "contacted": "Contacted",
+        "closed": "Closed"
+      }
+    },
+    "services": {
+      "title": "Services & Prices",
+      "add_new": "Add Service",
+      "table": {
+        "name": "Name",
+        "duration": "Duration",
+        "price": "Price",
+        "active": "Active",
+        "actions": "Actions"
+      },
+      "form": {
+        "title_new": "New Service",
+        "title_edit": "Edit Service",
+        "name": "Service Name",
+        "duration": "Duration (min)",
+        "price": "Price (UAH)",
+        "description": "Description",
+        "prepayment": "Require Prepayment (Online)",
+        "active": "Active (Visible to customers)",
+        "save": "Save",
+        "cancel": "Cancel"
+      }
+    },
+    "schedule": {
+      "title": "Schedule",
+      "table": {
+        "day": "Day",
+        "open": "Open",
+        "hours": "Working Hours",
+        "break": "Break"
+      },
+      "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "closed": "Closed",
+      "save": "Save Changes",
+      "saving": "Saving..."
+    },
+    "bookings": {
+      "title": "Bookings",
+      "filter": {
+        "all": "All",
+        "upcoming": "Upcoming",
+        "today": "Today"
+      },
+      "table": {
+        "date": "Date & Time",
+        "customer": "Customer",
+        "service": "Service",
+        "payment": "Payment",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "empty": "No bookings found.",
+      "guests": "guest(s)",
+      "unknown_service": "Unknown Service",
+      "actions": {
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+      },
+      "payment_status": {
+        "paid": "PAID",
+        "unpaid": "UNPAID",
+        "refunded": "REFUNDED",
+        "failed": "FAILED"
+      },
+      "status": {
+        "pending": "PENDING",
+        "confirmed": "CONFIRMED",
+        "cancelled": "CANCELLED",
+        "completed": "COMPLETED"
+      }
     }
   }
 }

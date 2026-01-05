@@ -8,7 +8,7 @@ export interface Cat {
   id: string;
   name: string;
   age: string;
-  gender: 'Мальчик' | 'Девочка';
+  gender: string;
   history: string;
   images: string[];
   tags: string[];
@@ -48,7 +48,10 @@ export const CatCard: React.FC<CatCardProps> = ({ cat, onAdopt }) => {
         <div className="flex justify-between items-start mb-2">
           <div>
             <h3 className="text-xl font-bold text-neutral-800">{cat.name}</h3>
-            <p className="text-sm text-neutral-500 font-medium">{cat.gender}</p>
+            <p className="text-sm text-neutral-500 font-medium">
+              {cat.gender === 'boy' || cat.gender === 'Мальчик' ? t('admin.cats.gender.boy') : 
+               cat.gender === 'girl' || cat.gender === 'Девочка' ? t('admin.cats.gender.girl') : cat.gender}
+            </p>
           </div>
           <div className="flex gap-1 flex-wrap justify-end max-w-[50%]">
             {cat.tags.slice(0, 2).map((tag, i) => (

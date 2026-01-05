@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { format } from 'date-fns';
 import { MessageSquare, Phone, Mail, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface AdoptionRequest {
   id: string;
@@ -19,6 +20,7 @@ interface AdoptionRequest {
 }
 
 export const AdoptionRequests: React.FC = () => {
+  const { t } = useTranslation();
   const [requests, setRequests] = useState<AdoptionRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -63,21 +65,21 @@ export const AdoptionRequests: React.FC = () => {
       ));
     } catch (error) {
       console.error('Error updating status:', error);
-      alert('Failed to update status');
+      alert(t('admin.schedule.save_error', 'Failed to update status'));
     }
   };
 
-  if (loading) return <div className="p-8 text-center">Loading requests...</div>;
+  if (loading) return <div className="p-8 text-center">{t('common.loading')}</div>;
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
       <div className="p-6 border-b border-neutral-100">
-        <h2 className="text-xl font-bold text-neutral-800">Adoption & Guardianship Requests</h2>
+        <h2 className="text-xl font-bold text-neutral-800">{t('admin.requests.title')}</h2>
       </div>
 
       {requests.length === 0 ? (
         <div className="p-8 text-center text-neutral-500">
-          No requests yet.
+          {t('admin.requests.empty')}
         </div>
       ) : (
         <div className="divide-y divide-neutral-100">
@@ -93,7 +95,7 @@ export const AdoptionRequests: React.FC = () => {
                         ? 'bg-purple-100 text-purple-700' 
                         : 'bg-blue-100 text-blue-700'
                     }`}>
-                      {req.type === 'adopt' ? 'Adoption' : 'Guardianship'}
+                      {t(`admin.requests.types.${req.type}`)}
                     </span>
                     <span className="text-sm text-neutral-400">
                       {format(new Date(req.created_at), 'PPP p')}
@@ -110,7 +112,7 @@ export const AdoptionRequests: React.FC = () => {
                     </div>
                     <div>
                       <h3 className="font-bold text-neutral-800">
-                        {req.name} wants to support <span className="text-primary-600">{req.cat?.name || 'Unknown Cat'}</span>
+                        {req.name} {t('admin.requests.wants_support')} <span className="text-primary-600">{req.cat?.name || t('admin.requests.unknown_cat')}</span>
                       </h3>
                       <div className="flex flex-wrap gap-4 mt-1 text-sm text-neutral-600">
                         <div className="flex items-center gap-1">
@@ -134,7 +136,7 @@ export const AdoptionRequests: React.FC = () => {
 
                 {/* Status Actions */}
                 <div className="flex flex-col gap-2 min-w-[140px]">
-                  <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1">Status</p>
+                  <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1">{t('admin.requests.table.status')}</p>
                   
                   <button
                     onClick={() => updateStatus(req.id, 'new')}
@@ -145,7 +147,7 @@ export const AdoptionRequests: React.FC = () => {
                     }`}
                   >
                     <Clock size={16} />
-                    New
+                    {t('admin.requests.statuses.new')}
                   </button>
 
                   <button
@@ -157,7 +159,7 @@ export const AdoptionRequests: React.FC = () => {
                     }`}
                   >
                     <CheckCircle size={16} />
-                    Contacted
+                    {t('admin.requests.statuses.contacted')}
                   </button>
 
                   <button
@@ -169,7 +171,7 @@ export const AdoptionRequests: React.FC = () => {
                     }`}
                   >
                     <XCircle size={16} />
-                    Closed
+                    {t('admin.requests.statuses.closed')}
                   </button>
                 </div>
 
