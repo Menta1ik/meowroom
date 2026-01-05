@@ -13,6 +13,7 @@ const Cats = React.lazy(() => import('./pages/Cats'));
 const Donate = React.lazy(() => import('./pages/Donate'));
 const Contacts = React.lazy(() => import('./pages/Contacts'));
 const BecomeSponsor = React.lazy(() => import('./pages/BecomeSponsor'));
+const Visit = React.lazy(() => import('./pages/Visit'));
 const About = React.lazy(() => import('./pages/About'));
 const LoginPage = React.lazy(() => import('./pages/admin/Login').then(module => ({ default: module.LoginPage })));
 const CreateCat = React.lazy(() => import('./pages/admin/CreateCat').then(module => ({ default: module.CreateCat })));
@@ -65,6 +66,7 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/cats" element={<Cats />} />
+                        <Route path="/visit" element={<Visit />} />
                         <Route path="/donate" element={<Donate />} />
                         <Route path="/contacts" element={<Contacts />} />
                         <Route path="/become-sponsor" element={<BecomeSponsor />} />

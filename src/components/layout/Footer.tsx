@@ -38,7 +38,7 @@ export const Footer: React.FC = () => {
                 <Link to="/cats" className="text-neutral-600 hover:text-primary-600 transition-colors">{t('nav.cats')}</Link>
               </li>
               <li>
-                <button onClick={openBooking} className="text-neutral-600 hover:text-primary-600 transition-colors text-left">{t('nav.visit')}</button>
+                <Link to="/visit" className="text-neutral-600 hover:text-primary-600 transition-colors">{t('nav.visit')}</Link>
               </li>
               <li>
                 <Link to="/donate" className="text-neutral-600 hover:text-primary-600 transition-colors">{t('nav.donate')}</Link>
