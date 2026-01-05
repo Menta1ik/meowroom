@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
 
           {/* Navigation */}
           <div>
-            <h4 className="font-bold text-lg text-primary-800 mb-6">{t('footer.nav')}</h4>
+            <h3 className="font-bold text-lg text-primary-800 mb-6">{t('footer.nav')}</h3>
             <ul className="space-y-4">
               <li>
                 <Link to="/about" className="text-neutral-600 hover:text-primary-600 transition-colors">{t('nav.about')}</Link>
@@ -46,7 +46,7 @@ export const Footer: React.FC = () => {
 
           {/* Contacts */}
           <div>
-            <h4 className="font-bold text-lg text-primary-800 mb-6">{t('footer.contacts')}</h4>
+            <h3 className="font-bold text-lg text-primary-800 mb-6">{t('footer.contacts')}</h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-neutral-600">
                 <MapPin size={20} className="text-primary-500 shrink-0 mt-1" />
@@ -65,12 +65,13 @@ export const Footer: React.FC = () => {
 
           {/* Social */}
           <div>
-            <h4 className="font-bold text-lg text-primary-800 mb-6">{t('footer.social')}</h4>
+            <h3 className="font-bold text-lg text-primary-800 mb-6">{t('footer.social')}</h3>
             <div className="flex gap-4">
               <a 
                 href="https://www.instagram.com/meowroom.kharkiv" 
                 target="_blank" 
                 rel="noopener noreferrer"
+                aria-label="Instagram"
                 className="w-10 h-10 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center hover:bg-primary-100 transition-colors"
               >
                 <Instagram size={20} />
@@ -79,6 +80,7 @@ export const Footer: React.FC = () => {
                 href="https://www.facebook.com/profile.php?id=61551609639660" 
                 target="_blank" 
                 rel="noopener noreferrer"
+                aria-label="Facebook"
                 className="w-10 h-10 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center hover:bg-primary-100 transition-colors"
               >
                 <Facebook size={20} />
@@ -87,6 +89,7 @@ export const Footer: React.FC = () => {
                 href="https://www.tiktok.com/@bluecrossforcats" 
                 target="_blank" 
                 rel="noopener noreferrer"
+                aria-label="TikTok"
                 className="w-10 h-10 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center hover:bg-primary-100 transition-colors"
               >
                 <TikTokIcon size={20} />

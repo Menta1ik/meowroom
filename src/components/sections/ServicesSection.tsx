@@ -42,7 +42,7 @@ export const ServicesSection: React.FC = () => {
                   <Coffee size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-primary-700">{t('services.features.relax.title')}</h4>
+                  <h3 className="font-bold text-primary-700">{t('services.features.relax.title')}</h3>
                   <p className="text-sm text-neutral-500">{t('services.features.relax.desc')}</p>
                 </div>
               </div>
@@ -51,7 +51,7 @@ export const ServicesSection: React.FC = () => {
                   <Gamepad2 size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-primary-700">{t('services.features.fun.title')}</h4>
+                  <h3 className="font-bold text-primary-700">{t('services.features.fun.title')}</h3>
                   <p className="text-sm text-neutral-500">{t('services.features.fun.desc')}</p>
                 </div>
               </div>
@@ -60,7 +60,7 @@ export const ServicesSection: React.FC = () => {
                   <Laptop size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-primary-700">{t('services.features.coworking.title')}</h4>
+                  <h3 className="font-bold text-primary-700">{t('services.features.coworking.title')}</h3>
                   <p className="text-sm text-neutral-500">{t('services.features.coworking.desc')}</p>
                 </div>
               </div>
@@ -69,7 +69,7 @@ export const ServicesSection: React.FC = () => {
                   <Clock size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-primary-700">{t('services.features.schedule.title')}</h4>
+                  <h3 className="font-bold text-primary-700">{t('services.features.schedule.title')}</h3>
                   <p className="text-sm text-neutral-500">{t('services.features.schedule.desc')}</p>
                 </div>
               </div>
