@@ -4,35 +4,33 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import uk from './locales/uk.json';
 import en from './locales/en.json';
 
+// CIS countries (Commonwealth of Independent States) + Georgia/Ukraine neighbours
+// These languages will be mapped to Ukrainian interface
+const CIS_LANGUAGES = ['uk', 'ru', 'be', 'kk', 'az', 'hy', 'ka', 'ky', 'tg', 'uz', 'ro', 'md'];
+
+const resources: Record<string, any> = {
+  uk: { translation: uk },
+  en: { translation: en }
+};
+
+// Map all CIS languages to use 'uk' translation
+CIS_LANGUAGES.forEach(lang => {
+  if (lang !== 'uk') {
+    resources[lang] = { translation: uk };
+  }
+});
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    resources: {
-      uk: {
-        translation: uk,
-      },
-      en: {
-        translation: en,
-      },
-      // Alias Russian, Belarusian, Kazakh to Ukrainian content (fallback)
-      // User asked to remove explicit RU support but fallbacks might be useful for detection
-      // However, user said "Верни украинский везде", implying if someone has RU browser, they should see UK.
-      // So mapping RU to UK is actually what achieves "Ukrainian everywhere" for RU users without RU translation.
-      ru: {
-        translation: uk,
-      },
-      be: {
-        translation: uk,
-      },
-      kk: {
-        translation: uk,
-      }
-    },
-    // Global fallback to Ukrainian as per user request ("Верни украинский везде")
-    fallbackLng: 'uk',
+    resources,
     
-    supportedLngs: ['uk', 'en', 'ru', 'be', 'kk'],
+    // Global fallback to English for "Rest of the World"
+    fallbackLng: 'en',
+    
+    // Whitelist supported languages (EN + all CIS variants)
+    supportedLngs: ['en', ...CIS_LANGUAGES],
     
     load: 'languageOnly',
 
@@ -43,6 +41,7 @@ i18n
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage'],
+      lookupLocalStorage: 'i18nextLng',
     },
   });
 
