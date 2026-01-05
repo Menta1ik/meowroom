@@ -78,10 +78,10 @@ export const ScheduleSettings: React.FC = () => {
         .upsert(updates);
 
       if (error) throw error;
-      alert(t('admin.schedule.save_success', 'Schedule updated successfully!'));
+      alert(t('admin.schedule.save_success'));
     } catch (error) {
       console.error('Error saving schedule:', error);
-      alert(t('admin.schedule.save_error', 'Failed to save schedule'));
+      alert(t('admin.schedule.save_error'));
     } finally {
       setSaving(false);
     }
@@ -116,7 +116,7 @@ export const ScheduleSettings: React.FC = () => {
                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-100 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
               </label>
               <span className={`font-bold ${day.is_open ? 'text-neutral-800' : 'text-neutral-400'}`}>
-                {days[day.day_of_week] || 'Day ' + day.day_of_week}
+                {days[day.day_of_week] || day.day_of_week}
               </span>
             </div>
 
@@ -125,7 +125,7 @@ export const ScheduleSettings: React.FC = () => {
               <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
                 <div className="flex items-center gap-2">
                   <Clock size={16} className="text-neutral-400" />
-                  <span className="text-sm text-neutral-500 w-12">{t('admin.schedule.table.open', 'Open')}:</span>
+                  <span className="text-sm text-neutral-500 w-12">{t('admin.schedule.table.open')}:</span>
                   <input
                     type="time"
                     value={day.open_time.slice(0, 5)}
@@ -134,7 +134,7 @@ export const ScheduleSettings: React.FC = () => {
                   />
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-neutral-500 w-12">{t('admin.schedule.table.close', 'Close')}:</span>
+                  <span className="text-sm text-neutral-500 w-12">{t('admin.schedule.table.close')}:</span>
                   <input
                     type="time"
                     value={day.close_time.slice(0, 5)}

@@ -147,7 +147,7 @@ export const ServicesList: React.FC = () => {
           </thead>
           <tbody className="divide-y divide-neutral-100">
             {services.map((service) => (
-              <tr key={service.id} className="hover:bg-neutral-50 transition-colors">
+              <tr key={service.id} className="hover:bg-yellow-50 transition-colors">
                 <td className="p-4 font-medium text-neutral-800">
                   {service.name}
                   {service.description && <p className="text-xs text-neutral-400 font-normal truncate max-w-xs">{service.description}</p>}

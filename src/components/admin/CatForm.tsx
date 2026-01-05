@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase';
 import { Button } from '../ui/Button';
 import { Cat } from '../cards/CatCard';
 import { X, Upload, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface CatFormProps {
   initialData?: Cat;
@@ -12,6 +13,7 @@ interface CatFormProps {
 
 export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<Partial<Cat>>({
     name: initialData?.name || '',
@@ -96,7 +98,7 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
       navigate('/admin');
     } catch (error) {
       console.error('Error saving cat:', error);
-      alert('Error saving cat');
+      alert(t('admin.cats.form.error_save'));
     } finally {
       setLoading(false);
     }
@@ -106,7 +108,7 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
     <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl bg-white p-6 rounded-2xl shadow-sm border border-neutral-100">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">Name</label>
+          <label className="block text-sm font-medium text-neutral-700 mb-1">{t('admin.cats.form.name')}</label>
           <input
             type="text"
             name="name"
@@ -117,7 +119,7 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">Age</label>
+          <label className="block text-sm font-medium text-neutral-700 mb-1">{t('admin.cats.form.age')}</label>
           <input
             type="text"
             name="age"
@@ -130,20 +132,20 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-neutral-700 mb-1">Gender</label>
+        <label className="block text-sm font-medium text-neutral-700 mb-1">{t('admin.cats.form.gender')}</label>
         <select
           name="gender"
           value={formData.gender}
           onChange={handleInputChange}
           className="w-full px-4 py-2 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 outline-none"
         >
-          <option value="Мальчик">Мальчик</option>
-          <option value="Девочка">Девочка</option>
+          <option value="boy">{t('admin.cats.gender.boy')}</option>
+          <option value="girl">{t('admin.cats.gender.girl')}</option>
         </select>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-neutral-700 mb-1">History / Description</label>
+        <label className="block text-sm font-medium text-neutral-700 mb-1">{t('admin.cats.form.history')}</label>
         <textarea
           name="history"
           value={formData.history}
@@ -155,7 +157,7 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-neutral-700 mb-1">Tags</label>
+        <label className="block text-sm font-medium text-neutral-700 mb-1">{t('admin.cats.form.tags')}</label>
         <div className="flex flex-wrap gap-2 mb-2">
           {formData.tags?.map((tag, index) => (
             <span key={index} className="px-2 py-1 bg-primary-50 text-primary-700 rounded-md text-sm flex items-center gap-1">
@@ -172,15 +174,15 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
             value={newTag}
             onChange={(e) => setNewTag(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
-            placeholder="Add a tag..."
+            placeholder={t('admin.cats.form.add_tag_placeholder')}
             className="flex-grow px-4 py-2 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 outline-none"
           />
-          <Button type="button" onClick={handleAddTag} variant="outline" size="sm">Add</Button>
+          <Button type="button" onClick={handleAddTag} variant="outline" size="sm">{t('admin.common.add')}</Button>
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-neutral-700 mb-2">Images (First image is cover)</label>
+        <label className="block text-sm font-medium text-neutral-700 mb-2">{t('admin.cats.form.images_hint')}</label>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
           {formData.images?.map((url, index) => (
             <div key={index} className="relative group aspect-square rounded-lg overflow-hidden border border-neutral-200">
@@ -194,14 +196,14 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
               </button>
               {index === 0 && (
                 <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-xs text-center py-1">
-                  Cover
+                  {t('admin.cats.form.cover')}
                 </div>
               )}
             </div>
           ))}
           <label className="border-2 border-dashed border-neutral-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-colors aspect-square">
             <Upload className="text-neutral-400 mb-2" />
-            <span className="text-sm text-neutral-500">{uploading ? 'Uploading...' : 'Upload Photo'}</span>
+            <span className="text-sm text-neutral-500">{uploading ? t('admin.common.uploading') : t('admin.cats.form.upload_image')}</span>
             <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={uploading} />
           </label>
         </div>
@@ -209,10 +211,10 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
 
       <div className="flex justify-end gap-4 pt-4 border-t border-neutral-100">
         <Button type="button" variant="outline" onClick={() => navigate('/admin')}>
-          Cancel
+          {t('admin.cats.form.cancel')}
         </Button>
         <Button type="submit" disabled={loading || uploading}>
-          {loading ? 'Saving...' : isEdit ? 'Update Cat' : 'Create Cat'}
+          {loading ? t('admin.cats.form.saving') : isEdit ? t('admin.cats.form.update') : t('admin.cats.form.create')}
         </Button>
       </div>
     </form>

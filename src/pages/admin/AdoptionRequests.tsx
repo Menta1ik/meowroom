@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { format } from 'date-fns';
+import { getDateLocale } from '../../lib/utils';
 import { MessageSquare, Phone, Mail, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -98,7 +99,7 @@ export const AdoptionRequests: React.FC = () => {
                       {t(`admin.requests.types.${req.type}`)}
                     </span>
                     <span className="text-sm text-neutral-400">
-                      {format(new Date(req.created_at), 'PPP p')}
+                      {format(new Date(req.created_at), 'PPP p', { locale: getDateLocale(i18n.language) })}
                     </span>
                   </div>
 

@@ -86,6 +86,12 @@
       "health": { "title": "Health & Safety", "desc": "All our wards are healthy, vaccinated, sterilized, and have veterinary passports." },
       "charity": { "title": "Charity", "desc": "We work together with the \"BlueCross for Cats\" foundation. All funds go to help animals." }
   },
+  "donation_preview": {
+    "title": "Help Us Save Lives",
+    "text": "\"Meowroom\" exists thanks to your visits and voluntary donations. Every hryvnia turns into food, medicine, and warmth for our wards.",
+    "cta_support": "Support Project",
+    "cta_volunteer": "Become a Volunteer"
+  },
   "cats": {
     "title": "Our Cats",
     "subtitle": "Here they found a loving family and a warm home. Meet them and find your favorite to become their friend and guardian.",
@@ -160,12 +166,6 @@
         "text": "The best place for cat lovers in Kharkiv! Delicious coffee, board games, and most importantly - purring therapists. I will definitely come back!"
       }
     }
-  },
-  "donation_preview": {
-    "title": "Help Us Save Lives",
-    "text": "\"Meowroom\" exists thanks to your visits and voluntary donations. Every hryvnia turns into food, medicine, and warmth for our wards.",
-    "cta_support": "Support Project",
-    "cta_volunteer": "Become a Volunteer"
   },
   "donate": {
     "title": "Support Meowroom",
@@ -301,6 +301,16 @@
     }
   },
   "admin": {
+    "title": "Admin Panel",
+    "user": "User",
+    "common": {
+        "loading": "Loading...",
+        "error": "Error",
+        "confirm_delete": "Are you sure you want to delete?",
+        "delete_error": "Failed to delete",
+        "save_success": "Saved successfully",
+        "save_error": "Save error"
+    },
     "login": {
       "title": "Admin Login",
       "email": "Email",
@@ -320,6 +330,7 @@
     "cats": {
       "title": "Manage Cats",
       "add_new": "Add Cat",
+      "empty": "No cats found. Add one to get started!",
       "table": {
         "image": "Photo",
         "name": "Name",
@@ -346,7 +357,15 @@
         "cancel": "Cancel",
         "image": "Cat Photo",
         "upload_image": "Upload Photo",
-        "change_image": "Change Photo"
+        "change_image": "Change Photo",
+        "tags": "Tags",
+        "add_tag_placeholder": "Add a tag...",
+        "images_hint": "Images (First image is cover)",
+        "cover": "Cover",
+        "update": "Update Cat",
+        "create": "Create Cat",
+        "error_upload": "Error uploading image",
+        "error_save": "Error saving cat"
       },
       "gender": {
         "boy": "Boy",
@@ -385,6 +404,10 @@
     "services": {
       "title": "Services & Prices",
       "add_new": "Add Service",
+      "empty": "No services found.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "delete_confirm": "Are you sure?",
       "table": {
         "name": "Name",
         "duration": "Duration",
@@ -402,7 +425,9 @@
         "prepayment": "Require Prepayment (Online)",
         "active": "Active (Visible to customers)",
         "save": "Save",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "save_error": "Failed to save service",
+        "optional": "Optional"
       }
     },
     "schedule": {
@@ -411,15 +436,20 @@
         "day": "Day",
         "open": "Open",
         "hours": "Working Hours",
-        "break": "Break"
+        "break": "Break",
+        "break_start": "Break Start",
+        "break_end": "Break End"
       },
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       "closed": "Closed",
       "save": "Save Changes",
-      "saving": "Saving..."
+      "saving": "Saving...",
+      "save_success": "Schedule saved successfully!",
+      "save_error": "Failed to save schedule"
     },
     "bookings": {
       "title": "Bookings",
+      "confirm_payment_generation": "Create invoice for this booking?",
       "filter": {
         "all": "All",
         "upcoming": "Upcoming",
@@ -438,7 +468,9 @@
       "unknown_service": "Unknown Service",
       "actions": {
         "confirm": "Confirm",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "check_status": "Check Status",
+        "pay": "Create Invoice"
       },
       "payment_status": {
         "paid": "PAID",
@@ -451,7 +483,13 @@
         "confirmed": "CONFIRMED",
         "cancelled": "CANCELLED",
         "completed": "COMPLETED"
-      }
+      },
+      "confirm_invoice": "Create invoice for this booking?",
+      "invoice_created": "Invoice created",
+      "invoice_error": "Error creating invoice",
+      "status_checked": "Status checked",
+      "status_check_error": "Status check error",
+      "no_invoice_id": "No invoice ID found"
     }
   }
 }

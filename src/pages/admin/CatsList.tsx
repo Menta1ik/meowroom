@@ -12,7 +12,7 @@ export const CatsList: React.FC = () => {
   const { t } = useTranslation();
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this cat?')) return;
+    if (!window.confirm(t('admin.common.confirm_delete'))) return;
     
     try {
       const { error } = await supabase.from('cats').delete().eq('id', id);
@@ -21,12 +21,12 @@ export const CatsList: React.FC = () => {
       window.location.reload();
     } catch (err) {
       console.error('Error deleting cat:', err);
-      alert('Failed to delete cat');
+      alert(t('admin.common.delete_error'));
     }
   };
 
-  if (loading) return <div className="p-8 text-center">Loading cats...</div>;
-  if (error) return <div className="p-8 text-center text-red-500">Error: {error}</div>;
+  if (loading) return <div className="p-8 text-center">{t('admin.common.loading')}</div>;
+  if (error) return <div className="p-8 text-center text-red-500">{t('admin.common.error')}: {error}</div>;
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
@@ -51,7 +51,7 @@ export const CatsList: React.FC = () => {
           </thead>
           <tbody className="divide-y divide-neutral-100">
             {cats.map((cat) => (
-              <tr key={cat.id} className="hover:bg-neutral-50 transition-colors">
+              <tr key={cat.id} className="hover:bg-yellow-50 transition-colors">
                 <td className="px-6 py-4">
                   <img 
                     src={cat.images?.[0] || 'https://via.placeholder.com/40'} 

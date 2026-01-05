@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { format, parseISO, isToday, isFuture } from 'date-fns';
-import { uk, enUS } from 'date-fns/locale';
+import { getDateLocale } from '../../lib/utils';
 import { Calendar, Clock, User, Phone, CheckCircle, XCircle, AlertCircle, CreditCard, RefreshCw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -25,7 +25,7 @@ interface Booking {
 }
 
 export const BookingsList: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'today' | 'upcoming'>('all');
@@ -73,7 +73,7 @@ export const BookingsList: React.FC = () => {
   };
 
   const handlePayment = async (booking: Booking) => {
-    if (!confirm(t('admin.bookings.confirm_payment_generation', 'Створити рахунок для цього бронювання?'))) return;
+    if (!confirm(t('admin.bookings.confirm_invoice'))) return;
 
     try {
       const response = await fetch('/api/create-invoice', {
@@ -200,12 +200,12 @@ export const BookingsList: React.FC = () => {
           </thead>
           <tbody className="divide-y divide-neutral-100">
             {filteredBookings.map((booking) => (
-              <tr key={booking.id} className="hover:bg-neutral-50 transition-colors">
+              <tr key={booking.id} className="hover:bg-yellow-50 transition-colors">
                 <td className="p-4">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2 font-medium text-neutral-800">
                       <Calendar size={14} className="text-primary-500" />
-                      {format(parseISO(booking.booking_date), 'MMM d, yyyy')}
+                      {format(parseISO(booking.booking_date), 'd MMMM yyyy', { locale: getDateLocale(i18n.language) })}
                     </div>
                     <div className="flex items-center gap-2 text-sm text-neutral-500 mt-1">
                       <Clock size={14} />
@@ -250,7 +250,7 @@ export const BookingsList: React.FC = () => {
                       <button
                         onClick={() => checkPaymentStatus(booking)}
                         className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
-                        title={t('admin.bookings.actions.check_status', 'Check Status')}
+                        title={t('admin.bookings.actions.check_status')}
                       >
                         <RefreshCw size={18} />
                       </button>
@@ -261,7 +261,7 @@ export const BookingsList: React.FC = () => {
                       <button
                         onClick={() => handlePayment(booking)}
                         className="p-1.5 text-purple-600 hover:bg-purple-50 rounded transition-colors"
-                        title={t('admin.bookings.actions.pay', 'Create Invoice')}
+                        title={t('admin.bookings.actions.pay')}
                       >
                         <CreditCard size={18} />
                       </button>

@@ -45,7 +45,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
           <img
             src={images[currentImageIndex]}
             alt="Meowroom interior"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
           />
           <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-[2px]"></div>
         </motion.div>

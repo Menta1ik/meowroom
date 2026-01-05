@@ -75,8 +75,11 @@ export const AdminLayout: React.FC = () => {
         <div className="p-4 border-t border-neutral-100">
           {!isCollapsed ? (
             <>
+              <div className="mb-4">
+                <LanguageSelector variant="toggle" />
+              </div>
               <div className="mb-4 px-2">
-                <p className="text-xs text-neutral-400 uppercase font-bold tracking-wider">User</p>
+                <p className="text-xs text-neutral-400 uppercase font-bold tracking-wider">{t('admin.user')}</p>
                 <p className="text-sm text-neutral-600 truncate">{user?.email}</p>
               </div>
               <Button variant="outline" onClick={handleSignOut} className="w-full flex items-center justify-center gap-2">

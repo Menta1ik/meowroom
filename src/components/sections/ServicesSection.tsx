@@ -16,7 +16,7 @@ export const ServicesSection: React.FC = () => {
               <img
                 src="https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=People%20playing%20board%20games%20in%20a%20cozy%20cafe%20with%20cats%20around%2C%20happy%20atmosphere%2C%20soft%20lighting&image_size=landscape_4_3"
                 alt="Visitors enjoying Meowroom"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top"
               />
             </div>
             {/* Decorative Elements */}

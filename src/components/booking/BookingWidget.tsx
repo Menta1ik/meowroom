@@ -42,10 +42,54 @@ export const BookingWidget: React.FC = () => {
   const [guests, setGuests] = useState(1);
   const [customerDetails, setCustomerDetails] = useState({
     name: '',
-    phone: '',
+    phone: '+380 ',
     email: '',
     comment: ''
   });
+
+  const [isRulesAccepted, setIsRulesAccepted] = useState(false);
+
+  const formatPhoneNumber = (value: string) => {
+    // Keep only digits
+    let digits = value.replace(/\D/g, '');
+    
+    // Handle potential double zero (380 + 0...) or pasting 380...
+    if (digits.startsWith('3800')) {
+        digits = '380' + digits.substring(4);
+    }
+    
+    // If user deletes part of the prefix, restore it
+    if (digits === '38' || digits === '3' || digits === '') {
+        digits = '380';
+    }
+    
+    // If user types 0xx... convert to 380xx...
+    if (digits.startsWith('0')) {
+        digits = '38' + digits;
+    }
+    
+    // Enforce 380 prefix for any other input
+    if (!digits.startsWith('380')) {
+        digits = '380' + digits;
+    }
+    
+    // Limit to 12 digits (380 + 9 digits)
+    digits = digits.slice(0, 12);
+    
+    // Formatting: +380 66 123 45 67
+    let formatted = '+380';
+    if (digits.length > 3) formatted += ' ' + digits.slice(3, 5);
+    if (digits.length > 5) formatted += ' ' + digits.slice(5, 8);
+    if (digits.length > 8) formatted += ' ' + digits.slice(8, 10);
+    if (digits.length > 10) formatted += ' ' + digits.slice(10, 12);
+    
+    return formatted;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    setCustomerDetails({ ...customerDetails, phone: formatted });
+  };
 
   // Available slots for selected date
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
@@ -99,8 +143,9 @@ export const BookingWidget: React.FC = () => {
       const durationMs = selectedService.duration_minutes * 60 * 1000;
       
       while (isAfter(close, new Date(current.getTime() + durationMs)) || current.getTime() + durationMs === close.getTime()) {
-        const timeString = format(current, 'HH:mm');
-        slots.push(timeString);
+        const startTime = format(current, 'HH:mm');
+        const endTime = format(new Date(current.getTime() + durationMs), 'HH:mm');
+        slots.push(`${startTime} - ${endTime}`);
         current = new Date(current.getTime() + 60 * 60 * 1000); 
       }
       
@@ -117,6 +162,9 @@ export const BookingWidget: React.FC = () => {
     try {
       const totalPrice = selectedService.price * guests;
       
+      // Extract start time for API (format: HH:mm)
+      const startTime = selectedTime.split(' - ')[0];
+
       // Use Serverless Function to create booking securely (Bypassing RLS)
       const response = await fetch('/api/create-booking', {
         method: 'POST',
@@ -126,7 +174,7 @@ export const BookingWidget: React.FC = () => {
         body: JSON.stringify({
           service_id: selectedService.id,
           booking_date: format(selectedDate, 'yyyy-MM-dd'),
-          booking_time: selectedTime,
+          booking_time: startTime,
           guests_count: guests,
           total_price: totalPrice,
           customer_name: customerDetails.name,
@@ -312,38 +360,65 @@ export const BookingWidget: React.FC = () => {
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">{t('booking.name_label')}</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">
+                    {t('booking.name_label')} <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     required
                     value={customerDetails.name}
                     onChange={e => setCustomerDetails({...customerDetails, name: e.target.value})}
-                    className="w-full px-4 py-2 rounded-xl border border-neutral-200 focus:ring-2 focus:ring-primary-200 outline-none"
+                    className={`w-full px-4 py-2 rounded-xl border outline-none focus:ring-2 focus:ring-primary-200 ${
+                      !customerDetails.name && customerDetails.name !== '' ? 'border-red-300' : 'border-neutral-200'
+                    }`}
                     placeholder={t('booking.name_label')}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">{t('booking.phone_label')}</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">
+                    {t('booking.phone_label')} <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="tel"
                     required
                     value={customerDetails.phone}
-                    onChange={e => setCustomerDetails({...customerDetails, phone: e.target.value})}
+                    onChange={handlePhoneChange}
                     className="w-full px-4 py-2 rounded-xl border border-neutral-200 focus:ring-2 focus:ring-primary-200 outline-none"
-                    placeholder="+380..."
+                    placeholder="+380 xx xxx xx xx"
                   />
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1">{t('booking.email_label')}</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
+                  {t('booking.email_label')} <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="email"
+                  required
                   value={customerDetails.email}
                   onChange={e => setCustomerDetails({...customerDetails, email: e.target.value})}
-                  className="w-full px-4 py-2 rounded-xl border border-neutral-200 focus:ring-2 focus:ring-primary-200 outline-none"
+                  className={`w-full px-4 py-2 rounded-xl border outline-none focus:ring-2 focus:ring-primary-200 ${
+                    !customerDetails.email && customerDetails.email !== '' ? 'border-red-300' : 'border-neutral-200'
+                  }`}
                   placeholder="example@mail.com"
                 />
+              </div>
+
+              {/* Rules Checkbox */}
+              <div className="flex items-start gap-3 p-3 bg-neutral-50 rounded-xl">
+                <div className="relative flex items-center h-5 mt-0.5">
+                  <input
+                    id="rules"
+                    type="checkbox"
+                    checked={isRulesAccepted}
+                    onChange={(e) => setIsRulesAccepted(e.target.checked)}
+                    className="w-5 h-5 rounded border-neutral-300 text-primary-600 focus:ring-primary-500 cursor-pointer"
+                  />
+                </div>
+                <label htmlFor="rules" className="text-sm text-neutral-600 cursor-pointer select-none">
+                  {t('booking.terms')}
+                </label>
               </div>
 
               <div className="pt-4 border-t border-neutral-100 flex justify-between items-center">
@@ -354,14 +429,18 @@ export const BookingWidget: React.FC = () => {
                 <Button 
                   size="lg"
                   onClick={handleBooking}
-                  disabled={!customerDetails.name || !customerDetails.phone || loading}
+                  disabled={
+                    !customerDetails.name || 
+                    customerDetails.phone.length < 17 || 
+                    !customerDetails.email ||
+                    !isRulesAccepted ||
+                    loading
+                  }
                 >
                   {loading ? t('booking.processing') : t('booking.pay_btn')}
                 </Button>
               </div>
-              <p className="text-xs text-center text-neutral-400">
-                {t('booking.terms')}
-              </p>
+              {/* Removed duplicate terms text since it's now in the checkbox */}
             </div>
           </div>
         );
