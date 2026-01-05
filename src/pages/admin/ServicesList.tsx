@@ -73,12 +73,12 @@ export const ServicesList: React.FC = () => {
       fetchServices();
     } catch (error: any) {
       console.error('Error saving service:', error);
-      alert(`Failed to save service: ${error.message || error.error_description || 'Unknown error'}`);
+      alert(t('admin.services.form.save_error', 'Failed to save service'));
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this service?')) return;
+    if (!confirm(t('admin.services.delete_confirm', 'Are you sure?'))) return;
     try {
       const { error } = await supabase
         .from('services')
@@ -121,7 +121,7 @@ export const ServicesList: React.FC = () => {
     });
   };
 
-  if (loading) return <div className="p-8 text-center">Loading services...</div>;
+  if (loading) return <div className="p-8 text-center">{t('common.loading')}</div>;
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
@@ -155,7 +155,7 @@ export const ServicesList: React.FC = () => {
                 <td className="p-4 text-neutral-600">
                   <div className="flex items-center gap-1">
                     <Clock size={14} />
-                    {service.duration_minutes} min
+                    {service.duration_minutes} {t('booking.duration')}
                   </div>
                 </td>
                 <td className="p-4 font-bold text-primary-600">{service.price} ₴</td>
@@ -165,17 +165,17 @@ export const ServicesList: React.FC = () => {
                       {t('admin.services.form.prepayment')}
                     </span>
                   ) : (
-                    <span className="text-neutral-400 text-sm">Optional</span>
+                    <span className="text-neutral-400 text-sm">{t('admin.services.form.optional', 'Optional')}</span>
                   )}
                 </td>
                 <td className="p-4">
                   {service.is_active ? (
                     <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-green-50 text-green-700 text-xs font-medium">
-                      Active
+                      {t('admin.services.active', 'Active')}
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-neutral-100 text-neutral-500 text-xs font-medium">
-                      Inactive
+                      {t('admin.services.inactive', 'Inactive')}
                     </span>
                   )}
                 </td>
@@ -198,7 +198,7 @@ export const ServicesList: React.FC = () => {
             {services.length === 0 && (
               <tr>
                 <td colSpan={6} className="p-8 text-center text-neutral-500">
-                  No services found. Create one to get started.
+                  {t('admin.services.empty', 'No services found.')}
                 </td>
               </tr>
             )}
@@ -264,7 +264,7 @@ export const ServicesList: React.FC = () => {
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   className="w-full px-4 py-2 rounded-xl border border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all resize-none h-24"
-                  placeholder="Brief description for the booking widget..."
+                  placeholder="Brief description..."
                 />
               </div>
 
