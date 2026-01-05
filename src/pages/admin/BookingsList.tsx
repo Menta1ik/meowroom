@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { format, parseISO, isToday, isFuture } from 'date-fns';
+import { uk, enUS } from 'date-fns/locale';
 import { Calendar, Clock, User, Phone, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
