@@ -6,6 +6,7 @@ import { AboutSection } from '../components/sections/AboutSection';
 import { ServicesSection } from '../components/sections/ServicesSection';
 import { DonationPreview } from '../components/sections/DonationPreview';
 import { ReviewsSection } from '../components/sections/ReviewsSection';
+import { FAQSection } from '../components/sections/FAQSection';
 import { SEO } from '../components/SEO';
 
 const Home: React.FC = () => {
@@ -22,6 +23,7 @@ const Home: React.FC = () => {
       <AboutSection />
       <ServicesSection />
       <ReviewsSection />
+      <FAQSection />
       <DonationPreview />
     </div>
   );

@@ -7,11 +7,32 @@
     "contacts": "Contacts"
   },
   "hero": {
-    "title": "Meowroom: Shelter & Anticafe",
+    "title": "Meowroom Charity Cat Cafe & Shelter",
     "subtitle": "A cozy home where our cats live in love and safety. Come to meet our furry friends or take them under your care.",
     "cta_visit": "Book a Visit",
     "cta_cats": "Become a Guardian",
     "cta_donate": "Support Us"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions (FAQ)",
+    "items": {
+      "animals": {
+        "q": "Can I bring my own animals?",
+        "a": "Unfortunately, no. Cats live here, and this is their home. The appearance of other animals can cause them stress or conflict. We care about the safety and peace of our wards."
+      },
+      "booking": {
+        "q": "Do I need to book in advance?",
+        "a": "Yes, we recommend booking in advance, especially on weekends. This guarantees that there will be a free place for you and you can spend time comfortably."
+      },
+      "adopt": {
+        "q": "How can I adopt a cat?",
+        "a": "The adoption process includes several stages: meeting the cat, an interview with the administrator, and signing a responsible care agreement. We want to be sure that our cats go to loving hands."
+      },
+      "price": {
+        "q": "What is the cost of a visit?",
+        "a": "We operate as an anticafe. You pay for the time spent: 1 hour — 250 UAH, 2 hours — 350 UAH, 3 hours — 450 UAH. Tea, coffee, cookies, and board games are included."
+      }
+    }
   },
   "about": {
     "title": "About Us",
