@@ -81,10 +81,10 @@ export const DonationBlock: React.FC = () => {
   const [isRequisitesOpen, setIsRequisitesOpen] = React.useState(false);
 
   return (
-    <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
-      <div className="bg-primary-600 p-8 text-white text-center">
-        <h2 className="text-3xl font-bold mb-2">{t('donate.block.title')}</h2>
-        <p className="text-primary-100">{t('donate.block.subtitle')}</p>
+    <div className="bg-white rounded-3xl border border-neutral-100 shadow-sm overflow-hidden">
+      <div className="p-8 pb-0">
+        <h2 className="text-2xl font-bold text-neutral-800 mb-2">{t('donate.block.title')}</h2>
+        <p className="text-neutral-500">{t('donate.block.subtitle')}</p>
       </div>
       
       <div className="p-8">
