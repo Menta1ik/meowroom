@@ -15,6 +15,8 @@ const Contacts = React.lazy(() => import('./pages/Contacts'));
 const BecomeSponsor = React.lazy(() => import('./pages/BecomeSponsor'));
 const Visit = React.lazy(() => import('./pages/Visit'));
 const About = React.lazy(() => import('./pages/About'));
+const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
+const TermsOfUse = React.lazy(() => import('./pages/TermsOfUse'));
 const LoginPage = React.lazy(() => import('./pages/admin/Login').then(module => ({ default: module.LoginPage })));
 const CreateCat = React.lazy(() => import('./pages/admin/CreateCat').then(module => ({ default: module.CreateCat })));
 const EditCat = React.lazy(() => import('./pages/admin/EditCat').then(module => ({ default: module.EditCat })));
@@ -70,6 +72,8 @@ function App() {
                         <Route path="/donate" element={<Donate />} />
                         <Route path="/contacts" element={<Contacts />} />
                         <Route path="/become-sponsor" element={<BecomeSponsor />} />
+                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="/terms-of-use" element={<TermsOfUse />} />
                       </Routes>
                     </main>
                     <Footer />

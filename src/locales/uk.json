@@ -233,9 +233,15 @@
     "nav": "Навігація",
     "contacts": "Контакти",
     "social": "Ми в соцмережах:",
-    "copyright": "© 2025 Meowroom & BlueCross for Cats. Всі права захищені.",
+    "copyright": "Meowroom & BlueCross for Cats. Всі права захищені.",
     "privacy": "Політика конфіденційності",
     "terms": "Умови використання"
+  },
+  "privacy": {
+    "title": "Політика конфіденційності"
+  },
+  "terms": {
+    "title": "Умови використання"
   },
   "booking": {
     "title": "Запис у Meowroom",

@@ -102,10 +102,10 @@ export const Footer: React.FC = () => {
 
         {/* Bottom */}
         <div className="pt-8 border-t border-neutral-100 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-400">
-          <p>{t('footer.copyright')}</p>
+          <p>© 2022-{new Date().getFullYear()} {t('footer.copyright')}</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-primary-500 transition-colors">{t('footer.privacy')}</a>
-            <a href="#" className="hover:text-primary-500 transition-colors">{t('footer.terms')}</a>
+            <Link to="/privacy-policy" className="hover:text-primary-500 transition-colors">{t('footer.privacy')}</Link>
+            <Link to="/terms-of-use" className="hover:text-primary-500 transition-colors">{t('footer.terms')}</Link>
           </div>
         </div>
       </div>

@@ -253,9 +253,15 @@
     "nav": "Navigation",
     "contacts": "Contacts",
     "social": "We are on social media:",
-    "copyright": "© 2025 Meowroom & BlueCross for Cats. All rights reserved.",
+    "copyright": "Meowroom & BlueCross for Cats. All rights reserved.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Use"
+  },
+  "privacy": {
+    "title": "Privacy Policy"
+  },
+  "terms": {
+    "title": "Terms of Use"
   },
   "booking": {
     "title": "Book a Visit",
