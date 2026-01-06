@@ -79,7 +79,8 @@
     "terms": "By clicking the button, you agree to the visit rules",
     "success_title": "Booking Created!",
     "success_msg": "Thank you, {{name}}! Your request has been received.",
-    "book_more": "Book Another"
+    "book_more": "Book Another",
+    "loading": "Loading form..."
   },
   "cats_section": {
       "home": { "title": "Cozy Home", "desc": "A safe space where cats live in love and care, surrounded by the attention of our guests." },
@@ -262,10 +263,6 @@
   },
   "terms": {
     "title": "Terms of Use"
-  },
-  "booking": {
-    "title": "Book a Visit",
-    "loading": "Loading form..."
   },
   "adoption": {
     "title": "Become a friend to {{name}}",
