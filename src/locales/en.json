@@ -438,6 +438,7 @@
       "table": {
         "day": "Day",
         "open": "Open",
+        "close": "Close",
         "hours": "Working Hours",
         "break": "Break",
         "break_start": "Break Start",
@@ -459,12 +460,20 @@
         "today": "Today"
       },
       "table": {
+        "created_at": "Created At",
         "date": "Date & Time",
         "customer": "Customer",
         "service": "Service",
         "payment": "Payment",
         "status": "Status",
         "actions": "Actions"
+      },
+      "sort": {
+        "label": "Sort by:",
+        "created_desc": "Created time (Newest)",
+        "created_asc": "Created time (Oldest)",
+        "visit_desc": "Visit date (Newest)",
+        "visit_asc": "Visit date (Oldest)"
       },
       "empty": "No bookings found.",
       "guests": "guest(s)",

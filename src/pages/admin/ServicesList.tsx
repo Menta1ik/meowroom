@@ -135,7 +135,7 @@ export const ServicesList: React.FC = () => {
 
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-neutral-50 text-left text-sm font-semibold text-neutral-600">
+          <thead className="text-left text-sm font-semibold text-neutral-600">
             <tr>
               <th className="p-4">{t('admin.services.table.name')}</th>
               <th className="p-4">{t('admin.services.table.duration')}</th>

@@ -101,11 +101,11 @@ export const ScheduleSettings: React.FC = () => {
 
       <div className="p-6 space-y-4">
         {schedule.map((day, index) => (
-          <div key={day.id} className={`flex flex-col md:flex-row items-center gap-4 p-4 rounded-xl border transition-colors ${
+          <div key={day.id} className={`flex flex-col md:flex-row items-center gap-6 xl:gap-10 p-4 rounded-xl border transition-colors ${
             day.is_open ? 'bg-white border-neutral-200' : 'bg-neutral-50 border-neutral-100 opacity-75'
           }`}>
             {/* Day Toggle */}
-            <div className="w-full md:w-32 flex items-center gap-3">
+            <div className="w-full md:w-40 flex items-center gap-3 shrink-0">
               <label className="relative inline-flex items-center cursor-pointer">
                 <input 
                   type="checkbox" 
@@ -122,45 +122,49 @@ export const ScheduleSettings: React.FC = () => {
 
             {/* Hours */}
             {day.is_open && (
-              <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
-                <div className="flex items-center gap-2">
-                  <Clock size={16} className="text-neutral-400" />
-                  <span className="text-sm text-neutral-500 w-12">{t('admin.schedule.table.open')}:</span>
-                  <input
-                    type="time"
-                    value={day.open_time.slice(0, 5)}
-                    onChange={(e) => handleUpdate(index, 'open_time', e.target.value)}
-                    className="px-2 py-1 rounded border border-neutral-200 text-sm"
-                  />
+              <div className="flex-grow flex flex-col gap-3 w-full max-w-2xl ml-auto">
+                {/* Row 1: Open / Close */}
+                <div className="flex flex-wrap items-center justify-end gap-6">
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-neutral-500 w-32 text-right">{t('admin.schedule.table.open')}:</span>
+                    <input
+                      type="time"
+                      value={day.open_time.slice(0, 5)}
+                      onChange={(e) => handleUpdate(index, 'open_time', e.target.value)}
+                      className="px-3 py-2 rounded-lg border border-neutral-200 text-sm focus:border-primary-500 outline-none transition-all w-32"
+                    />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-neutral-500 w-32 text-right">{t('admin.schedule.table.close')}:</span>
+                    <input
+                      type="time"
+                      value={day.close_time.slice(0, 5)}
+                      onChange={(e) => handleUpdate(index, 'close_time', e.target.value)}
+                      className="px-3 py-2 rounded-lg border border-neutral-200 text-sm focus:border-primary-500 outline-none transition-all w-32"
+                    />
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-neutral-500 w-12">{t('admin.schedule.table.close')}:</span>
-                  <input
-                    type="time"
-                    value={day.close_time.slice(0, 5)}
-                    onChange={(e) => handleUpdate(index, 'close_time', e.target.value)}
-                    className="px-2 py-1 rounded border border-neutral-200 text-sm"
-                  />
-                </div>
-                
-                {/* Break (Optional) */}
-                <div className="flex items-center gap-2 lg:border-l lg:pl-4 border-neutral-200">
-                  <span className="text-sm text-neutral-500 whitespace-nowrap">{t('admin.schedule.table.break_start', 'Break Start')}:</span>
-                  <input
-                    type="time"
-                    value={day.break_start ? day.break_start.slice(0, 5) : ''}
-                    onChange={(e) => handleUpdate(index, 'break_start', e.target.value)}
-                    className="px-2 py-1 rounded border border-neutral-200 text-sm"
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-neutral-500 whitespace-nowrap">{t('admin.schedule.table.break_end', 'Break End')}:</span>
-                  <input
-                    type="time"
-                    value={day.break_end ? day.break_end.slice(0, 5) : ''}
-                    onChange={(e) => handleUpdate(index, 'break_end', e.target.value)}
-                    className="px-2 py-1 rounded border border-neutral-200 text-sm"
-                  />
+
+                {/* Row 2: Break Start / End */}
+                <div className="flex flex-wrap items-center justify-end gap-6 border-t border-neutral-100 pt-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-neutral-500 w-32 text-right">{t('admin.schedule.table.break_start', 'Break Start')}:</span>
+                    <input
+                      type="time"
+                      value={day.break_start ? day.break_start.slice(0, 5) : ''}
+                      onChange={(e) => handleUpdate(index, 'break_start', e.target.value)}
+                      className="px-3 py-2 rounded-lg border border-neutral-200 text-sm focus:border-primary-500 outline-none transition-all w-32"
+                    />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-neutral-500 w-32 text-right">{t('admin.schedule.table.break_end', 'Break End')}:</span>
+                    <input
+                      type="time"
+                      value={day.break_end ? day.break_end.slice(0, 5) : ''}
+                      onChange={(e) => handleUpdate(index, 'break_end', e.target.value)}
+                      className="px-3 py-2 rounded-lg border border-neutral-200 text-sm focus:border-primary-500 outline-none transition-all w-32"
+                    />
+                  </div>
                 </div>
               </div>
             )}

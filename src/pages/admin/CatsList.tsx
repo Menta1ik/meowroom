@@ -40,32 +40,32 @@ export const CatsList: React.FC = () => {
       
       <div className="overflow-x-auto">
         <table className="w-full text-left">
-          <thead className="bg-neutral-50">
+          <thead className="text-sm font-semibold text-neutral-600">
             <tr>
-              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">{t('admin.cats.table.image')}</th>
-              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">{t('admin.cats.table.name')}</th>
-              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">{t('admin.cats.table.age')}</th>
-              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">{t('admin.cats.table.gender')}</th>
-              <th className="px-6 py-4 text-sm font-semibold text-neutral-600">{t('admin.cats.table.actions')}</th>
+              <th className="p-4">{t('admin.cats.table.image')}</th>
+              <th className="p-4">{t('admin.cats.table.name')}</th>
+              <th className="p-4">{t('admin.cats.table.age')}</th>
+              <th className="p-4">{t('admin.cats.table.gender')}</th>
+              <th className="p-4">{t('admin.cats.table.actions')}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-neutral-100">
             {cats.map((cat) => (
               <tr key={cat.id} className="hover:bg-yellow-50 transition-colors">
-                <td className="px-6 py-4">
+                <td className="p-4">
                   <img 
                     src={cat.images?.[0] || 'https://via.placeholder.com/40'} 
                     alt={cat.name} 
                     className="w-10 h-10 rounded-full object-cover"
                   />
                 </td>
-                <td className="px-6 py-4 font-medium text-neutral-800">{cat.name}</td>
-                <td className="px-6 py-4 text-neutral-600">{cat.age}</td>
-                <td className="px-6 py-4 text-neutral-600">
+                <td className="p-4 font-medium text-neutral-800">{cat.name}</td>
+                <td className="p-4 text-neutral-600">{cat.age}</td>
+                <td className="p-4 text-neutral-600">
                   {cat.gender === 'boy' || cat.gender === 'Мальчик' ? t('admin.cats.gender.boy') : 
                    cat.gender === 'girl' || cat.gender === 'Девочка' ? t('admin.cats.gender.girl') : cat.gender}
                 </td>
-                <td className="px-6 py-4">
+                <td className="p-4">
                   <div className="flex gap-2">
                     <button 
                       onClick={() => navigate(`/admin/cats/${cat.id}`)}
@@ -85,7 +85,7 @@ export const CatsList: React.FC = () => {
             ))}
             {cats.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-6 py-8 text-center text-neutral-500">
+                <td colSpan={5} className="p-8 text-center text-neutral-500">
                   No cats found. Add one to get started!
                 </td>
               </tr>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { format, parseISO, isToday, isFuture } from 'date-fns';
 import { getDateLocale } from '../../lib/utils';
-import { Calendar, Clock, User, Phone, CheckCircle, XCircle, AlertCircle, CreditCard, RefreshCw } from 'lucide-react';
+import { Calendar, Clock, User, Phone, CheckCircle, XCircle, AlertCircle, CreditCard, RefreshCw, ArrowUpDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Booking {
@@ -29,6 +29,7 @@ export const BookingsList: React.FC = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'today' | 'upcoming'>('all');
+  const [sortBy, setSortBy] = useState<'created_desc' | 'created_asc' | 'visit_desc' | 'visit_asc'>('created_desc');
 
   const fetchBookings = async () => {
     setLoading(true);
@@ -88,6 +89,11 @@ export const BookingsList: React.FC = () => {
         }),
       });
 
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("API not available (local env)");
+      }
+
       const data = await response.json();
 
       if (data.invoiceId) {
@@ -104,9 +110,9 @@ export const BookingsList: React.FC = () => {
       } else {
         alert('Error creating invoice: ' + (data.error || 'Unknown error'));
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Payment error:', error);
-      alert('Failed to create invoice');
+      alert(error.message.includes("API not available") ? "API functions work only in production (Vercel)" : 'Failed to create invoice');
     }
   };
 
@@ -123,6 +129,11 @@ export const BookingsList: React.FC = () => {
         body: JSON.stringify({ invoiceId: booking.payment_id }),
       });
       
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("API not available (local env)");
+      }
+
       const data = await response.json();
       
       if (data.status === 'paid') {
@@ -131,18 +142,40 @@ export const BookingsList: React.FC = () => {
       } else {
         alert(`Payment status: ${data.status}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Check status error:', error);
-      alert('Failed to check status');
+      alert(error.message.includes("API not available") ? "API functions work only in production (Vercel)" : 'Failed to check status');
     }
   };
 
-  const filteredBookings = bookings.filter(booking => {
-    const date = parseISO(booking.booking_date);
-    if (filter === 'today') return isToday(date);
-    if (filter === 'upcoming') return isFuture(date) || isToday(date);
-    return true;
-  });
+  const filteredBookings = bookings
+    .filter(booking => {
+      const date = parseISO(booking.booking_date);
+      if (filter === 'today') return isToday(date);
+      if (filter === 'upcoming') return isFuture(date) || isToday(date);
+      return true;
+    })
+    .sort((a, b) => {
+      // Safety check for missing created_at
+      const createdA = a.created_at ? new Date(a.created_at).getTime() : 0;
+      const createdB = b.created_at ? new Date(b.created_at).getTime() : 0;
+      
+      const visitA = new Date(a.booking_date + 'T' + a.booking_time).getTime();
+      const visitB = new Date(b.booking_date + 'T' + b.booking_time).getTime();
+
+      switch (sortBy) {
+        case 'created_desc':
+          return createdB - createdA;
+        case 'created_asc':
+          return createdA - createdB;
+        case 'visit_desc':
+          return visitB - visitA;
+        case 'visit_asc':
+          return visitA - visitB;
+        default:
+          return 0;
+      }
+    });
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -166,30 +199,48 @@ export const BookingsList: React.FC = () => {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
-      <div className="p-6 border-b border-neutral-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div className="p-6 border-b border-neutral-100 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
         <h2 className="text-xl font-bold text-neutral-800">{t('admin.bookings.title')}</h2>
         
-        <div className="flex bg-neutral-100 p-1 rounded-lg">
-          {(['all', 'upcoming', 'today'] as const).map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
-                filter === f 
-                  ? 'bg-white text-primary-700 shadow-sm' 
-                  : 'text-neutral-500 hover:text-neutral-700'
-              }`}
+        <div className="flex flex-col sm:flex-row gap-4 w-full xl:w-auto">
+          {/* Sort Control */}
+          <div className="flex items-center gap-2 bg-neutral-50 px-3 py-1.5 rounded-lg border border-neutral-200">
+            <ArrowUpDown size={16} className="text-neutral-500" />
+            <select 
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+              className="bg-transparent text-sm text-neutral-700 outline-none cursor-pointer min-w-[180px]"
             >
-              {t(`admin.bookings.filter.${f}`)}
-            </button>
-          ))}
+              <option value="created_desc">{t('admin.bookings.sort.created_desc')}</option>
+              <option value="created_asc">{t('admin.bookings.sort.created_asc')}</option>
+              <option value="visit_desc">{t('admin.bookings.sort.visit_desc')}</option>
+              <option value="visit_asc">{t('admin.bookings.sort.visit_asc')}</option>
+            </select>
+          </div>
+
+          <div className="flex bg-neutral-100 p-1 rounded-lg">
+            {(['all', 'upcoming', 'today'] as const).map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+                  filter === f 
+                    ? 'bg-white text-primary-700 shadow-sm' 
+                    : 'text-neutral-500 hover:text-neutral-700'
+                }`}
+              >
+                {t(`admin.bookings.filter.${f}`)}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-neutral-50 text-left text-sm font-semibold text-neutral-600">
+          <thead className="text-left text-sm font-semibold text-neutral-600">
             <tr>
+              <th className="p-4">{t('admin.bookings.table.created_at')}</th>
               <th className="p-4">{t('admin.bookings.table.date')}</th>
               <th className="p-4">{t('admin.bookings.table.customer')}</th>
               <th className="p-4">{t('admin.bookings.table.service')}</th>
@@ -201,6 +252,14 @@ export const BookingsList: React.FC = () => {
           <tbody className="divide-y divide-neutral-100">
             {filteredBookings.map((booking) => (
               <tr key={booking.id} className="hover:bg-yellow-50 transition-colors">
+                <td className="p-4">
+                  <div className="text-sm text-neutral-600">
+                    {booking.created_at ? format(parseISO(booking.created_at), 'dd.MM.yyyy', { locale: getDateLocale(i18n.language) }) : '-'}
+                  </div>
+                  <div className="text-xs text-neutral-400">
+                    {booking.created_at ? format(parseISO(booking.created_at), 'HH:mm') : ''}
+                  </div>
+                </td>
                 <td className="p-4">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2 font-medium text-neutral-800">
@@ -291,7 +350,7 @@ export const BookingsList: React.FC = () => {
             ))}
             {filteredBookings.length === 0 && (
               <tr>
-                <td colSpan={6} className="p-8 text-center text-neutral-500">
+                <td colSpan={7} className="p-8 text-center text-neutral-500">
                   {t('admin.bookings.empty')}
                 </td>
               </tr>
