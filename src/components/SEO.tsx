@@ -24,9 +24,11 @@ export const SEO: React.FC<SEOProps> = ({
 
   // Defaults
   const siteTitle = 'Meowroom';
+  const siteUrl = 'https://meowroom.top';
   const fullTitle = title ? `${title} | ${siteTitle}` : t('seo.default_title');
   const finalDescription = description || t('seo.default_description');
   const fullUrl = url; // In a real app, combine with current path
+  const fullImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
 
   // Default JSON-LD Schema for LocalBusiness / AnimalShelter
   const defaultSchema = {
@@ -34,8 +36,8 @@ export const SEO: React.FC<SEOProps> = ({
     "@type": ["AnimalShelter", "CafeOrCoffeeShop"],
     "name": t('seo.schema.name'),
     "image": [
-      `${url}/logo.png`,
-      `${url}/about-1.jpg`
+      fullImage,
+      `${siteUrl}/about-1.jpg`
     ],
     "address": {
       "@type": "PostalAddress",
@@ -49,7 +51,7 @@ export const SEO: React.FC<SEOProps> = ({
       "latitude": 50.009, 
       "longitude": 36.225
     },
-    "url": url,
+    "url": siteUrl,
     "telephone": "+380661732463",
     "openingHoursSpecification": [
       {
@@ -86,7 +88,7 @@ export const SEO: React.FC<SEOProps> = ({
       <meta property="og:type" content={type} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={finalDescription} />
-      <meta property="og:image" content={image} />
+      <meta property="og:image" content={fullImage} />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:site_name" content="Meowroom" />
 
@@ -94,7 +96,7 @@ export const SEO: React.FC<SEOProps> = ({
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={finalDescription} />
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={fullImage} />
 
       {/* Schema.org JSON-LD for AI */}
       <script type="application/ld+json">
