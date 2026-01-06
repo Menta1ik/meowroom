@@ -111,7 +111,7 @@
     "subtitle": "Spend time in the coziest company in Kharkiv.",
     "info": {
       "title": "Important Format Information",
-      "text": "We operate as an <0>anticafe</0>. This means we have no kitchen, chefs, or food menu. You pay for the time spent in the company of cats. You can read, play board games, work, or just relax."
+      "text": "We operate as a <0>shelter-anticafe</0>. This means we have no kitchen, chefs, or food menu. You pay for the time spent in the company of cats. You can read, play board games, work, or just relax."
     },
     "pricing": {
       "title": "Visit Cost",
@@ -293,9 +293,9 @@
     "read_more": "Read more"
   },
   "seo": {
-    "default_title": "Meowroom - Cat Shelter & Anticafe in Kharkiv",
-    "default_description": "Meowroom is a unique space in Kharkiv combining a cat shelter and an anticafe. Visit us to relax with cats or adopt a friend.",
-    "keywords": "cat shelter, anticafe, kharkiv, adopt a cat, meowroom, charity, animals, cat cafe, cat adoption, help animals",
+    "default_title": "Meowroom - Cat Shelter & Anticafe in Kharkiv | Cat Cafe",
+    "default_description": "Meowroom is a unique space in Kharkiv (23 Kultury St) combining a homeless cat shelter and a cozy anticafe. Come relax with cats, play board games, or adopt a furry friend into your family.",
+    "keywords": "cat shelter kharkiv, anticafe kharkiv, cat cafe kharkiv, adopt a cat kharkiv, meowroom, animal charity kharkiv, cat adoption, help animals ukraine, places to visit kharkiv, animal volunteering, cat rescue center",
     "schema": {
       "name": "Meowroom",
       "description": "Meowroom is a unique space in Kharkiv combining a cat shelter and an anti-cafe. Come relax with cats or find a friend.",

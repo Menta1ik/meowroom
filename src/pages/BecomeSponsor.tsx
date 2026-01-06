@@ -101,7 +101,7 @@ const BecomeSponsor: React.FC = () => {
             {t('become_sponsor.contact.text')}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button href="mailto:info@meowroom.kh.ua" size="lg" className="flex items-center gap-2">
+            <Button href="mailto:meowroom.kharkiv@gmail.com" size="lg" className="flex items-center gap-2">
               <Mail size={20} />
               {t('become_sponsor.contact.email_btn')}
             </Button>

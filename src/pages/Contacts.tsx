@@ -81,8 +81,8 @@ const Contacts: React.FC = () => {
                       </div>
                       <div>
                         <h3 className="text-lg font-bold text-neutral-800 mb-1">{t('contacts.email')}</h3>
-                        <a href="mailto:info@meowroom.kh.ua" className="text-lg text-neutral-600 hover:text-primary-600 transition-colors">
-                          info@meowroom.kh.ua
+                        <a href="mailto:meowroom.kharkiv@gmail.com" className="text-lg text-neutral-600 hover:text-primary-600 transition-colors">
+                          meowroom.kharkiv@gmail.com
                         </a>
                       </div>
                     </div>

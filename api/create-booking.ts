@@ -50,7 +50,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // 2. Create Invoice in Monobank
     const token = process.env.MONOBANK_TOKEN;
-    const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:5173';
+    // Prefer VERCEL_URL if available, otherwise fallback to production domain or localhost
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : (process.env.NODE_ENV === 'production' ? 'https://www.meowroom.top' : 'http://localhost:5173');
+    
     let paymentData = null;
 
     if (token) {

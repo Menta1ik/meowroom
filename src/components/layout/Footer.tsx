@@ -60,7 +60,7 @@ export const Footer: React.FC = () => {
               </li>
               <li className="flex items-center gap-3 text-neutral-600">
                 <Mail size={20} className="text-primary-500 shrink-0" />
-                <a href="mailto:info@meowroom.kh.ua" className="hover:text-primary-600 transition-colors">info@meowroom.kh.ua</a>
+                <a href="mailto:meowroom.kharkiv@gmail.com" className="hover:text-primary-600 transition-colors">meowroom.kharkiv@gmail.com</a>
               </li>
             </ul>
           </div>

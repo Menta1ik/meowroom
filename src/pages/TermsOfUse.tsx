@@ -62,7 +62,7 @@ const TermsOfUse: React.FC = () => {
 
             <h2 className="text-xl font-bold text-neutral-800">7. Контакти</h2>
             <p>
-              Якщо у вас є запитання або пропозиції, будь ласка, зв'яжіться з нами: <a href="mailto:info@meowroom.kh.ua" className="text-primary-600 hover:underline">info@meowroom.kh.ua</a>.
+              Якщо у вас є запитання або пропозиції, будь ласка, зв'яжіться з нами: <a href="mailto:meowroom.kharkiv@gmail.com" className="text-primary-600 hover:underline">meowroom.kharkiv@gmail.com</a>.
             </p>
           </div>
         </div>

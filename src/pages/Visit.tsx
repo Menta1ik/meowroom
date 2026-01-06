@@ -43,7 +43,18 @@ const Visit: React.FC = () => {
                 <Info className="text-primary-500 shrink-0 mt-1" size={24} />
                 <div>
                   <h3 className="font-bold text-neutral-800 mb-2">{t('visit.info.title')}</h3>
-                  <p className="text-neutral-600 text-base">{t('visit.info.text')}</p>
+                  <p className="text-neutral-600 text-base">
+                    {t('visit.info.text').split('<0>').map((part, index) => {
+                      if (index === 0) return part;
+                      const [highlighted, rest] = part.split('</0>');
+                      return (
+                        <React.Fragment key={index}>
+                          <span className="font-bold text-primary-700">{highlighted}</span>
+                          {rest}
+                        </React.Fragment>
+                      );
+                    })}
+                  </p>
                 </div>
               </div>
             </div>
