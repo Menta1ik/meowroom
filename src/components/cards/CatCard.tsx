@@ -28,7 +28,7 @@ export const CatCard: React.FC<CatCardProps> = ({ cat, onAdopt }) => {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       whileHover={{ y: -5 }}
-      className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full cursor-pointer group"
+      className="bg-white rounded-3xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-xl hover:border-primary-100 transition-all duration-300 flex flex-col h-full cursor-pointer group"
       onClick={() => onAdopt?.(cat)}
     >
       {/* Image Container */}

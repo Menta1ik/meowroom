@@ -32,50 +32,49 @@ export const CatsGallery: React.FC = () => {
   ];
 
   return (
-    <section className="py-12">
+    <div className="max-w-6xl mx-auto">
       <AdoptionModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         cat={selectedCat} 
       />
-      <div className="container mx-auto px-4">
-        {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setFilter(tab.id as any)}
-              className={`px-6 py-2 rounded-full font-medium transition-all duration-200 ${
-                filter === tab.id
-                  ? 'bg-primary-500 text-white shadow-md'
-                  : 'bg-white text-neutral-600 hover:bg-neutral-100'
-              }`}
-            >
-              {tab.label}
-            </button>
+      
+      {/* Filters */}
+      <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-12">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setFilter(tab.id as any)}
+            className={`px-5 py-2.5 rounded-xl font-medium transition-all duration-200 border ${
+              filter === tab.id
+                ? 'bg-primary-600 border-primary-600 text-white shadow-sm'
+                : 'bg-white border-neutral-200 text-neutral-600 hover:border-primary-300 hover:bg-primary-50'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Grid */}
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredCats.map((cat) => (
+            <CatCard key={cat.id} cat={cat} onAdopt={handleAdopt} />
           ))}
         </div>
+      )}
 
-        {/* Grid */}
-        {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredCats.map((cat) => (
-              <CatCard key={cat.id} cat={cat} onAdopt={handleAdopt} />
-            ))}
-          </div>
-        )}
-
-        {/* Empty State */}
-        {!loading && filteredCats.length === 0 && (
-          <div className="text-center py-20 text-neutral-500">
-            <p>{t('cats.empty')}</p>
-          </div>
-        )}
-      </div>
-    </section>
+      {/* Empty State */}
+      {!loading && filteredCats.length === 0 && (
+        <div className="text-center py-20 bg-neutral-50 rounded-3xl border border-neutral-100">
+          <p className="text-neutral-500 text-lg">{t('cats.empty')}</p>
+        </div>
+      )}
+    </div>
   );
 };
