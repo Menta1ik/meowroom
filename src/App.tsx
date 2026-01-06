@@ -37,8 +37,8 @@ function App() {
   return (
     <HelmetProvider>
       <AuthProvider>
-        <BookingProvider>
-          <Router>
+        <Router>
+          <BookingProvider>
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
               {/* Admin Routes */}
@@ -82,8 +82,8 @@ function App() {
               />
               </Routes>
             </Suspense>
-          </Router>
-        </BookingProvider>
+          </BookingProvider>
+        </Router>
       </AuthProvider>
     </HelmetProvider>
   );
