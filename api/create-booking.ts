@@ -67,7 +67,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             reference: bookingId,
             destination: `Visit Meowroom: ${service_name || 'Service'} (${booking_date})`,
           },
-          redirectUrl: `${baseUrl}/visit?success=true&bookingId=${bookingId}`,
+          redirectUrl: `${baseUrl}/?success=true&bookingId=${bookingId}`,
           webHookUrl: `${baseUrl}/api/webhook-mono`,
           validity: 3600,
           paymentType: 'debit',

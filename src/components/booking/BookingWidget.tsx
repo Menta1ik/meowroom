@@ -28,7 +28,10 @@ export const BookingWidget: React.FC = () => {
   const { t, i18n } = useTranslation();
   
   // Steps: 0: Service, 1: Date/Time, 2: Details, 3: Success
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('success') === 'true' ? 3 : 0;
+  });
   const [loading, setLoading] = useState(false);
   
   // Data
