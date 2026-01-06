@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { Button } from '../ui/Button';
 import { format, addDays, isSameDay, parse, isAfter } from 'date-fns';
@@ -26,6 +27,7 @@ interface WorkingHours {
 
 export const BookingWidget: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   
   // Steps: 0: Service, 1: Date/Time, 2: Details, 3: Success
   const [step, setStep] = useState(() => {
@@ -491,7 +493,7 @@ export const BookingWidget: React.FC = () => {
               {t('booking.success_msg', { name: customerDetails.name })}
             </p>
             <div className="pt-6">
-              <Button onClick={() => { setStep(0); setCustomerDetails({name:'', phone:'', email:'', comment:''}); }}>
+              <Button onClick={() => navigate('/')}>
                 {t('booking.book_more')}
               </Button>
             </div>
