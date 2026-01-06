@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.meowroom.top/sitemap.xml
+Sitemap: https://meowroom.top/sitemap.xml

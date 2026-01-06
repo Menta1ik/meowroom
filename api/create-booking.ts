@@ -54,7 +54,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Determine Base URL
     let baseUrl = 'http://localhost:5173';
     if (process.env.NODE_ENV === 'production') {
-      baseUrl = 'https://www.meowroom.top';
+      baseUrl = 'https://meowroom.top';
       // If this is a preview deployment, allow Vercel URL
       if (process.env.VERCEL_ENV === 'preview' && process.env.VERCEL_URL) {
         baseUrl = `https://${process.env.VERCEL_URL}`;

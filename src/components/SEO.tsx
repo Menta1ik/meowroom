@@ -16,7 +16,7 @@ export const SEO: React.FC<SEOProps> = ({
   description, 
   image = '/logo.png', 
   type = 'website',
-  url = 'https://www.meowroom.top',
+  url = 'https://meowroom.top',
   schema
 }) => {
   const { i18n, t } = useTranslation();
