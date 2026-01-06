@@ -32,19 +32,19 @@ export const UrgentFundraising: React.FC<UrgentFundraisingProps> = ({
   return (
     <div className="bg-white rounded-3xl shadow-sm border border-neutral-100 overflow-hidden mb-12 group hover:shadow-md transition-shadow duration-300">
       {/* Header - Clean */}
-      <div className="p-6 md:p-8 border-b border-neutral-100 flex items-center gap-4">
-        <div className="bg-red-50 p-3 rounded-full shrink-0">
-          <AlertCircle className="text-red-500 animate-pulse" size={28} />
+      <div className="bg-red-600 p-6 md:p-8 border-b border-red-700 flex items-center gap-4">
+        <div className="bg-white/20 p-3 rounded-full shrink-0 backdrop-blur-sm">
+          <AlertCircle className="text-white animate-pulse" size={28} />
         </div>
         <div>
-          <h3 className="font-bold text-red-500 text-sm uppercase tracking-wider mb-1">{t('urgent.label')}</h3>
-          <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 leading-tight">{title}</h2>
+          <h3 className="font-bold text-red-100 text-sm uppercase tracking-wider mb-1">{t('urgent.label')}</h3>
+          <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">{title}</h2>
         </div>
       </div>
       
       <div className="flex flex-col lg:flex-row">
         {/* Left Column: Media (Video + Timeline) */}
-        <div className="w-full lg:w-1/2 bg-neutral-50 p-6 md:p-8 flex flex-col gap-6 border-b lg:border-b-0 lg:border-r border-neutral-100">
+        <div className="w-full lg:w-1/2 p-6 md:p-8 flex flex-col gap-6 border-b lg:border-b-0 lg:border-r border-neutral-100">
            {/* Main Video */}
            <div className="rounded-2xl overflow-hidden shadow-lg bg-black aspect-video relative group/video">
               <video 
