@@ -66,15 +66,27 @@ const About: React.FC = () => {
             <div className="mt-16 bg-neutral-50 rounded-3xl p-8 border border-neutral-100">
               <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 mb-8 text-center">{t('about.partners_title')}</h2>
               <div className="flex flex-col md:flex-row items-center gap-8 justify-center">
-                <div className="flex items-center justify-center w-full md:w-auto md:min-w-[200px] h-[120px]">
+                <a 
+                  href="https://josera.ua/ua/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-full md:w-auto md:min-w-[200px] h-[120px] transition-transform hover:scale-105"
+                >
                   <img 
                     src="/josera-logo.png" 
                     alt="Josera Logo" 
                     className="w-full h-full object-contain max-w-[180px]"
                   />
-                </div>
+                </a>
                 <div className="max-w-xl text-center md:text-left">
-                  <h3 className="text-xl font-bold text-neutral-800 mb-2">{t('about.josera')}</h3>
+                  <a 
+                    href="https://josera.ua/ua/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-primary-600 transition-colors"
+                  >
+                    <h3 className="text-xl font-bold text-neutral-800 mb-2">{t('about.josera')}</h3>
+                  </a>
                   <p className="text-neutral-600 mb-6">
                     {t('about.josera_desc')}
                   </p>
