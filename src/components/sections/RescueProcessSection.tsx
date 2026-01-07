@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Ambulance, Stethoscope, ClipboardCheck, Syringe } from 'lucide-react';
+import { Ambulance, Stethoscope, ClipboardCheck, Syringe, Utensils } from 'lucide-react';
 
 export const RescueProcessSection: React.FC = () => {
   const { t } = useTranslation();
@@ -68,14 +68,31 @@ export const RescueProcessSection: React.FC = () => {
         </div>
 
         {/* Info Block */}
-        <div className="bg-neutral-50 rounded-3xl p-8 md:p-12">
-          <div className="max-w-4xl mx-auto text-center">
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="bg-neutral-50 rounded-3xl p-8 md:p-12 text-center h-full">
             <h3 className="text-2xl font-bold text-primary-700 mb-6">
               {t('rescue_process.info_title')}
             </h3>
-            <p className="text-lg text-neutral-700 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-lg text-neutral-700 leading-relaxed">
               {t('rescue_process.info_text')}
             </p>
+          </div>
+
+          <div className="bg-primary-50 rounded-3xl p-8 md:p-12 text-center h-full relative overflow-hidden">
+            <div className="absolute top-4 right-4 text-primary-200 opacity-50">
+              <Utensils size={64} />
+            </div>
+            <h3 className="text-2xl font-bold text-primary-700 mb-6">
+              {t('rescue_process.nutrition_title')}
+            </h3>
+            <p className="text-lg text-neutral-700 leading-relaxed mb-6">
+              {t('rescue_process.nutrition_text')}
+            </p>
+            <img 
+              src="/josera-logo.png" 
+              alt="Josera" 
+              className="h-12 mx-auto object-contain opacity-80"
+            />
           </div>
         </div>
       </div>
