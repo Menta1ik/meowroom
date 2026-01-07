@@ -101,11 +101,18 @@ export const RescueProcessSection: React.FC = () => {
             <p className="text-lg text-neutral-700 leading-relaxed mb-6">
               {t('rescue_process.nutrition_text')}
             </p>
-            <img 
-              src="/josera-logo.png" 
-              alt="Josera" 
-              className="h-12 mx-auto object-contain opacity-80"
-            />
+            <a 
+              href="https://josera.ua/ua/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block transition-transform hover:scale-105"
+            >
+              <img 
+                src="/josera-logo.png" 
+                alt="Josera" 
+                className="h-12 mx-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+              />
+            </a>
           </div>
         </div>
       </div>
