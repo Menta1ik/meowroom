@@ -6,6 +6,7 @@ import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { HelmetProvider } from 'react-helmet-async';
 import { BookingProvider } from './context/BookingContext';
+import { Analytics } from "@vercel/analytics/react";
 
 // Lazy load pages for performance
 const Home = React.lazy(() => import('./pages/Home'));
@@ -40,6 +41,7 @@ function App() {
         <Router>
           <BookingProvider>
             <Suspense fallback={<LoadingSpinner />}>
+              <Analytics />
               <Routes>
               {/* Admin Routes */}
               <Route path="/admin/login" element={<LoginPage />} />
