@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Ambulance, Stethoscope, ClipboardCheck, Syringe, Utensils } from 'lucide-react';
 
@@ -74,7 +74,20 @@ export const RescueProcessSection: React.FC = () => {
               {t('rescue_process.info_title')}
             </h3>
             <p className="text-lg text-neutral-700 leading-relaxed">
-              {t('rescue_process.info_text')}
+              <Trans
+                i18nKey="rescue_process.info_text"
+                components={[
+                  <a 
+                    href="https://www.instagram.com/shanty_vet?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="font-bold text-primary-600 hover:text-primary-700 underline decoration-2 underline-offset-2 transition-colors"
+                    key="0"
+                  >
+                    "Шанті"
+                  </a>
+                ]}
+              />
             </p>
           </div>
 
