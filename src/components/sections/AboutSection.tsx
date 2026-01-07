@@ -32,8 +32,11 @@ export const AboutSection: React.FC = () => {
           <p className="text-lg text-neutral-600 leading-relaxed mb-4">
             {t('about_section.text_1')}
           </p>
-          <p className="text-lg text-neutral-600 leading-relaxed mb-8">
+          <p className="text-lg text-neutral-600 leading-relaxed mb-4">
             {t('about_section.text_2')}
+          </p>
+          <p className="text-lg text-neutral-600 leading-relaxed mb-8">
+            {t('about_section.text_3')}
           </p>
         </div>
 

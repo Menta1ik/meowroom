@@ -1,4 +1,29 @@
 {
+  "adoption_steps": {
+    "title": "How to Adopt a Cat?",
+    "subtitle": "We take adoption very seriously. Here is the path our future owners take.",
+    "steps": {
+      "1": {
+        "title": "Meet & Greet",
+        "desc": "The first step is a personal meeting. Come to Meowroom, spend time with the cats, play with them. It is important to understand if you match each other in temperament. The cat should choose you!"
+      },
+      "2": {
+        "title": "Interview",
+        "desc": "We will discuss your experience with animals, living conditions (owned or rented housing), and readiness for financial responsibility (quality food, annual vaccinations, veterinary care)."
+      },
+      "3": {
+        "title": "Home Safety",
+        "desc": "Having strong 'anti-cat' nets on windows is our mandatory requirement. Regular mosquito nets do not protect cats from falling out. We will advise where to order them or how to reinforce existing ones."
+      },
+      "4": {
+        "title": "Contract & Moving",
+        "desc": "We sign a responsible care agreement. You take your furry friend home in a carrier. We stay in touch and are happy to receive photo updates from the new home!"
+      }
+    },
+    "why_title": "Why Adopt from a Shelter?",
+    "why_text_1": "Saving one cat won't change the world, but for that one cat, the world will change forever. Every graduate of ours frees up a place for another street animal that we can save.",
+    "why_text_2": "Adult cats from a shelter are already formed personalities. You immediately see their character, they are already accustomed to the litter box and scratching post. They are incredibly grateful for warmth and love."
+  },
   "nav": {
     "about": "About",
     "cats": "Our Cats",
@@ -76,7 +101,8 @@
   "about_section": {
     "title": "What is Meowroom?",
     "text_1": "\"Meowroom\" is a unique space in Kharkiv combining the format of an <0>anticafe</0> and a shelter. It's not a regular cafe: we have no kitchen or menu. You only pay for the time spent, enjoying the company of cats.",
-    "text_2": "Meowroom has become a real home for rescued cats. Here they live in safety and love. You can come to us to communicate with furry friends, and if you wish, take one of them under your care."
+    "text_2": "Meowroom has become a real home for rescued cats. Here they live in safety and love. You can come to us to communicate with furry friends, and if you wish, take one of them under your care.",
+    "text_3": "Our mission is not just to rescue animals, but also to cultivate a culture of humane treatment towards them. Every visit to Meowroom is a contribution to saving a life, as all funds go towards the care and treatment of our wards."
   },
   "booking": {
     "title": "Booking at Meowroom",
