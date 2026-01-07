@@ -336,6 +336,11 @@
     "cats": {
       "title": "Управління котиками",
       "add_new": "Додати котика",
+      "import_excel": "Імпорт Excel",
+      "download_template": "Завантажити шаблон",
+      "import_success": "Успішно імпортовано {{count}} котиків",
+      "import_error": "Помилка імпорту",
+      "importing": "Імпорт...",
       "empty": "Котів не знайдено. Додайте першого!",
       "table": {
         "image": "Фото",

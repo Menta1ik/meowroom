@@ -354,6 +354,11 @@
     "cats": {
       "title": "Manage Cats",
       "add_new": "Add Cat",
+      "import_excel": "Import Excel",
+      "download_template": "Download Template",
+      "import_success": "Successfully imported {{count}} cats",
+      "import_error": "Import failed",
+      "importing": "Importing...",
       "empty": "No cats found. Add one to get started!",
       "table": {
         "image": "Photo",
