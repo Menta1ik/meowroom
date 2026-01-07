@@ -64,7 +64,7 @@
       },
       "feeding": {
         "q": "What do cats eat at Meowroom?",
-        "a": "The health of our wards is our priority, so we chose the best nutrition. All cats eat exclusively grain-free super-premium food from the German manufacturer Josera. This provides them with the necessary energy and strong immunity."
+        "a": "The health of our wards is our priority, so we chose the best nutrition. All cats eat exclusively grain-free super-premium food from the German manufacturer <0>Josera</0>. This provides them with the necessary energy and strong immunity."
       }
     }
   },

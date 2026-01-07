@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
@@ -29,7 +29,20 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
             className="overflow-hidden"
           >
             <p className="pb-5 text-neutral-600 leading-relaxed">
-              {answer}
+              <Trans
+                defaults={answer}
+                components={[
+                  <a 
+                    href="https://josera.ua/ua/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="font-bold text-primary-600 hover:text-primary-700 underline decoration-2 underline-offset-2 transition-colors"
+                    key="0"
+                  >
+                    Josera
+                  </a>
+                ]}
+              />
             </p>
           </motion.div>
         )}
