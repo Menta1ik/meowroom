@@ -7,7 +7,7 @@ import { ServicesSection } from '../components/sections/ServicesSection';
 import { DonationPreview } from '../components/sections/DonationPreview';
 import { ReviewsSection } from '../components/sections/ReviewsSection';
 import { FAQSection } from '../components/sections/FAQSection';
-import { AdoptionStepsSection } from '../components/sections/AdoptionStepsSection';
+import { RescueProcessSection } from '../components/sections/RescueProcessSection';
 import { SEO } from '../components/SEO';
 
 const Home: React.FC = () => {
@@ -23,7 +23,7 @@ const Home: React.FC = () => {
       <HeroSection onBooking={openBooking} />
       <AboutSection />
       <ServicesSection />
-      <AdoptionStepsSection />
+      <RescueProcessSection />
       <ReviewsSection />
       <FAQSection />
       <DonationPreview />

@@ -1,28 +1,27 @@
 {
-  "adoption_steps": {
-    "title": "How to Adopt a Cat?",
-    "subtitle": "We take adoption very seriously. Here is the path our future owners take.",
+  "rescue_process": {
+    "title": "Path of Rescue",
+    "subtitle": "We are not just a shelter, but a rehabilitation center. Every cat goes through a thorough path before entering the common room.",
     "steps": {
       "1": {
-        "title": "Meet & Greet",
-        "desc": "The first step is a personal meeting. Come to Meowroom, spend time with the cats, play with them. It is important to understand if you match each other in temperament. The cat should choose you!"
+        "title": "Rescue",
+        "desc": "Our wards come to us in different ways: we pick them up from the street, evacuate them from combat zones, or accept them from caring people who found an animal in trouble."
       },
       "2": {
-        "title": "Interview",
-        "desc": "We will discuss your experience with animals, living conditions (owned or rented housing), and readiness for financial responsibility (quality food, annual vaccinations, veterinary care)."
+        "title": "Medical Checkup",
+        "desc": "The first step is a visit to the clinic. We do a full checkup: blood biochemistry, ultrasound, doctor's examination, and express tests for viruses (FIV, Leukemia, Panleukopenia)."
       },
       "3": {
-        "title": "Home Safety",
-        "desc": "Having strong 'anti-cat' nets on windows is our mandatory requirement. Regular mosquito nets do not protect cats from falling out. We will advise where to order them or how to reinforce existing ones."
+        "title": "Quarantine & Records",
+        "desc": "The cat settles in a cozy quarantine box under supervision. We create a passport and enter all data into our accounting system to record health history."
       },
       "4": {
-        "title": "Contract & Moving",
-        "desc": "We sign a responsible care agreement. You take your furry friend home in a carrier. We stay in touch and are happy to receive photo updates from the new home!"
+        "title": "Treatment & Vaccination",
+        "desc": "After adaptation, we carry out parasite treatment. Next is complex vaccination with the best preparations (Purevax, Nobivac). All data is entered into the passport."
       }
     },
-    "why_title": "Why Adopt from a Shelter?",
-    "why_text_1": "Saving one cat won't change the world, but for that one cat, the world will change forever. Every graduate of ours frees up a place for another street animal that we can save.",
-    "why_text_2": "Adult cats from a shelter are already formed personalities. You immediately see their character, they are already accustomed to the litter box and scratching post. They are incredibly grateful for warmth and love."
+    "info_title": "Only Healthy and Happy Animals",
+    "info_text": "We follow strict safety protocols. No cat gets to others without confirmed health. This guarantees safety for both our wards and Meowroom guests."
   },
   "nav": {
     "about": "About",
