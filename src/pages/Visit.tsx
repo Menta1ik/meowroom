@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Clock, Coffee, ShieldAlert, Check, Info, PawPrint, Wallet } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { useBooking } from '../context/BookingContext';
-import { Helmet } from 'react-helmet-async';
+import { SEO } from '../components/SEO';
 
 const Visit: React.FC = () => {
   const { t } = useTranslation();
@@ -11,16 +11,15 @@ const Visit: React.FC = () => {
 
   const prices = [
     { label: t('visit.pricing.hour_1'), price: '250 ₴' },
-    { label: t('visit.pricing.hour_2'), price: '350 ₴' },
-    { label: t('visit.pricing.hour_3'), price: '450 ₴' },
+    { label: t('visit.pricing.hour_2'), price: '400 ₴' },
   ];
 
   return (
     <>
-      <Helmet>
-        <title>{t('visit.title')} | Meowroom</title>
-        <meta name="description" content={t('visit.subtitle')} />
-      </Helmet>
+      <SEO 
+        title={t('visit.title')} 
+        description={t('visit.subtitle')} 
+      />
 
       <div className="pt-24 pb-20 bg-white min-h-screen">
         <div className="container mx-auto px-4">
@@ -63,7 +62,7 @@ const Visit: React.FC = () => {
             <div className="mb-16">
               <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 mb-8 text-center">{t('visit.pricing.title')}</h2>
               
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
+              <div className="grid md:grid-cols-2 gap-6 mb-8 max-w-2xl mx-auto">
                 {prices.map((item, index) => (
                   <div key={index} className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-200 hover:border-primary-300 hover:shadow-md transition-all text-center group">
                     <p className="text-neutral-500 font-medium mb-2">{item.label}</p>
