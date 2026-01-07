@@ -62,7 +62,7 @@ export const Header: React.FC = () => {
             
             {/* Logo Section */}
             <div className="flex items-center gap-2 group shrink-0">
-              <Link to="/" className="flex items-center gap-2">
+              <Link to="/" className="flex items-center gap-2" aria-label="Meowroom Home">
                 <Logo className="w-12 h-12 transition-transform group-hover:scale-105" />
                 {/* Meowroom text logic:
                     - Visible when at top (scrolled === false)

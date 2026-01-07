@@ -16,7 +16,7 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="space-y-6">
-            <Link to="/" className="flex items-center gap-2 group">
+            <Link to="/" className="flex items-center gap-2 group" aria-label="Meowroom Home">
               <Logo className="w-10 h-10 transition-transform group-hover:scale-105" />
               <span className="font-display font-bold text-2xl tracking-tight text-primary-700">
                 Meowroom
