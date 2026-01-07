@@ -46,6 +46,8 @@ export const FAQSection: React.FC = () => {
     { q: t('faq.items.price.q'), a: t('faq.items.price.a') },
     { q: t('faq.items.animals.q'), a: t('faq.items.animals.a') },
     { q: t('faq.items.adopt.q'), a: t('faq.items.adopt.a') },
+    { q: t('faq.items.vaccination.q'), a: t('faq.items.vaccination.a') },
+    { q: t('faq.items.feeding.q'), a: t('faq.items.feeding.a') },
   ];
 
   // Schema.org FAQPage
