@@ -125,7 +125,6 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
             name="age"
             value={formData.age}
             onChange={handleInputChange}
-            required
             className="w-full px-4 py-2 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 outline-none"
           />
         </div>
