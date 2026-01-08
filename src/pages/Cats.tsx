@@ -13,6 +13,25 @@ const Cats: React.FC = () => {
       <Helmet>
         <title>{t('cats.title')} | Meowroom</title>
         <meta name="description" content={t('cats.subtitle')} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": t('cats.title'),
+            "description": t('cats.subtitle'),
+            "url": "https://meowroom.top/cats",
+            "mainEntity": {
+              "@type": "ItemList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "url": "https://meowroom.top/cats"
+                }
+              ]
+            }
+          })}
+        </script>
       </Helmet>
 
       <div className="pt-24 pb-20 bg-white min-h-screen">
