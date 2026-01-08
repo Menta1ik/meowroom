@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CatCard, Cat } from '../cards/CatCard';
-import { AdoptionModal } from '../ui/AdoptionModal';
 import { useCats } from '../../hooks/useCats';
 
 export const CatsGallery: React.FC = () => {
   const { t } = useTranslation();
   const { cats, loading, error } = useCats();
   const [filter, setFilter] = useState<'all' | 'boy' | 'girl'>('all');
-  const [selectedCat, setSelectedCat] = useState<Cat | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleAdopt = (cat: Cat) => {
-    setSelectedCat(cat);
-    setIsModalOpen(true);
-  };
 
   const filteredCats = cats.filter((cat) => {
     if (filter === 'all') return true;
@@ -31,12 +23,6 @@ export const CatsGallery: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <AdoptionModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        cat={selectedCat} 
-      />
-      
       {/* Filters */}
       <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-12">
         {tabs.map((tab) => (
@@ -62,7 +48,7 @@ export const CatsGallery: React.FC = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCats.map((cat) => (
-            <CatCard key={cat.id} cat={cat} onAdopt={handleAdopt} />
+            <CatCard key={cat.id} cat={cat} />
           ))}
         </div>
       )}

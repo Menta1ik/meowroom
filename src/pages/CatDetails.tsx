@@ -1,0 +1,207 @@
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { ArrowLeft, Share2, Heart, ShieldCheck, Home } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
+import { supabase } from '../lib/supabase';
+import { Cat } from '../components/cards/CatCard';
+import { Button } from '../components/ui/Button';
+import { useBooking } from '../context/BookingContext';
+
+const CatDetails: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { openBooking } = useBooking();
+  const [cat, setCat] = useState<Cat | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [activeImage, setActiveImage] = useState(0);
+
+  useEffect(() => {
+    const fetchCat = async () => {
+      if (!id) return;
+      try {
+        const { data, error } = await supabase
+          .from('cats')
+          .select('*')
+          .eq('id', id)
+          .single();
+
+        if (error) throw error;
+        setCat(data);
+      } catch (error) {
+        console.error('Error fetching cat:', error);
+        navigate('/cats'); // Redirect if not found
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCat();
+  }, [id, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white pt-24 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      </div>
+    );
+  }
+
+  if (!cat) return null;
+
+  const shareUrl = window.location.href;
+  const description = `${cat.name} — ${cat.age}. ${cat.history.substring(0, 150)}...`;
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Meowroom - ${cat.name}`,
+          text: description,
+          url: shareUrl,
+        });
+      } catch (err) {
+        console.log('Error sharing:', err);
+      }
+    } else {
+      navigator.clipboard.writeText(shareUrl);
+      alert('Link copied to clipboard!');
+    }
+  };
+
+  return (
+    <>
+      <Helmet>
+        <title>{cat.name} | Meowroom</title>
+        <meta name="description" content={description} />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content={`${cat.name} | Meowroom`} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={cat.images[0]} />
+        <meta property="og:type" content="article" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${cat.name} | Meowroom`} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={cat.images[0]} />
+      </Helmet>
+
+      <div className="min-h-screen bg-white pt-24 pb-20">
+        <div className="container mx-auto px-4 max-w-5xl">
+          
+          {/* Back Button */}
+          <Link to="/cats" className="inline-flex items-center gap-2 text-neutral-500 hover:text-primary-600 transition-colors mb-8 group">
+            <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+            <span>{t('booking.back')}</span>
+          </Link>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            
+            {/* Left: Images */}
+            <div className="space-y-4">
+              <div className="aspect-square rounded-3xl overflow-hidden bg-neutral-100 shadow-sm relative group">
+                <img 
+                  src={cat.images[activeImage]} 
+                  alt={cat.name} 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105 cursor-zoom-in"
+                />
+                {cat.tags && (
+                  <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+                    {cat.tags.map((tag, i) => (
+                      <span key={i} className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-neutral-600 shadow-sm">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              
+              {/* Thumbnails */}
+              {cat.images.length > 1 && (
+                <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                  {cat.images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImage(idx)}
+                      className={`relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 border-2 transition-all ${
+                        activeImage === idx ? 'border-primary-500 shadow-md scale-105' : 'border-transparent opacity-70 hover:opacity-100'
+                      }`}
+                    >
+                      <img src={img} alt="" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Right: Info */}
+            <div>
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h1 className="text-4xl md:text-5xl font-bold text-neutral-800 mb-2">{cat.name}</h1>
+                  <p className="text-xl text-neutral-500 font-medium flex items-center gap-2">
+                    {cat.gender === 'boy' || cat.gender === 'Мальчик' ? t('admin.cats.gender.boy') : 
+                     cat.gender === 'girl' || cat.gender === 'Девочка' ? t('admin.cats.gender.girl') : cat.gender}
+                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-300" />
+                    {cat.age}
+                  </p>
+                </div>
+                <button 
+                  onClick={handleShare}
+                  className="p-3 rounded-full bg-neutral-50 text-neutral-500 hover:bg-primary-50 hover:text-primary-600 transition-colors"
+                  aria-label="Share"
+                >
+                  <Share2 size={24} />
+                </button>
+              </div>
+
+              {/* Status Badges */}
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="flex items-center gap-3 p-4 rounded-2xl bg-green-50 text-green-700">
+                  <ShieldCheck size={24} />
+                  <span className="font-medium text-sm">Вакцинований</span>
+                </div>
+                <div className="flex items-center gap-3 p-4 rounded-2xl bg-blue-50 text-blue-700">
+                  <Home size={24} />
+                  <span className="font-medium text-sm">Привчений до лотка</span>
+                </div>
+              </div>
+
+              <div className="prose prose-lg text-neutral-600 leading-relaxed mb-10">
+                <h3 className="text-xl font-bold text-neutral-800 mb-4">{t('admin.cats.form.history')}</h3>
+                <p className="whitespace-pre-line">{cat.history}</p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button onClick={openBooking} size="lg" className="flex-1 gap-2 justify-center">
+                  <Heart size={20} className="fill-current" />
+                  {t('adoption.title', { name: '' }).split(' ')[0]} {/* "Стати другом" hack or just custom text */}
+                  {t('hero.cta_visit')}
+                </Button>
+                
+                <Button 
+                  onClick={() => navigate('/donate')} 
+                  variant="outline" 
+                  size="lg" 
+                  className="flex-1 justify-center"
+                >
+                  {t('hero.cta_donate')}
+                </Button>
+              </div>
+              
+              <p className="text-center text-sm text-neutral-400 mt-6 max-w-sm mx-auto">
+                * Всі котики віддаються тільки після співбесіди та підписання договору
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default CatDetails;
