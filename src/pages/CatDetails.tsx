@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Share2, Heart } from 'lucide-react';
+import { ArrowLeft, Share2, Heart, X, ZoomIn } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { AnimatePresence, motion } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { Cat } from '../components/cards/CatCard';
 import { Button } from '../components/ui/Button';
@@ -18,6 +19,7 @@ const CatDetails: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
   const [isAdoptionModalOpen, setIsAdoptionModalOpen] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   useEffect(() => {
     const fetchCat = async () => {
@@ -97,6 +99,35 @@ const CatDetails: React.FC = () => {
           onClose={() => setIsAdoptionModalOpen(false)} 
           cat={cat} 
         />
+
+        <AnimatePresence>
+          {isLightboxOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+              onClick={() => setIsLightboxOpen(false)}
+            >
+              <button
+                onClick={() => setIsLightboxOpen(false)}
+                className="absolute top-4 right-4 p-2 text-white/70 hover:text-white transition-colors bg-black/20 hover:bg-black/40 rounded-full"
+              >
+                <X size={32} />
+              </button>
+              <motion.img
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                src={cat.images[activeImage]}
+                alt={cat.name}
+                className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <div className="container mx-auto px-4 max-w-5xl">
           
           {/* Back Button */}
@@ -109,14 +140,21 @@ const CatDetails: React.FC = () => {
             
             {/* Left: Images */}
             <div className="space-y-4">
-              <div className="aspect-square rounded-3xl overflow-hidden bg-neutral-100 shadow-sm relative group">
+              <div 
+                className="aspect-square rounded-3xl overflow-hidden bg-neutral-100 shadow-sm relative group cursor-zoom-in"
+                onClick={() => setIsLightboxOpen(true)}
+              >
                 <img 
                   src={cat.images[activeImage]} 
                   alt={cat.name} 
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105 cursor-zoom-in"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300 pointer-events-none" />
+                <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-full text-neutral-700 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm pointer-events-none">
+                  <ZoomIn size={20} />
+                </div>
                 {cat.tags && (
-                  <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+                  <div className="absolute top-4 left-4 flex flex-wrap gap-2 pointer-events-none">
                     {cat.tags.map((tag, i) => (
                       <span key={i} className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-neutral-600 shadow-sm">
                         {tag}
@@ -128,13 +166,15 @@ const CatDetails: React.FC = () => {
               
               {/* Thumbnails */}
               {cat.images.length > 1 && (
-                <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                <div className="flex gap-4 overflow-x-auto p-2 scrollbar-hide">
                   {cat.images.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => setActiveImage(idx)}
-                      className={`relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 border-2 transition-all ${
-                        activeImage === idx ? 'border-primary-500 shadow-md scale-105' : 'border-transparent opacity-70 hover:opacity-100'
+                      className={`relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 transition-all ${
+                        activeImage === idx 
+                          ? 'ring-2 ring-primary-500 ring-offset-2 opacity-100 shadow-sm' 
+                          : 'opacity-60 hover:opacity-100'
                       }`}
                     >
                       <img src={img} alt="" className="w-full h-full object-cover" />
