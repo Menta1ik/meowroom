@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Share2, Heart, ShieldCheck, Home } from 'lucide-react';
+import { ArrowLeft, Share2, Heart } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { supabase } from '../lib/supabase';
 import { Cat } from '../components/cards/CatCard';
@@ -163,18 +163,6 @@ const CatDetails: React.FC = () => {
                 >
                   <Share2 size={24} />
                 </button>
-              </div>
-
-              {/* Status Badges */}
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="flex items-center gap-3 p-4 rounded-2xl bg-green-50 text-green-700">
-                  <ShieldCheck size={24} />
-                  <span className="font-medium text-sm">Вакцинований</span>
-                </div>
-                <div className="flex items-center gap-3 p-4 rounded-2xl bg-blue-50 text-blue-700">
-                  <Home size={24} />
-                  <span className="font-medium text-sm">Привчений до лотка</span>
-                </div>
               </div>
 
               <div className="prose prose-lg text-neutral-600 leading-relaxed mb-10">

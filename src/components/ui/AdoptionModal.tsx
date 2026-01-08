@@ -18,8 +18,7 @@ export const AdoptionModal: React.FC<AdoptionModalProps> = ({ isOpen, onClose, c
     name: '',
     phone: '',
     email: '',
-    message: '',
-    type: 'guardian' as 'adopt' | 'guardian'
+    message: ''
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -40,7 +39,7 @@ export const AdoptionModal: React.FC<AdoptionModalProps> = ({ isOpen, onClose, c
           phone: formData.phone,
           email: formData.email,
           message: formData.message,
-          type: formData.type,
+          type: 'guardian',
           status: 'new'
         }]);
 
@@ -100,36 +99,7 @@ export const AdoptionModal: React.FC<AdoptionModalProps> = ({ isOpen, onClose, c
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="bg-blue-50 p-4 rounded-xl text-blue-800 text-sm mb-6">
-                  {formData.type === 'adopt' 
-                    ? t('adoption.info.adopt_desc')
-                    : t('adoption.info.guardian_desc')
-                  }
-                </div>
-
-                {/* Type Selection */}
-                <div className="grid grid-cols-2 gap-3 mb-6">
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, type: 'guardian' })}
-                    className={`p-3 rounded-xl border-2 font-medium text-sm transition-all ${
-                      formData.type === 'guardian'
-                        ? 'border-primary-500 bg-primary-50 text-primary-700'
-                        : 'border-neutral-200 text-neutral-600 hover:border-primary-200'
-                    }`}
-                  >
-                    {t('adoption.type.guardian')}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, type: 'adopt' })}
-                    className={`p-3 rounded-xl border-2 font-medium text-sm transition-all ${
-                      formData.type === 'adopt'
-                        ? 'border-primary-500 bg-primary-50 text-primary-700'
-                        : 'border-neutral-200 text-neutral-600 hover:border-primary-200'
-                    }`}
-                  >
-                    {t('adoption.type.adopt')}
-                  </button>
+                  {t('adoption.info.guardian_desc')}
                 </div>
 
                 <div>
