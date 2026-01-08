@@ -53,14 +53,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Sticker Variant 2: Minimal & Clean */}
+      {/* Sticker Variant 2: Minimal & Clean (Restored) */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+        animate={{ opacity: 1, scale: 1, y: [0, -8, 0], rotate: [0, 2, 0, -2, 0] }}
         transition={{ 
           opacity: { duration: 0.5, delay: 0.5 },
           scale: { duration: 0.5, delay: 0.5 },
-          y: { repeat: Infinity, duration: 5, ease: "easeInOut" }
+          y: { repeat: Infinity, duration: 5, ease: "easeInOut" },
+          rotate: { repeat: Infinity, duration: 7, ease: "easeInOut" }
         }}
         className="absolute top-24 right-4 md:top-32 md:right-10 z-20"
       >
