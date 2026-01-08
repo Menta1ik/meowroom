@@ -7,6 +7,7 @@ import { supabase } from '../lib/supabase';
 import { Cat } from '../components/cards/CatCard';
 import { Button } from '../components/ui/Button';
 import { useBooking } from '../context/BookingContext';
+import { AdoptionModal } from '../components/ui/AdoptionModal';
 
 const CatDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,6 +17,7 @@ const CatDetails: React.FC = () => {
   const [cat, setCat] = useState<Cat | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
+  const [isAdoptionModalOpen, setIsAdoptionModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchCat = async () => {
@@ -90,6 +92,11 @@ const CatDetails: React.FC = () => {
       </Helmet>
 
       <div className="min-h-screen bg-white pt-24 pb-20">
+        <AdoptionModal 
+          isOpen={isAdoptionModalOpen} 
+          onClose={() => setIsAdoptionModalOpen(false)} 
+          cat={cat} 
+        />
         <div className="container mx-auto px-4 max-w-5xl">
           
           {/* Back Button */}
@@ -176,19 +183,18 @@ const CatDetails: React.FC = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button onClick={openBooking} size="lg" className="flex-1 gap-2 justify-center">
+                <Button onClick={() => setIsAdoptionModalOpen(true)} size="lg" className="flex-1 gap-2 justify-center">
                   <Heart size={20} className="fill-current" />
-                  {t('adoption.title', { name: '' }).split(' ')[0]} {/* "Стати другом" hack or just custom text */}
-                  {t('hero.cta_visit')}
+                  {t('hero.cta_cats')}
                 </Button>
                 
                 <Button 
-                  onClick={() => navigate('/donate')} 
+                  onClick={openBooking} 
                   variant="outline" 
                   size="lg" 
                   className="flex-1 justify-center"
                 >
-                  {t('hero.cta_donate')}
+                  {t('cats.card.meet')}
                 </Button>
               </div>
               
