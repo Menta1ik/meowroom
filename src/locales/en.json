@@ -364,6 +364,7 @@
       "price_range": "250-400 UAH"
     }
   },
+
   "admin": {
     "title": "Admin Panel",
     "user": "User",

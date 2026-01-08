@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 interface SEOProps {
   title?: string;
@@ -16,10 +17,11 @@ export const SEO: React.FC<SEOProps> = ({
   description, 
   image = '/logo.png', 
   type = 'website',
-  url = 'https://meowroom.top',
+  url, // Optional override
   schema
 }) => {
   const { i18n, t } = useTranslation();
+  const location = useLocation();
   const lang = i18n.language;
 
   // Defaults
@@ -27,7 +29,11 @@ export const SEO: React.FC<SEOProps> = ({
   const siteUrl = 'https://meowroom.top';
   const fullTitle = title ? `${title} | ${siteTitle}` : t('seo.default_title');
   const finalDescription = description || t('seo.default_description');
-  const fullUrl = url; // In a real app, combine with current path
+  
+  // Canonical URL logic
+  const currentPath = location.pathname === '/' ? '' : location.pathname;
+  const canonicalUrl = url || `${siteUrl}${currentPath}`;
+  
   const fullImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
 
   // Default JSON-LD Schema for LocalBusiness / AnimalShelter
@@ -82,14 +88,15 @@ export const SEO: React.FC<SEOProps> = ({
       <title>{fullTitle}</title>
       <meta name="description" content={finalDescription} />
       <meta name="keywords" content={t('seo.keywords')} />
-
+      <meta name="robots" content="index, follow" />
+      <link rel="canonical" href={canonicalUrl} />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={finalDescription} />
       <meta property="og:image" content={fullImage} />
-      <meta property="og:url" content={fullUrl} />
+      <meta property="og:url" content={canonicalUrl} />
       <meta property="og:site_name" content="Meowroom" />
 
       {/* Twitter */}
