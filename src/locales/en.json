@@ -37,7 +37,12 @@
     "subtitle": "A cozy home where our cats live in love and safety. Come to meet our furry friends or take them under your care.",
     "cta_visit": "Book a Visit",
     "cta_cats": "Become a Guardian",
-    "cta_donate": "Support Us"
+    "cta_donate": "Support Us",
+    "sticker": {
+      "text_1": "cats",
+      "text_2": "live",
+      "text_3": "in Meowroom"
+    }
   },
   "faq": {
     "title": "Frequently Asked Questions (FAQ)",

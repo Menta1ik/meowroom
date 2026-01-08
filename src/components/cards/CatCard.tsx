@@ -34,15 +34,33 @@ export const CatCard: React.FC<CatCardProps> = ({ cat, onAdopt }) => {
     >
       <Link to={`/cats/${cat.id}`} className="flex-grow flex flex-col h-full">
         {/* Image Container */}
-        <div className="relative h-64 overflow-hidden">
+        <div className="relative h-72 overflow-hidden bg-neutral-100 group-hover:shadow-inner transition-all">
+          {/* Blurred Background for fill */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center blur-2xl scale-110 opacity-70 transition-transform duration-700 group-hover:scale-125 saturate-150"
+            style={{ backgroundImage: `url(${cat.images[0]})` }}
+          />
+          
+          {/* Light overlay to blend */}
+          <div className="absolute inset-0 bg-white/10" />
+          
+          {/* Main Image */}
           <img
             src={cat.images[0]}
             alt={`${cat.name} - Meowroom Cat Shelter Kharkiv`}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="relative w-full h-full object-contain z-10 transition-transform duration-500 group-hover:scale-105 drop-shadow-md"
           />
-          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary-700 shadow-sm">
+          
+          {/* Glass Badge */}
+          <div className="absolute top-4 right-4 z-20 bg-white/70 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-primary-800 shadow-sm border border-white/50 group-hover:bg-white/90 transition-colors">
             {cat.age}
           </div>
+
+          {/* Gender Indicator Line */}
+          <div className={`absolute bottom-0 left-0 right-0 h-1.5 z-20 ${
+             cat.gender === 'boy' || cat.gender === 'Мальчик' ? 'bg-blue-300/80' : 
+             cat.gender === 'girl' || cat.gender === 'Девочка' ? 'bg-pink-300/80' : 'bg-green-300/80'
+          } opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
         </div>
 
         {/* Content */}

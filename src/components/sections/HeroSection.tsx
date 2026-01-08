@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../ui/Button';
 import { Link } from 'react-router-dom';
+import { Cat } from 'lucide-react';
 
 interface HeroSectionProps {
   onBooking?: () => void;
@@ -17,6 +18,7 @@ const images = [
 export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
   const { t } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [catsCount] = useState<number>(61);
 
   useEffect(() => {
     // Randomize start image
@@ -50,6 +52,31 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
           <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-[2px]"></div>
         </motion.div>
       </AnimatePresence>
+
+      {/* Sticker Variant 2: Minimal & Clean */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+        transition={{ 
+          opacity: { duration: 0.5, delay: 0.5 },
+          scale: { duration: 0.5, delay: 0.5 },
+          y: { repeat: Infinity, duration: 5, ease: "easeInOut" }
+        }}
+        className="absolute top-24 right-4 md:top-32 md:right-10 z-20"
+      >
+        <div className="relative w-28 h-28 md:w-40 md:h-40 bg-white/95 backdrop-blur-sm rounded-full flex flex-col items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.15)] border-4 border-yellow-400 group cursor-default hover:scale-105 transition-transform duration-300">
+          <div className="absolute -top-2 -right-2 bg-yellow-400 rounded-full p-2.5 shadow-md transform rotate-12 group-hover:rotate-0 transition-transform duration-300">
+            <Cat size={20} className="text-white md:w-6 md:h-6" />
+          </div>
+          
+          <span className="text-5xl md:text-7xl font-black text-neutral-800 tracking-tighter leading-none mt-2">{catsCount}</span>
+          <div className="text-[9px] md:text-xs font-bold text-neutral-500 uppercase text-center leading-tight mb-2">
+            <span className="text-yellow-500">{t('hero.sticker.text_1')}</span><br/>
+            {t('hero.sticker.text_2')}<br/>
+            {t('hero.sticker.text_3')}
+          </div>
+        </div>
+      </motion.div>
 
       {/* Content */}
       <div className="container mx-auto px-4 z-10 text-center text-white">
