@@ -91,6 +91,41 @@ const CatDetails: React.FC = () => {
         <meta name="twitter:title" content={`${cat.name} | Meowroom`} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={cat.images[0]} />
+
+        {/* Structured Data (JSON-LD) for AI & SEO */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": cat.name,
+            "image": cat.images,
+            "description": description,
+            "category": "Cat",
+            "brand": {
+              "@type": "Organization",
+              "name": "Meowroom"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "UAH",
+              "availability": "https://schema.org/InStock",
+              "url": window.location.href
+            },
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Gender",
+                "value": cat.gender
+              },
+              {
+                "@type": "PropertyValue",
+                "name": "Age",
+                "value": cat.age
+              }
+            ]
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-white pt-24 pb-20">
