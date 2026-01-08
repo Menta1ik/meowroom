@@ -7,7 +7,7 @@ import { useCats } from '../../hooks/useCats';
 export const CatsGallery: React.FC = () => {
   const { t } = useTranslation();
   const { cats, loading, error } = useCats();
-  const [filter, setFilter] = useState<'all' | 'boy' | 'girl' | 'kitten'>('all');
+  const [filter, setFilter] = useState<'all' | 'boy' | 'girl'>('all');
   const [selectedCat, setSelectedCat] = useState<Cat | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -18,9 +18,8 @@ export const CatsGallery: React.FC = () => {
 
   const filteredCats = cats.filter((cat) => {
     if (filter === 'all') return true;
-    if (filter === 'boy') return cat.gender === 'Мальчик';
-    if (filter === 'girl') return cat.gender === 'Девочка';
-    if (filter === 'kitten') return cat.age.includes('месяц');
+    if (filter === 'boy') return cat.gender === 'boy';
+    if (filter === 'girl') return cat.gender === 'girl';
     return true;
   });
 
@@ -28,7 +27,6 @@ export const CatsGallery: React.FC = () => {
     { id: 'all', label: t('cats.filters.all') },
     { id: 'boy', label: t('cats.filters.boy') },
     { id: 'girl', label: t('cats.filters.girl') },
-    { id: 'kitten', label: t('cats.filters.kitten') },
   ];
 
   return (
