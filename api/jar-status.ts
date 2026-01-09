@@ -41,6 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Map Personal API response to expected format
     // balance is in cents, goal is in cents
     const data = {
+      id: jar.id, // Internal ID needed for webhooks
       amount: jar.balance,
       goal: jar.goal,
       active: true // Jars in client-info are active

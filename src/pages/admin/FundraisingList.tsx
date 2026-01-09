@@ -67,14 +67,23 @@ const FundraisingList: React.FC = () => {
       if (data.amount !== undefined) {
         const newAmount = Math.floor(data.amount / 100);
         
+        const updates: any = { current_amount: newAmount };
+        if (data.id) {
+          updates.jar_id = data.id; // Save internal ID for webhooks
+        }
+
         const { error } = await supabase
           .from('fundraisings')
-          .update({ current_amount: newAmount })
+          .update(updates)
           .eq('id', item.id);
 
         if (error) throw error;
         
-        setItems(items.map(i => i.id === item.id ? { ...i, current_amount: newAmount } : i));
+        setItems(items.map(i => i.id === item.id ? { 
+          ...i, 
+          current_amount: newAmount,
+          jar_id: data.id || i.jar_id 
+        } : i));
         alert(`${t('admin.fundraising.sync_success')}${newAmount} ₴`);
       } else {
         alert(t('admin.fundraising.sync_error'));

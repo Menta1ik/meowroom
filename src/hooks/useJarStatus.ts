@@ -46,6 +46,28 @@ export const useJarStatus = () => {
     };
 
     fetchFundraising();
+
+    // Subscribe to realtime changes
+    const subscription = supabase
+      .channel('fundraisings_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'fundraisings',
+          filter: 'is_active=eq.true'
+        },
+        (payload) => {
+          console.log('Realtime update:', payload);
+          fetchFundraising();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   return { data, loading };
