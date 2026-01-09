@@ -92,9 +92,9 @@ const About: React.FC = () => {
                   </p>
                   
                   {/* Josera Products */}
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 h-32 md:h-36">
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 md:gap-6 mt-6">
                     {['dailycat', 'marinesse', 'naturecat', 'naturelle'].map((product) => (
-                      <div key={product} className="h-full w-auto aspect-[0.7] relative transition-transform hover:scale-110 duration-300">
+                      <div key={product} className="h-24 md:h-36 w-auto aspect-[0.7] relative transition-transform hover:scale-110 duration-300">
                         <img 
                           src={`/josera-${product}.webp`} 
                           alt={`Josera ${product}`} 

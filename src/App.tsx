@@ -7,6 +7,7 @@ import { Footer } from './components/layout/Footer';
 import { HelmetProvider } from 'react-helmet-async';
 import { BookingProvider } from './context/BookingContext';
 import { Analytics } from "@vercel/analytics/react";
+import ScrollToTop from './components/ScrollToTop';
 
 // Lazy load pages for performance
 const Home = React.lazy(() => import('./pages/Home'));
@@ -41,6 +42,7 @@ function App() {
       <AuthProvider>
         <Router>
           <BookingProvider>
+            <ScrollToTop />
             <Suspense fallback={<LoadingSpinner />}>
               <Analytics />
               <Routes>
