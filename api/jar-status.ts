@@ -10,7 +10,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const response = await fetch(`https://api.monobank.ua/bank/jar/${jarId}`);
+    const response = await fetch(`https://api.monobank.ua/bank/jar/${jarId}`, {
+      headers: {
+        'X-Token': process.env.MONOBANK_API_TOKEN || ''
+      }
+    });
     
     if (!response.ok) {
       console.error(`Monobank API error: ${response.status}`);
