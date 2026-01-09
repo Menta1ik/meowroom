@@ -41,14 +41,16 @@ const Donate: React.FC = () => {
 
           <div className="max-w-5xl mx-auto">
             {/* Urgent Fundraising Section */}
-            <UrgentFundraising
-              title={t('donate.urgent.title')}
-              description={t('donate.urgent.desc')}
-              currentAmount={currentAmount}
-              targetAmount={targetAmount}
-              jarLink="https://send.monobank.ua/jar/89zjWt9p7P"
-              cardNumber="4874 1000 2241 5460"
-            />
+            {jarData && (
+              <UrgentFundraising
+                title={jarData.title}
+                description={jarData.description}
+                currentAmount={jarData.current}
+                targetAmount={jarData.goal}
+                jarLink={jarData.link}
+                cardNumber={jarData.card}
+              />
+            )}
 
             {/* Sponsor Banner */}
             <div className="bg-neutral-50 rounded-3xl p-8 mb-12 flex flex-col md:flex-row items-center justify-between gap-8 border border-neutral-100">

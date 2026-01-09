@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import LanguageSelector from '../ui/LanguageSelector';
-import { LogOut, Cat, MessageSquare, Menu, X, PawPrint, ChevronLeft, ChevronRight, Settings, Calendar } from 'lucide-react';
+import { LogOut, Cat, MessageSquare, Menu, X, PawPrint, ChevronLeft, ChevronRight, Settings, Calendar, Heart } from 'lucide-react';
 import { useState } from 'react';
 
 export const AdminLayout: React.FC = () => {
@@ -25,6 +25,7 @@ export const AdminLayout: React.FC = () => {
     { to: '/admin/services', icon: Settings, label: t('admin.nav.services') },
     { to: '/admin/schedule', icon: Calendar, label: t('admin.nav.schedule') },
     { to: '/admin/bookings', icon: PawPrint, label: t('admin.nav.bookings') },
+    { to: '/admin/fundraising', icon: Heart, label: 'Fundraising' },
   ];
 
   return (

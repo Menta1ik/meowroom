@@ -22,8 +22,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
   const [catsCount] = useState<number>(61);
   
   const { data: jarData } = useJarStatus();
-  const currentAmount = jarData?.current || 9450;
-  const targetAmount = jarData?.goal || 35000;
+  
+  // Use DB data or fallback (though DB should have data now)
+  const currentAmount = jarData?.current || 0;
+  const targetAmount = jarData?.goal || 1;
   const percentage = Math.min(Math.round((currentAmount / targetAmount) * 100), 100);
 
   useEffect(() => {
@@ -120,6 +122,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
       </div>
 
       {/* Urgent Fundraising Card (Floating Widget) */}
+      {jarData && (
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -133,7 +136,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
             
             {/* Image */}
             <div className="w-20 h-20 shrink-0 rounded-xl overflow-hidden bg-neutral-100 relative">
-              <img src="/jordan-after.jpg" alt="Urgent" className="w-full h-full object-cover" />
+              <img src={jarData.image || "/jordan-after.jpg"} alt="Urgent" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-red-500/10 mix-blend-overlay"></div>
             </div>
 
@@ -141,14 +144,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
             <div className="flex-1 min-w-0">
               <div className="flex justify-between items-start mb-1">
                 <h3 className="font-bold text-neutral-800 text-sm leading-tight truncate pr-2">
-                  {t('donate.urgent.title')}
+                  {jarData.title}
                 </h3>
                 <span className="bg-red-100 text-red-600 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide animate-pulse">
                   SOS
                 </span>
               </div>
               
-              <p className="text-xs text-neutral-500 mb-2 line-clamp-1">{t('donate.urgent.desc')}</p>
+              <p className="text-xs text-neutral-500 mb-2 line-clamp-1">{jarData.description}</p>
 
               {/* Progress */}
               <div className="space-y-1">
@@ -175,6 +178,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
           </div>
         </motion.div>
       </AnimatePresence>
+      )}
 
       {/* Scroll Indicator */}
       <motion.div

@@ -28,6 +28,7 @@ const AdoptionRequests = React.lazy(() => import('./pages/admin/AdoptionRequests
 const ServicesList = React.lazy(() => import('./pages/admin/ServicesList').then(module => ({ default: module.ServicesList })));
 const ScheduleSettings = React.lazy(() => import('./pages/admin/ScheduleSettings').then(module => ({ default: module.ScheduleSettings })));
 const BookingsList = React.lazy(() => import('./pages/admin/BookingsList').then(module => ({ default: module.BookingsList })));
+const FundraisingList = React.lazy(() => import('./pages/admin/FundraisingList'));
 const AdminLayout = React.lazy(() => import('./components/admin/AdminLayout').then(module => ({ default: module.AdminLayout })));
 
 const LoadingSpinner = () => (
@@ -59,6 +60,7 @@ function App() {
                   <Route path="services" element={<ServicesList />} />
                   <Route path="schedule" element={<ScheduleSettings />} />
                   <Route path="bookings" element={<BookingsList />} />
+                  <Route path="fundraising" element={<FundraisingList />} />
                 </Route>
               </Route>
 

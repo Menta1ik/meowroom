@@ -1,30 +1,52 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
-export const useJarStatus = (jarId = 'mOhlr2amroz2VqI1VKF1kGw') => {
-  const [data, setData] = useState<{ current: number; goal: number } | null>(null);
+export const useJarStatus = () => {
+  const [data, setData] = useState<{
+    title: string;
+    description: string;
+    current: number;
+    goal: number;
+    link: string;
+    card: string;
+    image: string;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchStatus = async () => {
+    const fetchFundraising = async () => {
       try {
-        const res = await fetch(`/api/jar-status?id=${jarId}`);
-        const json = await res.json();
-        
-        if (json.amount !== undefined && json.goal !== undefined) {
+        // Get the most recent active fundraising
+        const { data: fundraisings, error } = await supabase
+          .from('fundraisings')
+          .select('*')
+          .eq('is_active', true)
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (error) throw error;
+
+        if (fundraisings && fundraisings.length > 0) {
+          const item = fundraisings[0];
           setData({
-            current: Math.floor(json.amount / 100),
-            goal: Math.floor(json.goal / 100)
+            title: item.title,
+            description: item.description,
+            current: item.current_amount,
+            goal: item.target_amount,
+            link: item.jar_link,
+            card: item.card_number,
+            image: item.image_url
           });
         }
       } catch (e) {
-        console.error('Failed to fetch jar status', e);
+        console.error('Failed to fetch fundraising', e);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchStatus();
-  }, [jarId]);
+    fetchFundraising();
+  }, []);
 
   return { data, loading };
 };
