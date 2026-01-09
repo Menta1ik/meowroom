@@ -390,7 +390,35 @@
       "services": "Services",
       "schedule": "Schedule",
       "bookings": "Bookings",
+      "fundraising": "Fundraising",
       "logout": "Logout"
+    },
+    "fundraising": {
+      "title": "Fundraisings",
+      "add_new": "Add Fundraising",
+      "edit": "Edit Fundraising",
+      "table": {
+        "title": "Title",
+        "progress": "Progress",
+        "active": "Active",
+        "actions": "Actions"
+      },
+      "form": {
+        "title": "Title",
+        "image_url": "Image URL",
+        "description": "Description",
+        "target": "Target (UAH)",
+        "current": "Collected (UAH)",
+        "jar_link": "Jar Link",
+        "card": "Card Number",
+        "is_active": "Active",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "sync": "Sync with Mono",
+      "sync_success": "Updated! New amount: ",
+      "sync_error": "Sync failed",
+      "delete_confirm": "Are you sure?"
     },
     "cats": {
       "title": "Manage Cats",
