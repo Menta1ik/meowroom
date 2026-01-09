@@ -18,12 +18,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     if (!response.ok) {
       console.error(`Monobank API error: ${response.status}`);
-      // Fallback mock data if API fails (to not break UI)
-      return res.status(200).json({
-        amount: 945000, // 9450 UAH
-        goal: 3500000,  // 35000 UAH
-        active: true
-      });
+      return res.status(response.status).json({ error: 'Failed to fetch jar data' });
     }
 
     const data = await response.json();
@@ -34,11 +29,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json(data);
   } catch (error) {
     console.error('Error fetching jar:', error);
-    // Fallback data
-    return res.status(200).json({
-      amount: 945000, 
-      goal: 3500000,
-      active: true
-    });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
