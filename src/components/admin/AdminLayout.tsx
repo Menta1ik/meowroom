@@ -25,7 +25,7 @@ export const AdminLayout: React.FC = () => {
     { to: '/admin/services', icon: Settings, label: t('admin.nav.services') },
     { to: '/admin/schedule', icon: Calendar, label: t('admin.nav.schedule') },
     { to: '/admin/bookings', icon: PawPrint, label: t('admin.nav.bookings') },
-    { to: '/admin/fundraising', icon: Heart, label: 'Fundraising' },
+    { to: '/admin/fundraising', icon: Heart, label: t('admin.nav.fundraising') },
   ];
 
   return (
