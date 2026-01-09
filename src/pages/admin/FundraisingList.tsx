@@ -91,7 +91,9 @@ const FundraisingList: React.FC = () => {
 
     let jarId = editingItem.jar_id;
     if (!jarId && editingItem.jar_link) {
-        jarId = editingItem.jar_link.split('/').pop() || '';
+        // Handle potential trailing slash and full URL
+        const parts = editingItem.jar_link.split('/').filter(p => p.length > 0);
+        jarId = parts[parts.length - 1] || '';
     }
 
     const dataToSave = { ...editingItem, jar_id: jarId };
