@@ -2,7 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Button } from '../../components/ui/Button';
 import { Edit2, RefreshCw, Plus, Trash2, ExternalLink } from 'lucide-react';
-import { toast } from 'react-hot-toast'; // Assuming we have toast, or use alert
+import { useTranslation } from 'react-i18next';
+import { 
+  AdminTable, 
+  AdminTableHead, 
+  AdminTableHeader, 
+  AdminTableBody, 
+  AdminTableRow, 
+  AdminTableCell 
+} from '../../components/ui/AdminTable';
 
 interface Fundraising {
   id: string;
@@ -18,6 +26,7 @@ interface Fundraising {
 }
 
 const FundraisingList: React.FC = () => {
+  const { t } = useTranslation();
   const [items, setItems] = useState<Fundraising[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<Fundraising | null>(null);
@@ -65,15 +74,14 @@ const FundraisingList: React.FC = () => {
 
         if (error) throw error;
         
-        // Update local state
         setItems(items.map(i => i.id === item.id ? { ...i, current_amount: newAmount } : i));
-        alert(`Updated! New amount: ${newAmount} ₴`);
+        alert(`${t('admin.fundraising.sync_success')}${newAmount} ₴`);
       } else {
-        alert('Failed to fetch data from Monobank');
+        alert(t('admin.fundraising.sync_error'));
       }
     } catch (error) {
       console.error(error);
-      alert('Sync failed');
+      alert(t('admin.fundraising.sync_error'));
     }
   };
 
@@ -81,7 +89,6 @@ const FundraisingList: React.FC = () => {
     e.preventDefault();
     if (!editingItem) return;
 
-    // Extract Jar ID from link if needed
     let jarId = editingItem.jar_id;
     if (!jarId && editingItem.jar_link) {
         jarId = editingItem.jar_link.split('/').pop() || '';
@@ -111,7 +118,7 @@ const FundraisingList: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure?')) return;
+    if (!confirm(t('admin.fundraising.delete_confirm'))) return;
     
     try {
       const { error } = await supabase.from('fundraisings').delete().eq('id', id);
@@ -122,48 +129,48 @@ const FundraisingList: React.FC = () => {
     }
   };
 
-  return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-neutral-800">Fundraisings</h1>
-        <Button onClick={() => {
-          setEditingItem({
-            id: 'new',
-            title: '',
-            description: '',
-            target_amount: 0,
-            current_amount: 0,
-            jar_link: '',
-            jar_id: '',
-            card_number: '',
-            image_url: '',
-            is_active: true
-          });
-          setIsModalOpen(true);
-        }}>
-          <Plus size={20} className="mr-2" />
-          Add New
-        </Button>
-      </div>
+  if (loading) return <div className="p-8 text-center">{t('common.loading')}</div>;
 
-      <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-neutral-50 border-b border-neutral-200">
-            <tr>
-              <th className="px-6 py-4 text-left text-sm font-bold text-neutral-600">Title</th>
-              <th className="px-6 py-4 text-left text-sm font-bold text-neutral-600">Progress</th>
-              <th className="px-6 py-4 text-left text-sm font-bold text-neutral-600">Active</th>
-              <th className="px-6 py-4 text-right text-sm font-bold text-neutral-600">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-neutral-100">
+  return (
+    <>
+      <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
+        <div className="p-6 border-b border-neutral-100 flex justify-between items-center">
+          <h2 className="text-xl font-bold text-neutral-800">{t('admin.fundraising.title')}</h2>
+          <Button onClick={() => {
+            setEditingItem({
+              id: 'new',
+              title: '',
+              description: '',
+              target_amount: 0,
+              current_amount: 0,
+              jar_link: '',
+              jar_id: '',
+              card_number: '',
+              image_url: '',
+              is_active: true
+            });
+            setIsModalOpen(true);
+          }}>
+            <Plus size={18} className="mr-2" />
+            {t('admin.fundraising.add_new')}
+          </Button>
+        </div>
+
+        <AdminTable>
+          <AdminTableHead>
+            <AdminTableHeader>{t('admin.fundraising.table.title')}</AdminTableHeader>
+            <AdminTableHeader>{t('admin.fundraising.table.progress')}</AdminTableHeader>
+            <AdminTableHeader>{t('admin.fundraising.table.active')}</AdminTableHeader>
+            <AdminTableHeader align="right">{t('admin.fundraising.table.actions')}</AdminTableHeader>
+          </AdminTableHead>
+          <AdminTableBody>
             {items.map((item) => (
-              <tr key={item.id} className="hover:bg-neutral-50 transition-colors">
-                <td className="px-6 py-4">
+              <AdminTableRow key={item.id}>
+                <AdminTableCell>
                   <div className="font-bold text-neutral-800">{item.title}</div>
                   <div className="text-sm text-neutral-500 truncate max-w-xs">{item.description}</div>
-                </td>
-                <td className="px-6 py-4">
+                </AdminTableCell>
+                <AdminTableCell>
                   <div className="flex items-center gap-2">
                     <span className="font-mono font-medium">
                       {item.current_amount.toLocaleString()} / {item.target_amount.toLocaleString()} ₴
@@ -171,7 +178,7 @@ const FundraisingList: React.FC = () => {
                     <button 
                       onClick={() => handleSync(item)}
                       className="p-1.5 text-neutral-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
-                      title="Sync with Monobank"
+                      title={t('admin.fundraising.sync')}
                     >
                       <RefreshCw size={14} />
                     </button>
@@ -182,15 +189,15 @@ const FundraisingList: React.FC = () => {
                       style={{ width: `${Math.min((item.current_amount / item.target_amount) * 100, 100)}%` }}
                     />
                   </div>
-                </td>
-                <td className="px-6 py-4">
+                </AdminTableCell>
+                <AdminTableCell>
                   <span className={`px-2 py-1 rounded-full text-xs font-bold ${
                     item.is_active ? 'bg-green-100 text-green-700' : 'bg-neutral-100 text-neutral-500'
                   }`}>
-                    {item.is_active ? 'Active' : 'Inactive'}
+                    {item.is_active ? t('admin.services.active') : t('admin.services.inactive')}
                   </span>
-                </td>
-                <td className="px-6 py-4 text-right">
+                </AdminTableCell>
+                <AdminTableCell align="right">
                   <div className="flex justify-end gap-2">
                     <button 
                       onClick={() => {
@@ -208,11 +215,11 @@ const FundraisingList: React.FC = () => {
                       <Trash2 size={18} />
                     </button>
                   </div>
-                </td>
-              </tr>
+                </AdminTableCell>
+              </AdminTableRow>
             ))}
-          </tbody>
-        </table>
+          </AdminTableBody>
+        </AdminTable>
       </div>
 
       {/* Edit Modal */}
@@ -221,7 +228,7 @@ const FundraisingList: React.FC = () => {
           <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-neutral-100 flex justify-between items-center">
               <h2 className="text-xl font-bold">
-                {editingItem.id === 'new' ? 'New Fundraising' : 'Edit Fundraising'}
+                {editingItem.id === 'new' ? t('admin.fundraising.add_new') : t('admin.fundraising.edit')}
               </h2>
               <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-neutral-100 rounded-lg">
                 <ExternalLink size={20} />
@@ -231,7 +238,7 @@ const FundraisingList: React.FC = () => {
             <form onSubmit={handleSave} className="p-6 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-neutral-700">Title</label>
+                  <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.title')}</label>
                   <input 
                     type="text" 
                     required
@@ -241,7 +248,7 @@ const FundraisingList: React.FC = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-neutral-700">Image URL</label>
+                  <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.image_url')}</label>
                   <input 
                     type="text" 
                     value={editingItem.image_url}
@@ -252,7 +259,7 @@ const FundraisingList: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-neutral-700">Description</label>
+                <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.description')}</label>
                 <textarea 
                   rows={3}
                   value={editingItem.description}
@@ -263,7 +270,7 @@ const FundraisingList: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-neutral-700">Target Amount (UAH)</label>
+                  <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.target')}</label>
                   <input 
                     type="number" 
                     required
@@ -273,7 +280,7 @@ const FundraisingList: React.FC = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-neutral-700">Current Amount (UAH)</label>
+                  <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.current')}</label>
                   <div className="flex gap-2">
                     <input 
                       type="number" 
@@ -288,7 +295,7 @@ const FundraisingList: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-neutral-700">Jar Link</label>
+                  <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.jar_link')}</label>
                   <input 
                     type="text" 
                     value={editingItem.jar_link}
@@ -298,7 +305,7 @@ const FundraisingList: React.FC = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-neutral-700">Card Number</label>
+                  <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.card')}</label>
                   <input 
                     type="text" 
                     value={editingItem.card_number}
@@ -316,18 +323,18 @@ const FundraisingList: React.FC = () => {
                   onChange={e => setEditingItem({ ...editingItem, is_active: e.target.checked })}
                   className="w-4 h-4 text-primary-600 rounded"
                 />
-                <label htmlFor="isActive" className="text-sm font-medium text-neutral-700">Active (Show on site)</label>
+                <label htmlFor="isActive" className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.is_active')}</label>
               </div>
 
               <div className="flex justify-end gap-3 pt-4 border-t border-neutral-100">
-                <Button variant="outline" type="button" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-                <Button type="submit">Save Changes</Button>
+                <Button variant="outline" type="button" onClick={() => setIsModalOpen(false)}>{t('admin.fundraising.form.cancel')}</Button>
+                <Button type="submit">{t('admin.fundraising.form.save')}</Button>
               </div>
             </form>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

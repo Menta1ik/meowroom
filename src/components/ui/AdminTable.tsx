@@ -15,7 +15,7 @@ export const AdminTableHead: React.FC<{ children: React.ReactNode }> = ({ childr
   </thead>
 );
 
-export const AdminTableHeader: React.FC<{ children: React.ReactNode; className?: string; align?: 'left' | 'center' | 'right' }> = ({ 
+export const AdminTableHeader: React.FC<{ children?: React.ReactNode; className?: string; align?: 'left' | 'center' | 'right' }> = ({ 
   children, 
   className = "",
   align = 'left'
@@ -44,7 +44,7 @@ export const AdminTableRow: React.FC<{ children: React.ReactNode; className?: st
   </tr>
 );
 
-export const AdminTableCell: React.FC<{ children: React.ReactNode; className?: string; align?: 'left' | 'center' | 'right' }> = ({ 
+export const AdminTableCell: React.FC<{ children?: React.ReactNode; className?: string; align?: 'left' | 'center' | 'right' }> = ({ 
   children, 
   className = "",
   align = 'left'
