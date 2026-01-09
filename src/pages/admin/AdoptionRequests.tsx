@@ -106,7 +106,7 @@ export const AdoptionRequests: React.FC = () => {
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0">
                       <img 
-                        src={req.cat?.images?.[0] || 'https://via.placeholder.com/50'} 
+                        src={req.cat?.images?.[0] || 'https://placehold.co/50x50/e2e8f0/a0aec0?text=Cat'} 
                         alt={req.cat?.name}
                         className="w-12 h-12 rounded-lg object-cover bg-neutral-200"
                       />

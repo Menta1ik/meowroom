@@ -130,9 +130,9 @@ export const CatsList: React.FC = () => {
             {cats.map((cat) => (
               <tr key={cat.id} className="hover:bg-yellow-50 transition-colors">
                 <td className="p-4">
-                  <img 
-                    src={cat.images?.[0] || 'https://via.placeholder.com/40'} 
-                    alt={cat.name} 
+                  <img
+                    src={cat.images?.[0] || 'https://placehold.co/40x40/e2e8f0/a0aec0?text=Cat'}
+                    alt={cat.name}
                     className="w-10 h-10 rounded-full object-cover"
                   />
                 </td>

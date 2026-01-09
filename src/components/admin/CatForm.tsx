@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { Button } from '../ui/Button';
 import { Cat } from '../cards/CatCard';
-import { X, Upload, Trash2 } from 'lucide-react';
+import { X, Upload, Trash2, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { compressImage } from '../../utils/imageOptimizer';
 
 interface CatFormProps {
   initialData?: Cat;
@@ -47,28 +48,47 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
     
     setUploading(true);
     try {
-      const file = e.target.files[0];
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${fileName}`;
+      const files = Array.from(e.target.files);
+      const newImages: string[] = [];
 
-      const { error: uploadError } = await supabase.storage
-        .from('cats')
-        .upload(filePath, file);
+      // Upload in parallel
+      await Promise.all(files.map(async (originalFile) => {
+        // Compress image before upload
+        const file = await compressImage(originalFile);
+        
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        const filePath = `${fileName}`;
 
-      if (uploadError) throw uploadError;
+        const { error: uploadError } = await supabase.storage
+          .from('cats')
+          .upload(filePath, file);
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('cats')
-        .getPublicUrl(filePath);
+        if (uploadError) throw uploadError;
 
-      setFormData(prev => ({ ...prev, images: [...(prev.images || []), publicUrl] }));
+        const { data: { publicUrl } } = supabase.storage
+          .from('cats')
+          .getPublicUrl(filePath);
+        
+        newImages.push(publicUrl);
+      }));
+
+      setFormData(prev => ({ ...prev, images: [...(prev.images || []), ...newImages] }));
     } catch (error) {
-      console.error('Error uploading image:', error);
-      alert('Error uploading image');
+      console.error('Error uploading images:', error);
+      alert('Error uploading images');
     } finally {
       setUploading(false);
+      e.target.value = '';
     }
+  };
+
+  const handleSetCover = (index: number) => {
+    if (!formData.images) return;
+    const images = [...formData.images];
+    const [cover] = images.splice(index, 1);
+    images.unshift(cover);
+    setFormData(prev => ({ ...prev, images }));
   };
 
   const handleRemoveImage = (indexToRemove: number) => {
@@ -186,13 +206,23 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
           {formData.images?.map((url, index) => (
             <div key={index} className="relative group aspect-square rounded-lg overflow-hidden border border-neutral-200">
               <img src={url} alt={`Cat ${index}`} className="w-full h-full object-cover" />
-              <button
-                type="button"
-                onClick={() => handleRemoveImage(index)}
-                className="absolute top-2 right-2 bg-white/90 p-1.5 rounded-full text-red-500 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                <Trash2 size={16} />
-              </button>
+              <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  type="button"
+                  onClick={() => handleSetCover(index)}
+                  className={`bg-white/90 p-1.5 rounded-full shadow-sm hover:bg-white ${index === 0 ? 'text-yellow-500' : 'text-neutral-400 hover:text-yellow-500'}`}
+                  title="Set as cover"
+                >
+                  <Star size={16} fill={index === 0 ? "currentColor" : "none"} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(index)}
+                  className="bg-white/90 p-1.5 rounded-full text-red-500 shadow-sm hover:bg-white"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
               {index === 0 && (
                 <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-xs text-center py-1">
                   {t('admin.cats.form.cover')}
@@ -203,7 +233,7 @@ export const CatForm: React.FC<CatFormProps> = ({ initialData, isEdit }) => {
           <label className="border-2 border-dashed border-neutral-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-colors aspect-square">
             <Upload className="text-neutral-400 mb-2" />
             <span className="text-sm text-neutral-500">{uploading ? t('admin.common.uploading') : t('admin.cats.form.upload_image')}</span>
-            <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={uploading} />
+            <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" disabled={uploading} />
           </label>
         </div>
       </div>
