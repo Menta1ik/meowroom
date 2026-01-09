@@ -5,6 +5,10 @@
       "destination": "/api/sitemap"
     },
     {
+      "source": "/api/jar-status",
+      "destination": "/api/jar-status"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

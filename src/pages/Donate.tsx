@@ -7,9 +7,14 @@ import { Heart, Building, ShoppingBag, Gift, HandHeart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 import { Helmet } from 'react-helmet-async';
+import { useJarStatus } from '../hooks/useJarStatus';
 
 const Donate: React.FC = () => {
   const { t } = useTranslation();
+  const { data: jarData } = useJarStatus();
+  
+  const currentAmount = jarData?.current || 9450;
+  const targetAmount = jarData?.goal || 35000;
 
   return (
     <>
@@ -39,8 +44,8 @@ const Donate: React.FC = () => {
             <UrgentFundraising
               title={t('donate.urgent.title')}
               description={t('donate.urgent.desc')}
-              currentAmount={9450}
-              targetAmount={35000}
+              currentAmount={currentAmount}
+              targetAmount={targetAmount}
               jarLink="https://send.monobank.ua/jar/89zjWt9p7P"
               cardNumber="4874 1000 2241 5460"
             />

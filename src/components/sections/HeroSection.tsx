@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../ui/Button';
 import { Link } from 'react-router-dom';
 import { Cat } from 'lucide-react';
+import { useJarStatus } from '../../hooks/useJarStatus';
 
 interface HeroSectionProps {
   onBooking?: () => void;
@@ -19,6 +20,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
   const { t } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [catsCount] = useState<number>(61);
+  
+  const { data: jarData } = useJarStatus();
+  const currentAmount = jarData?.current || 9450;
+  const targetAmount = jarData?.goal || 35000;
+  const percentage = Math.min(Math.round((currentAmount / targetAmount) * 100), 100);
 
   useEffect(() => {
     // Randomize start image
@@ -112,6 +118,63 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
           </div>
         </motion.div>
       </div>
+
+      {/* Urgent Fundraising Card (Floating Widget) */}
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="absolute bottom-4 left-4 md:bottom-12 md:left-12 z-30 max-w-[calc(100%-2rem)] md:max-w-sm w-full"
+        >
+          <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 flex gap-4 items-center relative overflow-hidden group">
+            {/* Pulsing indicator */}
+            <div className="absolute top-0 left-0 w-1 h-full bg-red-500 animate-pulse"></div>
+            
+            {/* Image */}
+            <div className="w-20 h-20 shrink-0 rounded-xl overflow-hidden bg-neutral-100 relative">
+              <img src="/jordan-after.jpg" alt="Urgent" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-red-500/10 mix-blend-overlay"></div>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 min-w-0">
+              <div className="flex justify-between items-start mb-1">
+                <h3 className="font-bold text-neutral-800 text-sm leading-tight truncate pr-2">
+                  {t('donate.urgent.title')}
+                </h3>
+                <span className="bg-red-100 text-red-600 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide animate-pulse">
+                  SOS
+                </span>
+              </div>
+              
+              <p className="text-xs text-neutral-500 mb-2 line-clamp-1">{t('donate.urgent.desc')}</p>
+
+              {/* Progress */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-[10px] font-bold">
+                  <span className="text-red-600">{currentAmount.toLocaleString('ru-RU')} ₴</span>
+                  <span className="text-neutral-400">{targetAmount.toLocaleString('ru-RU')} ₴</span>
+                </div>
+                <div className="h-1.5 w-full bg-neutral-100 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all duration-1000 ease-out"
+                    style={{ width: `${percentage}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              <div className="mt-3">
+                <Link to="/donate" className="block">
+                  <button className="w-full bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 rounded-lg transition-colors shadow-sm shadow-red-200">
+                    {t('urgent.cta_help')}
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
 
       {/* Scroll Indicator */}
       <motion.div
