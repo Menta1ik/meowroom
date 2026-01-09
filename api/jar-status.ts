@@ -10,7 +10,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const response = await fetch(`https://api.monobank.ua/bank/jar/${jarId}`, {
+    // Use Personal API client-info as it is the authenticated and documented way
+    // Note: This endpoint has a rate limit of 1 request per 60 seconds
+    const response = await fetch('https://api.monobank.ua/personal/client-info', {
       headers: {
         'X-Token': process.env.MONOBANK_API_TOKEN || ''
       }
@@ -18,10 +20,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     if (!response.ok) {
       console.error(`Monobank API error: ${response.status}`);
-      return res.status(response.status).json({ error: 'Failed to fetch jar data' });
+      return res.status(response.status).json({ error: 'Failed to fetch client info' });
     }
 
-    const data = await response.json();
+    const clientInfo = await response.json();
+    const jar = clientInfo.jars.find((j: any) => j.id === jarId);
+
+    if (!jar) {
+      return res.status(404).json({ error: 'Jar not found' });
+    }
+
+    // Map Personal API response to expected format
+    // balance is in cents, goal is in cents
+    const data = {
+      amount: jar.balance,
+      goal: jar.goal,
+      active: true // Jars in client-info are active
+    };
 
     // Cache for 5 minutes
     res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
