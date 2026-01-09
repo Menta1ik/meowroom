@@ -3,6 +3,14 @@ import { supabase } from '../../lib/supabase';
 import { Plus, Edit2, Trash2, Check, X, Clock } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { useTranslation } from 'react-i18next';
+import { 
+  AdminTable, 
+  AdminTableHead, 
+  AdminTableHeader, 
+  AdminTableBody, 
+  AdminTableRow, 
+  AdminTableCell 
+} from '../../components/ui/AdminTable';
 
 interface Service {
   id: string;
@@ -124,42 +132,44 @@ export const ServicesList: React.FC = () => {
   if (loading) return <div className="p-8 text-center">{t('common.loading')}</div>;
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
-      <div className="p-6 border-b border-neutral-100 flex justify-between items-center">
-        <h2 className="text-xl font-bold text-neutral-800">{t('admin.services.title')}</h2>
-        <Button onClick={openCreateModal} className="flex items-center gap-2">
-          <Plus size={18} />
-          {t('admin.services.add_new')}
-        </Button>
-      </div>
+    <>
+      <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
+        <div className="p-6 border-b border-neutral-100 flex justify-between items-center">
+          <h2 className="text-xl font-bold text-neutral-800">{t('admin.services.title')}</h2>
+          <Button onClick={openCreateModal} className="flex items-center gap-2">
+            <Plus size={18} />
+            {t('admin.services.add_new')}
+          </Button>
+        </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="text-left text-sm font-semibold text-neutral-600">
-            <tr>
-              <th className="p-4">{t('admin.services.table.name')}</th>
-              <th className="p-4">{t('admin.services.table.duration')}</th>
-              <th className="p-4">{t('admin.services.table.price')}</th>
-              <th className="p-4">{t('admin.services.table.active')}</th>
-              <th className="p-4">{t('admin.services.table.actions')}</th>
-              <th className="p-4 text-right"></th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-neutral-100">
+        <AdminTable>
+          <AdminTableHead>
+            <AdminTableHeader>{t('admin.services.table.name')}</AdminTableHeader>
+            <AdminTableHeader>{t('admin.services.table.duration')}</AdminTableHeader>
+            <AdminTableHeader>{t('admin.services.table.price')}</AdminTableHeader>
+            <AdminTableHeader>{t('admin.services.table.active')}</AdminTableHeader>
+            <AdminTableHeader>{t('admin.services.table.actions')}</AdminTableHeader>
+            <AdminTableHeader align="right"></AdminTableHeader>
+          </AdminTableHead>
+          <AdminTableBody>
             {services.map((service) => (
-              <tr key={service.id} className="hover:bg-yellow-50 transition-colors">
-                <td className="p-4 font-medium text-neutral-800">
-                  {service.name}
-                  {service.description && <p className="text-xs text-neutral-400 font-normal truncate max-w-xs">{service.description}</p>}
-                </td>
-                <td className="p-4 text-neutral-600">
-                  <div className="flex items-center gap-1">
+              <AdminTableRow key={service.id}>
+                <AdminTableCell>
+                  <div className="font-medium text-neutral-800">
+                    {service.name}
+                    {service.description && <p className="text-xs text-neutral-400 font-normal truncate max-w-xs">{service.description}</p>}
+                  </div>
+                </AdminTableCell>
+                <AdminTableCell>
+                  <div className="text-neutral-600 flex items-center gap-1">
                     <Clock size={14} />
                     {service.duration_minutes} {t('booking.duration')}
                   </div>
-                </td>
-                <td className="p-4 font-bold text-primary-600">{service.price} ₴</td>
-                <td className="p-4">
+                </AdminTableCell>
+                <AdminTableCell>
+                  <span className="font-bold text-primary-600">{service.price} ₴</span>
+                </AdminTableCell>
+                <AdminTableCell>
                   {service.requires_prepayment ? (
                     <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-medium">
                       {t('admin.services.form.prepayment')}
@@ -167,8 +177,8 @@ export const ServicesList: React.FC = () => {
                   ) : (
                     <span className="text-neutral-400 text-sm">{t('admin.services.form.optional', 'Optional')}</span>
                   )}
-                </td>
-                <td className="p-4">
+                </AdminTableCell>
+                <AdminTableCell>
                   {service.is_active ? (
                     <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-green-50 text-green-700 text-xs font-medium">
                       {t('admin.services.active', 'Active')}
@@ -178,32 +188,39 @@ export const ServicesList: React.FC = () => {
                       {t('admin.services.inactive', 'Inactive')}
                     </span>
                   )}
-                </td>
-                <td className="p-4 text-right space-x-2">
-                  <button 
-                    onClick={() => openEditModal(service)}
-                    className="p-2 text-neutral-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
-                  >
-                    <Edit2 size={16} />
-                  </button>
-                  <button 
-                    onClick={() => handleDelete(service.id)}
-                    className="p-2 text-neutral-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </td>
-              </tr>
+                </AdminTableCell>
+                <AdminTableCell align="right">
+                  <div className="space-x-2">
+                    <button 
+                      onClick={() => openEditModal(service)}
+                      className="p-2 text-neutral-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                    >
+                      <Edit2 size={16} />
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(service.id)}
+                      className="p-2 text-neutral-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </AdminTableCell>
+              </AdminTableRow>
             ))}
             {services.length === 0 && (
-              <tr>
-                <td colSpan={6} className="p-8 text-center text-neutral-500">
+              <AdminTableRow>
+                <AdminTableCell className="text-center text-neutral-500">
                   {t('admin.services.empty', 'No services found.')}
-                </td>
-              </tr>
+                </AdminTableCell>
+                <AdminTableCell />
+                <AdminTableCell />
+                <AdminTableCell />
+                <AdminTableCell />
+                <AdminTableCell />
+              </AdminTableRow>
             )}
-          </tbody>
-        </table>
+          </AdminTableBody>
+        </AdminTable>
       </div>
 
       {/* Create/Edit Modal */}
@@ -302,6 +319,6 @@ export const ServicesList: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };

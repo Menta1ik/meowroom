@@ -4,6 +4,14 @@ import { format, parseISO, isToday, isFuture } from 'date-fns';
 import { getDateLocale } from '../../lib/utils';
 import { Calendar, Clock, User, Phone, CheckCircle, XCircle, AlertCircle, CreditCard, RefreshCw, ArrowUpDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { 
+  AdminTable, 
+  AdminTableHead, 
+  AdminTableHeader, 
+  AdminTableBody, 
+  AdminTableRow, 
+  AdminTableCell 
+} from '../../components/ui/AdminTable';
 
 interface Booking {
   id: string;
@@ -236,128 +244,130 @@ export const BookingsList: React.FC = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="text-left text-sm font-semibold text-neutral-600">
-            <tr>
-              <th className="p-4">{t('admin.bookings.table.created_at')}</th>
-              <th className="p-4">{t('admin.bookings.table.date')}</th>
-              <th className="p-4">{t('admin.bookings.table.customer')}</th>
-              <th className="p-4">{t('admin.bookings.table.service')}</th>
-              <th className="p-4">{t('admin.bookings.table.payment')}</th>
-              <th className="p-4">{t('admin.bookings.table.status')}</th>
-              <th className="p-4 text-right">{t('admin.bookings.table.actions')}</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-neutral-100">
-            {filteredBookings.map((booking) => (
-              <tr key={booking.id} className="hover:bg-yellow-50 transition-colors">
-                <td className="p-4">
-                  <div className="text-sm text-neutral-600">
-                    {booking.created_at ? format(parseISO(booking.created_at), 'dd.MM.yyyy', { locale: getDateLocale(i18n.language) }) : '-'}
+      <AdminTable>
+        <AdminTableHead>
+          <AdminTableHeader>{t('admin.bookings.table.created_at')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.bookings.table.date')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.bookings.table.customer')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.bookings.table.service')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.bookings.table.payment')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.bookings.table.status')}</AdminTableHeader>
+          <AdminTableHeader align="right">{t('admin.bookings.table.actions')}</AdminTableHeader>
+        </AdminTableHead>
+        <AdminTableBody>
+          {filteredBookings.map((booking) => (
+            <AdminTableRow key={booking.id}>
+              <AdminTableCell>
+                <div className="text-sm text-neutral-600">
+                  {booking.created_at ? format(parseISO(booking.created_at), 'dd.MM.yyyy', { locale: getDateLocale(i18n.language) }) : '-'}
+                </div>
+                <div className="text-xs text-neutral-400">
+                  {booking.created_at ? format(parseISO(booking.created_at), 'HH:mm') : ''}
+                </div>
+              </AdminTableCell>
+              <AdminTableCell>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2 font-medium text-neutral-800">
+                    <Calendar size={14} className="text-primary-500" />
+                    {format(parseISO(booking.booking_date), 'd MMMM yyyy', { locale: getDateLocale(i18n.language) })}
                   </div>
-                  <div className="text-xs text-neutral-400">
-                    {booking.created_at ? format(parseISO(booking.created_at), 'HH:mm') : ''}
+                  <div className="flex items-center gap-2 text-sm text-neutral-500 mt-1">
+                    <Clock size={14} />
+                    {booking.booking_time.slice(0, 5)}
                   </div>
-                </td>
-                <td className="p-4">
-                  <div className="flex flex-col">
-                    <div className="flex items-center gap-2 font-medium text-neutral-800">
-                      <Calendar size={14} className="text-primary-500" />
-                      {format(parseISO(booking.booking_date), 'd MMMM yyyy', { locale: getDateLocale(i18n.language) })}
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-neutral-500 mt-1">
-                      <Clock size={14} />
-                      {booking.booking_time.slice(0, 5)}
-                    </div>
-                  </div>
-                </td>
-                <td className="p-4">
-                  <div className="font-medium text-neutral-800">{booking.customer_name}</div>
-                  <div className="flex items-center gap-1 text-sm text-neutral-500 mt-0.5">
-                    <Phone size={12} />
-                    <a href={`tel:${booking.customer_phone}`} className="hover:text-primary-600">
-                      {booking.customer_phone}
-                    </a>
-                  </div>
-                  <div className="text-xs text-neutral-400 mt-0.5">
-                    {booking.guests_count} {t('admin.bookings.guests')}
-                  </div>
-                </td>
-                <td className="p-4">
-                  <div className="text-sm font-medium text-neutral-700">
-                    {booking.services?.name || t('admin.bookings.unknown_service')}
-                  </div>
-                  <div className="text-xs text-neutral-500">
-                    {booking.total_price} ₴
-                  </div>
-                </td>
-                <td className="p-4">
-                  <span className={`text-sm ${getPaymentColor(booking.payment_status)} uppercase text-xs tracking-wider`}>
-                    {t(`admin.bookings.payment_status.${booking.payment_status}`)}
-                  </span>
-                </td>
-                <td className="p-4">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide ${getStatusColor(booking.status)}`}>
-                    {t(`admin.bookings.status.${booking.status}`)}
-                  </span>
-                </td>
-                <td className="p-4 text-right">
-                  <div className="flex justify-end gap-2">
-                    {/* Check Status Button */}
-                    {booking.payment_status === 'unpaid' && booking.payment_id && (
-                      <button
-                        onClick={() => checkPaymentStatus(booking)}
-                        className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
-                        title={t('admin.bookings.actions.check_status')}
-                      >
-                        <RefreshCw size={18} />
-                      </button>
-                    )}
+                </div>
+              </AdminTableCell>
+              <AdminTableCell>
+                <div className="font-medium text-neutral-800">{booking.customer_name}</div>
+                <div className="flex items-center gap-1 text-sm text-neutral-500 mt-0.5">
+                  <Phone size={12} />
+                  <a href={`tel:${booking.customer_phone}`} className="hover:text-primary-600">
+                    {booking.customer_phone}
+                  </a>
+                </div>
+                <div className="text-xs text-neutral-400 mt-0.5">
+                  {booking.guests_count} {t('admin.bookings.guests')}
+                </div>
+              </AdminTableCell>
+              <AdminTableCell>
+                <div className="text-sm font-medium text-neutral-700">
+                  {booking.services?.name || t('admin.bookings.unknown_service')}
+                </div>
+                <div className="text-xs text-neutral-500">
+                  {booking.total_price} ₴
+                </div>
+              </AdminTableCell>
+              <AdminTableCell>
+                <span className={`text-sm ${getPaymentColor(booking.payment_status)} uppercase text-xs tracking-wider`}>
+                  {t(`admin.bookings.payment_status.${booking.payment_status}`)}
+                </span>
+              </AdminTableCell>
+              <AdminTableCell>
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide ${getStatusColor(booking.status)}`}>
+                  {t(`admin.bookings.status.${booking.status}`)}
+                </span>
+              </AdminTableCell>
+              <AdminTableCell align="right">
+                <div className="flex justify-end gap-2">
+                  {/* Check Status Button */}
+                  {booking.payment_status === 'unpaid' && booking.payment_id && (
+                    <button
+                      onClick={() => checkPaymentStatus(booking)}
+                      className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                      title={t('admin.bookings.actions.check_status')}
+                    >
+                      <RefreshCw size={18} />
+                    </button>
+                  )}
 
-                    {/* Create Invoice Button */}
-                    {booking.payment_status === 'unpaid' && booking.status !== 'cancelled' && !booking.payment_id && (
-                      <button
-                        onClick={() => handlePayment(booking)}
-                        className="p-1.5 text-purple-600 hover:bg-purple-50 rounded transition-colors"
-                        title={t('admin.bookings.actions.pay')}
-                      >
-                        <CreditCard size={18} />
-                      </button>
-                    )}
+                  {/* Create Invoice Button */}
+                  {booking.payment_status === 'unpaid' && booking.status !== 'cancelled' && !booking.payment_id && (
+                    <button
+                      onClick={() => handlePayment(booking)}
+                      className="p-1.5 text-purple-600 hover:bg-purple-50 rounded transition-colors"
+                      title={t('admin.bookings.actions.pay')}
+                    >
+                      <CreditCard size={18} />
+                    </button>
+                  )}
 
-                    {booking.status === 'pending' && (
-                      <button
-                        onClick={() => updateStatus(booking.id, 'confirmed')}
-                        className="p-1.5 text-green-600 hover:bg-green-50 rounded transition-colors"
-                        title={t('admin.bookings.actions.confirm')}
-                      >
-                        <CheckCircle size={18} />
-                      </button>
-                    )}
-                    {booking.status !== 'cancelled' && (
-                      <button
-                        onClick={() => updateStatus(booking.id, 'cancelled')}
-                        className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
-                        title={t('admin.bookings.actions.cancel')}
-                      >
-                        <XCircle size={18} />
-                      </button>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {filteredBookings.length === 0 && (
-              <tr>
-                <td colSpan={7} className="p-8 text-center text-neutral-500">
-                  {t('admin.bookings.empty')}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+                  {booking.status === 'pending' && (
+                    <button
+                      onClick={() => updateStatus(booking.id, 'confirmed')}
+                      className="p-1.5 text-green-600 hover:bg-green-50 rounded transition-colors"
+                      title={t('admin.bookings.actions.confirm')}
+                    >
+                      <CheckCircle size={18} />
+                    </button>
+                  )}
+                  {booking.status !== 'cancelled' && (
+                    <button
+                      onClick={() => updateStatus(booking.id, 'cancelled')}
+                      className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
+                      title={t('admin.bookings.actions.cancel')}
+                    >
+                      <XCircle size={18} />
+                    </button>
+                  )}
+                </div>
+              </AdminTableCell>
+            </AdminTableRow>
+          ))}
+          {filteredBookings.length === 0 && (
+            <AdminTableRow>
+              <AdminTableCell className="text-center text-neutral-500">
+                {t('admin.bookings.empty')}
+              </AdminTableCell>
+              <AdminTableCell />
+              <AdminTableCell />
+              <AdminTableCell />
+              <AdminTableCell />
+              <AdminTableCell />
+              <AdminTableCell />
+            </AdminTableRow>
+          )}
+        </AdminTableBody>
+      </AdminTable>
     </div>
   );
 };

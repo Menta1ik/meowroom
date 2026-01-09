@@ -4,6 +4,14 @@ import { format } from 'date-fns';
 import { getDateLocale } from '../../lib/utils';
 import { MessageSquare, Phone, Mail, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { 
+  AdminTable, 
+  AdminTableHead, 
+  AdminTableHeader, 
+  AdminTableBody, 
+  AdminTableRow, 
+  AdminTableCell 
+} from '../../components/ui/AdminTable';
 
 interface AdoptionRequest {
   id: string;
@@ -78,109 +86,120 @@ export const AdoptionRequests: React.FC = () => {
         <h2 className="text-xl font-bold text-neutral-800">{t('admin.requests.title')}</h2>
       </div>
 
-      {requests.length === 0 ? (
-        <div className="p-8 text-center text-neutral-500">
-          {t('admin.requests.empty')}
-        </div>
-      ) : (
-        <div className="divide-y divide-neutral-100">
+      <AdminTable>
+        <AdminTableHead>
+          <AdminTableHeader>{t('admin.requests.table.date')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.requests.table.cat')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.requests.table.applicant')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.requests.table.message')}</AdminTableHeader>
+          <AdminTableHeader align="right">{t('admin.requests.table.status')}</AdminTableHeader>
+        </AdminTableHead>
+        <AdminTableBody>
           {requests.map((req) => (
-            <div key={req.id} className="p-6">
-              <div className="flex flex-col md:flex-row justify-between gap-4">
-                
-                {/* Request Info */}
-                <div className="flex-grow space-y-2">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className={`px-2 py-1 rounded-md text-xs font-bold uppercase tracking-wider ${
-                      req.type === 'adopt' 
-                        ? 'bg-purple-100 text-purple-700' 
-                        : 'bg-blue-100 text-blue-700'
-                    }`}>
-                      {t(`admin.requests.types.${req.type}`)}
-                    </span>
-                    <span className="text-sm text-neutral-400">
-                      {format(new Date(req.created_at), 'PPP p', { locale: getDateLocale(i18n.language) })}
-                    </span>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
-                      <img 
-                        src={req.cat?.images?.[0] || 'https://placehold.co/50x50/e2e8f0/a0aec0?text=Cat'} 
-                        alt={req.cat?.name}
-                        className="w-12 h-12 rounded-lg object-cover bg-neutral-200"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-neutral-800">
-                        {req.name} {t('admin.requests.wants_support')} <span className="text-primary-600">{req.cat?.name || t('admin.requests.unknown_cat')}</span>
-                      </h3>
-                      <div className="flex flex-wrap gap-4 mt-1 text-sm text-neutral-600">
-                        <div className="flex items-center gap-1">
-                          <Phone size={14} />
-                          <a href={`tel:${req.phone}`} className="hover:text-primary-600">{req.phone}</a>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Mail size={14} />
-                          <a href={`mailto:${req.email}`} className="hover:text-primary-600">{req.email}</a>
-                        </div>
-                      </div>
-                      {req.message && (
-                        <div className="mt-2 text-sm text-neutral-600 bg-neutral-100 p-3 rounded-lg flex gap-2">
-                          <MessageSquare size={16} className="shrink-0 mt-0.5 opacity-50" />
-                          <p>{req.message}</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+            <AdminTableRow key={req.id}>
+              <AdminTableCell>
+                <div className="flex flex-col gap-1">
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider w-fit ${
+                    req.type === 'adopt' 
+                      ? 'bg-purple-100 text-purple-700' 
+                      : 'bg-blue-100 text-blue-700'
+                  }`}>
+                    {t(`admin.requests.types.${req.type}`)}
+                  </span>
+                  <span className="text-sm text-neutral-600">
+                    {format(new Date(req.created_at), 'dd.MM.yyyy', { locale: getDateLocale(i18n.language) })}
+                  </span>
+                  <span className="text-xs text-neutral-400">
+                    {format(new Date(req.created_at), 'HH:mm')}
+                  </span>
                 </div>
-
-                {/* Status Actions */}
-                <div className="flex flex-col gap-2 min-w-[140px]">
-                  <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1">{t('admin.requests.table.status')}</p>
-                  
-                  <button
+              </AdminTableCell>
+              <AdminTableCell>
+                <div className="flex items-center gap-3">
+                  <img 
+                    src={req.cat?.images?.[0] || 'https://placehold.co/40x40/e2e8f0/a0aec0?text=Cat'} 
+                    alt={req.cat?.name}
+                    className="w-10 h-10 rounded-full object-cover bg-neutral-200"
+                  />
+                  <span className="font-medium text-neutral-800">{req.cat?.name || t('admin.requests.unknown_cat')}</span>
+                </div>
+              </AdminTableCell>
+              <AdminTableCell>
+                <div className="font-medium text-neutral-800">{req.name}</div>
+                <div className="flex flex-col gap-0.5 mt-1">
+                  <div className="flex items-center gap-1.5 text-sm text-neutral-500">
+                    <Phone size={12} />
+                    <a href={`tel:${req.phone}`} className="hover:text-primary-600">{req.phone}</a>
+                  </div>
+                  {req.email && (
+                    <div className="flex items-center gap-1.5 text-sm text-neutral-500">
+                      <Mail size={12} />
+                      <a href={`mailto:${req.email}`} className="hover:text-primary-600">{req.email}</a>
+                    </div>
+                  )}
+                </div>
+              </AdminTableCell>
+              <AdminTableCell>
+                {req.message ? (
+                  <div className="text-sm text-neutral-600 bg-neutral-50 p-2 rounded-lg max-w-xs">
+                    <p className="line-clamp-3" title={req.message}>{req.message}</p>
+                  </div>
+                ) : (
+                  <span className="text-neutral-400 text-sm">-</span>
+                )}
+              </AdminTableCell>
+              <AdminTableCell align="right">
+                <div className="flex flex-col gap-2 items-end">
+                   <button
                     onClick={() => updateStatus(req.id, 'new')}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
+                    className={`flex items-center gap-2 px-2 py-1 rounded text-xs transition-colors w-full justify-end ${
                       req.status === 'new' 
-                        ? 'bg-yellow-100 text-yellow-800 font-medium' 
-                        : 'text-neutral-500 hover:bg-neutral-100'
+                        ? 'text-yellow-700 font-bold bg-yellow-50' 
+                        : 'text-neutral-400 hover:text-yellow-600'
                     }`}
                   >
-                    <Clock size={16} />
+                    {req.status === 'new' && <Clock size={12} />}
                     {t('admin.requests.statuses.new')}
                   </button>
 
                   <button
                     onClick={() => updateStatus(req.id, 'contacted')}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
+                    className={`flex items-center gap-2 px-2 py-1 rounded text-xs transition-colors w-full justify-end ${
                       req.status === 'contacted' 
-                        ? 'bg-blue-100 text-blue-800 font-medium' 
-                        : 'text-neutral-500 hover:bg-neutral-100'
+                        ? 'text-blue-700 font-bold bg-blue-50' 
+                        : 'text-neutral-400 hover:text-blue-600'
                     }`}
                   >
-                    <CheckCircle size={16} />
+                    {req.status === 'contacted' && <CheckCircle size={12} />}
                     {t('admin.requests.statuses.contacted')}
                   </button>
 
                   <button
                     onClick={() => updateStatus(req.id, 'closed')}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
+                    className={`flex items-center gap-2 px-2 py-1 rounded text-xs transition-colors w-full justify-end ${
                       req.status === 'closed' 
-                        ? 'bg-green-100 text-green-800 font-medium' 
-                        : 'text-neutral-500 hover:bg-neutral-100'
+                        ? 'text-green-700 font-bold bg-green-50' 
+                        : 'text-neutral-400 hover:text-green-600'
                     }`}
                   >
-                    <XCircle size={16} />
+                    {req.status === 'closed' && <XCircle size={12} />}
                     {t('admin.requests.statuses.closed')}
                   </button>
                 </div>
-
-              </div>
-            </div>
+              </AdminTableCell>
+            </AdminTableRow>
           ))}
-        </div>
-      )}
+          {requests.length === 0 && (
+            <AdminTableRow>
+              <AdminTableCell className="text-center text-neutral-500" />
+              <AdminTableCell />
+                {t('admin.requests.empty')}
+              <AdminTableCell />
+              <AdminTableCell />
+            </AdminTableRow>
+          )}
+        </AdminTableBody>
+      </AdminTable>
     </div>
   );
 };

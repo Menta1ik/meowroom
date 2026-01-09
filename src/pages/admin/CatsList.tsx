@@ -6,6 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { useTranslation } from 'react-i18next';
 import { read, utils, writeFile } from 'xlsx';
+import { 
+  AdminTable, 
+  AdminTableHead, 
+  AdminTableHeader, 
+  AdminTableBody, 
+  AdminTableRow, 
+  AdminTableCell 
+} from '../../components/ui/AdminTable';
 
 export const CatsList: React.FC = () => {
   const { cats, loading, error } = useCats();
@@ -77,7 +85,6 @@ export const CatsList: React.FC = () => {
     try {
       const { error } = await supabase.from('cats').delete().eq('id', id);
       if (error) throw error;
-      // Refresh list (simple reload for now, ideally update local state)
       window.location.reload();
     } catch (err) {
       console.error('Error deleting cat:', err);
@@ -115,61 +122,65 @@ export const CatsList: React.FC = () => {
         />
       </div>
       
-      <div className="overflow-x-auto">
-        <table className="w-full text-left">
-          <thead className="text-sm font-semibold text-neutral-600">
-            <tr>
-              <th className="p-4">{t('admin.cats.table.image')}</th>
-              <th className="p-4">{t('admin.cats.table.name')}</th>
-              <th className="p-4">{t('admin.cats.table.age')}</th>
-              <th className="p-4">{t('admin.cats.table.gender')}</th>
-              <th className="p-4">{t('admin.cats.table.actions')}</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-neutral-100">
-            {cats.map((cat) => (
-              <tr key={cat.id} className="hover:bg-yellow-50 transition-colors">
-                <td className="p-4">
-                  <img
-                    src={cat.images?.[0] || 'https://placehold.co/40x40/e2e8f0/a0aec0?text=Cat'}
-                    alt={cat.name}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                </td>
-                <td className="p-4 font-medium text-neutral-800">{cat.name}</td>
-                <td className="p-4 text-neutral-600">{cat.age}</td>
-                <td className="p-4 text-neutral-600">
+      <AdminTable>
+        <AdminTableHead>
+          <AdminTableHeader>{t('admin.cats.table.image')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.cats.table.name')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.cats.table.age')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.cats.table.gender')}</AdminTableHeader>
+          <AdminTableHeader>{t('admin.cats.table.actions')}</AdminTableHeader>
+        </AdminTableHead>
+        <AdminTableBody>
+          {cats.map((cat) => (
+            <AdminTableRow key={cat.id}>
+              <AdminTableCell>
+                <img
+                  src={cat.images?.[0] || 'https://placehold.co/40x40/e2e8f0/a0aec0?text=Cat'}
+                  alt={cat.name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              </AdminTableCell>
+              <AdminTableCell>
+                <div className="font-medium text-neutral-800">{cat.name}</div>
+              </AdminTableCell>
+              <AdminTableCell>
+                <div className="text-neutral-600">{cat.age}</div>
+              </AdminTableCell>
+              <AdminTableCell>
+                <div className="text-neutral-600">
                   {cat.gender === 'boy' || cat.gender === 'Мальчик' ? t('admin.cats.gender.boy') : 
                    cat.gender === 'girl' || cat.gender === 'Девочка' ? t('admin.cats.gender.girl') : cat.gender}
-                </td>
-                <td className="p-4">
-                  <div className="flex gap-2">
-                    <button 
-                      onClick={() => navigate(`/admin/cats/${cat.id}`)}
-                      className="p-2 hover:bg-primary-50 text-primary-600 rounded-full transition-colors"
-                    >
-                      <Edit size={18} />
-                    </button>
-                    <button 
-                      onClick={() => handleDelete(cat.id)}
-                      className="p-2 hover:bg-red-50 text-red-500 rounded-full transition-colors"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {cats.length === 0 && (
-              <tr>
-                <td colSpan={5} className="p-8 text-center text-neutral-500">
-                  No cats found. Add one to get started!
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+                </div>
+              </AdminTableCell>
+              <AdminTableCell>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => navigate(`/admin/cats/${cat.id}`)}
+                    className="p-2 hover:bg-primary-50 text-primary-600 rounded-full transition-colors"
+                  >
+                    <Edit size={18} />
+                  </button>
+                  <button 
+                    onClick={() => handleDelete(cat.id)}
+                    className="p-2 hover:bg-red-50 text-red-500 rounded-full transition-colors"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+              </AdminTableCell>
+            </AdminTableRow>
+          ))}
+          {cats.length === 0 && (
+            <AdminTableRow>
+              <AdminTableCell className="text-center text-neutral-500" />
+              <AdminTableCell />
+                No cats found. Add one to get started!
+              <AdminTableCell />
+              <AdminTableCell />
+            </AdminTableRow>
+          )}
+        </AdminTableBody>
+      </AdminTable>
     </div>
   );
 };
