@@ -110,7 +110,12 @@
       "before": "BEFORE SURGERY",
       "after_op": "After surgery",
       "recovery": "Recovery"
-    }
+    },
+    "card_number": "Card Number"
+  },
+  "fundraising": {
+    "gallery": "Gallery",
+    "no_media": "No media added yet"
   },
   "about_section": {
     "title": "What is Meowroom?",
@@ -347,8 +352,10 @@
     }
   },
   "common": {
-    "loading": "Loading...",
-    "read_more": "Read more"
+    "back": "Back",
+    "share": "Share",
+    "link_copied": "Link copied!",
+    "not_found": "Not found"
   },
   "seo": {
     "default_title": "Meowroom - Cat Shelter & Anticafe in Kharkiv | Cat Cafe",
@@ -374,7 +381,10 @@
         "confirm_delete": "Are you sure you want to delete?",
         "delete_error": "Failed to delete",
         "save_success": "Saved successfully",
-        "save_error": "Save error"
+        "save_error": "Save error",
+        "upload": "Upload",
+        "add": "Add",
+        "uploading": "Loading..."
     },
     "login": {
       "title": "Admin Login",

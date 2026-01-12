@@ -11,11 +11,8 @@ import { useJarStatus } from '../hooks/useJarStatus';
 
 const Donate: React.FC = () => {
   const { t } = useTranslation();
-  const { data: jarData } = useJarStatus();
+  const { items } = useJarStatus();
   
-  const currentAmount = jarData?.current || 9450;
-  const targetAmount = jarData?.goal || 35000;
-
   return (
     <>
       <Helmet>
@@ -39,17 +36,29 @@ const Donate: React.FC = () => {
             </p>
           </div>
 
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-7xl mx-auto">
             {/* Urgent Fundraising Section */}
-            {jarData && (
-              <UrgentFundraising
-                title={jarData.title}
-                description={jarData.description}
-                currentAmount={jarData.current}
-                targetAmount={jarData.goal}
-                jarLink={jarData.link}
-                cardNumber={jarData.card}
-              />
+            {items.length > 0 && (
+              <div className={`grid gap-6 md:gap-8 mb-16 ${
+                items.length === 1 
+                  ? 'grid-cols-1 max-w-4xl mx-auto' 
+                  : items.length === 2 
+                    ? 'grid-cols-1 md:grid-cols-2' 
+                    : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+              }`}>
+                {items.map((item) => (
+                  <UrgentFundraising
+                    key={item.id}
+                    id={item.id}
+                    title={item.title}
+                    description={item.description}
+                    currentAmount={item.current}
+                    targetAmount={item.goal}
+                    jarLink={item.link}
+                    cardNumber={item.card}
+                  />
+                ))}
+              </div>
             )}
 
             {/* Sponsor Banner */}

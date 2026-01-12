@@ -29,6 +29,7 @@ const ServicesList = React.lazy(() => import('./pages/admin/ServicesList').then(
 const ScheduleSettings = React.lazy(() => import('./pages/admin/ScheduleSettings').then(module => ({ default: module.ScheduleSettings })));
 const BookingsList = React.lazy(() => import('./pages/admin/BookingsList').then(module => ({ default: module.BookingsList })));
 const FundraisingList = React.lazy(() => import('./pages/admin/FundraisingList'));
+const FundraisingDetails = React.lazy(() => import('./pages/FundraisingDetails'));
 const AdminLayout = React.lazy(() => import('./components/admin/AdminLayout').then(module => ({ default: module.AdminLayout })));
 
 const LoadingSpinner = () => (
@@ -78,6 +79,7 @@ function App() {
                         <Route path="/cats/:id" element={<CatDetails />} />
                         <Route path="/visit" element={<Visit />} />
                         <Route path="/donate" element={<Donate />} />
+                        <Route path="/fundraising/:id" element={<FundraisingDetails />} />
                         <Route path="/contacts" element={<Contacts />} />
                         <Route path="/become-sponsor" element={<BecomeSponsor />} />
                         <Route path="/privacy-policy" element={<PrivacyPolicy />} />

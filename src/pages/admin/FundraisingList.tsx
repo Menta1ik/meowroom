@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Button } from '../../components/ui/Button';
-import { Edit2, RefreshCw, Plus, Trash2, ExternalLink } from 'lucide-react';
+import { Edit2, RefreshCw, Plus, Trash2, ExternalLink, Upload, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { compressImage } from '../../utils/imageOptimizer';
 import { 
   AdminTable, 
   AdminTableHead, 
@@ -25,12 +26,23 @@ interface Fundraising {
   is_active: boolean;
 }
 
+interface FundraisingMedia {
+  id: string;
+  fundraising_id: string;
+  url: string;
+  type: 'image' | 'video';
+  created_at: string;
+}
+
 const FundraisingList: React.FC = () => {
   const { t } = useTranslation();
   const [items, setItems] = useState<Fundraising[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<Fundraising | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [mediaItems, setMediaItems] = useState<FundraisingMedia[]>([]);
+  const [uploadingMedia, setUploadingMedia] = useState(false);
 
   useEffect(() => {
     fetchItems();
@@ -49,6 +61,112 @@ const FundraisingList: React.FC = () => {
       console.error('Error fetching fundraisings:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchMedia = async (fundraisingId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('fundraising_media')
+        .select('*')
+        .eq('fundraising_id', fundraisingId)
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      setMediaItems(data || []);
+    } catch (error) {
+      console.error('Error fetching media:', error);
+    }
+  };
+
+  const handleMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0 || !editingItem) return;
+    
+    setUploadingMedia(true);
+    try {
+      const files = Array.from(e.target.files);
+      
+      for (const originalFile of files) {
+        // Compress if image
+        let file = originalFile;
+        if (file.type.startsWith('image/')) {
+          file = await compressImage(originalFile);
+        }
+        
+        const fileExt = file.name.split('.').pop();
+        const timestamp = Date.now();
+        const random = Math.random().toString(36).substring(7);
+        const fileName = `gallery_${editingItem.id === 'new' ? 'temp' : editingItem.id}_${timestamp}_${random}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('cats')
+          .upload(filePath, file, {
+            cacheControl: '3600',
+            upsert: false,
+            contentType: file.type
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('cats')
+          .getPublicUrl(filePath);
+        
+        if (editingItem.id === 'new') {
+          // For new items, add to state with temporary ID
+          setMediaItems(prev => [{
+            id: `temp_${Date.now()}_${Math.random()}`,
+            fundraising_id: 'new',
+            url: publicUrl,
+            type: file.type.startsWith('video/') ? 'video' : 'image',
+            created_at: new Date().toISOString()
+          }, ...prev]);
+        } else {
+          // For existing items, save to DB immediately
+          const { error: dbError } = await supabase
+            .from('fundraising_media')
+            .insert([{
+              fundraising_id: editingItem.id,
+              url: publicUrl,
+              type: file.type.startsWith('video/') ? 'video' : 'image'
+            }]);
+
+          if (dbError) throw dbError;
+        }
+      }
+      
+      if (editingItem.id !== 'new') {
+        await fetchMedia(editingItem.id);
+      }
+    } catch (error) {
+      console.error('Error uploading media:', error);
+      alert('Error uploading media');
+    } finally {
+      setUploadingMedia(false);
+      e.target.value = '';
+    }
+  };
+
+  const handleDeleteMedia = async (mediaId: string) => {
+    if (!confirm(t('admin.fundraising.delete_confirm'))) return;
+    
+    if (mediaId.startsWith('temp_')) {
+      setMediaItems(prev => prev.filter(m => m.id !== mediaId));
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('fundraising_media')
+        .delete()
+        .eq('id', mediaId);
+      
+      if (error) throw error;
+      setMediaItems(prev => prev.filter(m => m.id !== mediaId));
+    } catch (error) {
+      console.error('Error deleting media:', error);
+      alert('Error deleting media');
     }
   };
 
@@ -94,6 +212,44 @@ const FundraisingList: React.FC = () => {
     }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0 || !editingItem) return;
+    
+    setUploading(true);
+    try {
+      const originalFile = e.target.files[0];
+      const file = await compressImage(originalFile);
+      
+      const fileExt = file.name.split('.').pop();
+      const timestamp = Date.now();
+      const random = Math.random().toString(36).substring(7);
+      const fileName = `fundraising_${timestamp}_${random}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('cats') // Using 'cats' bucket for now as it's guaranteed to exist
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false,
+          contentType: file.type
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('cats')
+        .getPublicUrl(filePath);
+      
+      setEditingItem({ ...editingItem, image_url: publicUrl });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Error uploading image');
+    } finally {
+      setUploading(false);
+      e.target.value = '';
+    }
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingItem) return;
@@ -110,8 +266,28 @@ const FundraisingList: React.FC = () => {
     try {
       if (editingItem.id === 'new') {
         const { id, ...rest } = dataToSave;
-        const { error } = await supabase.from('fundraisings').insert([rest]);
+        const { data, error } = await supabase
+          .from('fundraisings')
+          .insert([rest])
+          .select()
+          .single();
+
         if (error) throw error;
+
+        // Handle pending media
+        const pendingMedia = mediaItems.filter(m => m.id.startsWith('temp_'));
+        if (pendingMedia.length > 0 && data) {
+          const mediaToInsert = pendingMedia.map(m => ({
+            fundraising_id: data.id,
+            url: m.url,
+            type: m.type
+          }));
+          const { error: mediaError } = await supabase
+            .from('fundraising_media')
+            .insert(mediaToInsert);
+          
+          if (mediaError) console.error('Error saving media:', mediaError);
+        }
       } else {
         const { error } = await supabase
           .from('fundraisings')
@@ -160,6 +336,7 @@ const FundraisingList: React.FC = () => {
               image_url: '',
               is_active: true
             });
+            setMediaItems([]);
             setIsModalOpen(true);
           }}>
             <Plus size={18} className="mr-2" />
@@ -213,6 +390,7 @@ const FundraisingList: React.FC = () => {
                     <button 
                       onClick={() => {
                         setEditingItem(item);
+                        fetchMedia(item.id);
                         setIsModalOpen(true);
                       }}
                       className="p-2 text-neutral-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
@@ -247,25 +425,56 @@ const FundraisingList: React.FC = () => {
             </div>
             
             <form onSubmit={handleSave} className="p-6 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.title')}</label>
+                <input 
+                  type="text" 
+                  required
+                  value={editingItem.title}
+                  onChange={e => setEditingItem({ ...editingItem, title: e.target.value })}
+                  className="w-full p-2 border border-neutral-300 rounded-lg"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.image_url')}</label>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.title')}</label>
-                  <input 
-                    type="text" 
-                    required
-                    value={editingItem.title}
-                    onChange={e => setEditingItem({ ...editingItem, title: e.target.value })}
-                    className="w-full p-2 border border-neutral-300 rounded-lg"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.image_url')}</label>
-                  <input 
-                    type="text" 
-                    value={editingItem.image_url}
-                    onChange={e => setEditingItem({ ...editingItem, image_url: e.target.value })}
-                    className="w-full p-2 border border-neutral-300 rounded-lg"
-                  />
+                  {editingItem.image_url && (
+                    <div className="relative aspect-video rounded-lg overflow-hidden border border-neutral-200 group max-h-48">
+                      <img 
+                        src={editingItem.image_url} 
+                        alt="Preview" 
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setEditingItem({ ...editingItem, image_url: '' })}
+                        className="absolute top-2 right-2 p-1 bg-white/90 text-red-500 rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                  )}
+                  <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
+                    <input 
+                      type="text" 
+                      value={editingItem.image_url}
+                      onChange={e => setEditingItem({ ...editingItem, image_url: e.target.value })}
+                      className="flex-1 p-2 border border-neutral-300 rounded-lg text-sm"
+                      placeholder="https://..."
+                    />
+                    <label className={`flex items-center justify-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg cursor-pointer hover:bg-neutral-50 transition-colors whitespace-nowrap ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                      <Upload size={18} className="text-neutral-500" />
+                      <span className="text-sm text-neutral-600">{uploading ? '...' : t('admin.common.upload')}</span>
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        onChange={handleImageUpload} 
+                        className="hidden" 
+                        disabled={uploading} 
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -336,6 +545,55 @@ const FundraisingList: React.FC = () => {
                 />
                 <label htmlFor="isActive" className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.is_active')}</label>
               </div>
+
+              {/* Media Gallery Section */}
+              <div className="pt-4 border-t border-neutral-100 space-y-4">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-lg font-bold text-neutral-800">Gallery (Photos & Videos)</h3>
+                    <label className={`flex items-center gap-2 px-4 py-2 bg-neutral-100 rounded-lg cursor-pointer hover:bg-neutral-200 transition-colors ${uploadingMedia ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                      <Upload size={18} className="text-neutral-600" />
+                      <span className="text-sm font-medium text-neutral-700">{uploadingMedia ? 'Uploading...' : 'Add Media'}</span>
+                      <input 
+                        type="file" 
+                        accept="image/*,video/*" 
+                        multiple
+                        onChange={handleMediaUpload} 
+                        className="hidden" 
+                        disabled={uploadingMedia} 
+                      />
+                    </label>
+                  </div>
+                  
+                  {mediaItems.length === 0 ? (
+                    <p className="text-sm text-neutral-500 italic">No media added yet.</p>
+                  ) : (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                      {mediaItems.map(media => (
+                        <div key={media.id} className="relative aspect-square rounded-lg overflow-hidden border border-neutral-200 group bg-neutral-50">
+                          {media.type === 'video' ? (
+                            <video src={media.url} className="w-full h-full object-cover" />
+                          ) : (
+                            <img src={media.url} alt="Gallery item" className="w-full h-full object-cover" />
+                          )}
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteMedia(media.id)}
+                              className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
+                          {media.type === 'video' && (
+                            <div className="absolute bottom-2 left-2 px-2 py-0.5 bg-black/60 text-white text-[10px] rounded uppercase font-bold pointer-events-none">
+                              Video
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
               <div className="flex justify-end gap-3 pt-4 border-t border-neutral-100">
                 <Button variant="outline" type="button" onClick={() => setIsModalOpen(false)}>{t('admin.fundraising.form.cancel')}</Button>
