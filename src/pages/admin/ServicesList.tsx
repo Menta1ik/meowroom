@@ -81,12 +81,12 @@ export const ServicesList: React.FC = () => {
       fetchServices();
     } catch (error: any) {
       console.error('Error saving service:', error);
-      alert(t('admin.services.form.save_error', 'Failed to save service'));
+      alert(t('admin.services.form.save_error'));
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm(t('admin.services.delete_confirm', 'Are you sure?'))) return;
+    if (!confirm(t('admin.services.delete_confirm'))) return;
     try {
       const { error } = await supabase
         .from('services')
@@ -210,7 +210,7 @@ export const ServicesList: React.FC = () => {
             {services.length === 0 && (
               <AdminTableRow>
                 <AdminTableCell className="text-center text-neutral-500">
-                  {t('admin.services.empty', 'No services found.')}
+                  {t('admin.services.empty')}
                 </AdminTableCell>
                 <AdminTableCell />
                 <AdminTableCell />

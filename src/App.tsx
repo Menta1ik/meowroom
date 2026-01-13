@@ -29,7 +29,9 @@ const ServicesList = React.lazy(() => import('./pages/admin/ServicesList').then(
 const ScheduleSettings = React.lazy(() => import('./pages/admin/ScheduleSettings').then(module => ({ default: module.ScheduleSettings })));
 const BookingsList = React.lazy(() => import('./pages/admin/BookingsList').then(module => ({ default: module.BookingsList })));
 const FundraisingList = React.lazy(() => import('./pages/admin/FundraisingList'));
+const AdminExpenses = React.lazy(() => import('./pages/admin/AdminExpenses'));
 const FundraisingDetails = React.lazy(() => import('./pages/FundraisingDetails'));
+const Reports = React.lazy(() => import('./pages/Reports'));
 const AdminLayout = React.lazy(() => import('./components/admin/AdminLayout').then(module => ({ default: module.AdminLayout })));
 
 const LoadingSpinner = () => (
@@ -62,6 +64,7 @@ function App() {
                   <Route path="schedule" element={<ScheduleSettings />} />
                   <Route path="bookings" element={<BookingsList />} />
                   <Route path="fundraising" element={<FundraisingList />} />
+                  <Route path="expenses" element={<AdminExpenses />} />
                 </Route>
               </Route>
 
@@ -79,6 +82,7 @@ function App() {
                         <Route path="/cats/:id" element={<CatDetails />} />
                         <Route path="/visit" element={<Visit />} />
                         <Route path="/donate" element={<Donate />} />
+                        <Route path="/reports" element={<Reports />} />
                         <Route path="/fundraising/:id" element={<FundraisingDetails />} />
                         <Route path="/contacts" element={<Contacts />} />
                         <Route path="/become-sponsor" element={<BecomeSponsor />} />

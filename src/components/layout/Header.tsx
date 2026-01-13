@@ -41,6 +41,7 @@ export const Header: React.FC = () => {
     { name: t('nav.visit'), path: '/visit' },
     { name: t('nav.cats'), path: '/cats' },
     { name: t('nav.donate'), path: '/donate' },
+    { name: t('nav.reports'), path: '/reports' },
     { name: t('nav.contacts'), path: '/contacts' },
   ];
 

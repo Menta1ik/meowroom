@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import LanguageSelector from '../ui/LanguageSelector';
-import { LogOut, Cat, MessageSquare, Menu, X, PawPrint, ChevronLeft, ChevronRight, Settings, Calendar, Heart } from 'lucide-react';
+import { LogOut, Cat, MessageSquare, Menu, X, PawPrint, ChevronLeft, ChevronRight, Settings, Calendar, Heart, FileBarChart } from 'lucide-react';
 import { useState } from 'react';
 
 export const AdminLayout: React.FC = () => {
@@ -26,6 +26,7 @@ export const AdminLayout: React.FC = () => {
     { to: '/admin/schedule', icon: Calendar, label: t('admin.nav.schedule') },
     { to: '/admin/bookings', icon: PawPrint, label: t('admin.nav.bookings') },
     { to: '/admin/fundraising', icon: Heart, label: t('admin.nav.fundraising') },
+    { to: '/admin/expenses', icon: FileBarChart, label: t('admin.nav.expenses') },
   ];
 
   return (
@@ -104,7 +105,7 @@ export const AdminLayout: React.FC = () => {
 
       {/* Mobile Header */}
       <div className="md:hidden fixed top-0 left-0 right-0 bg-white border-b border-neutral-200 z-20 px-4 py-3 flex justify-between items-center">
-        <span className="font-bold text-lg text-neutral-800">Admin Panel</span>
+        <span className="font-bold text-lg text-neutral-800">{t('admin.title')}</span>
         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-neutral-600">
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
