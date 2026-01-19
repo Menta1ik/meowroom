@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../lib/supabase';
-import { FileText, Calendar, DollarSign, ChevronRight, CheckCircle2, Building2, HeartHandshake, Stethoscope } from 'lucide-react';
+import { FileText, Calendar, DollarSign, ChevronRight, CheckCircle2, Building2, HeartHandshake, Stethoscope, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Expense {
@@ -303,22 +304,22 @@ const Reports: React.FC = () => {
       </div>
 
       {/* Receipts Modal */}
-      <AnimatePresence>
-        {selectedReceipts && (
+      {selectedReceipts && createPortal(
+        <AnimatePresence>
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center p-4 backdrop-blur-sm"
             onClick={() => setSelectedReceipts(null)}
           >
             <div className="relative max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-transparent" onClick={e => e.stopPropagation()}>
               <button 
                 onClick={() => setSelectedReceipts(null)}
-                className="absolute -top-12 right-0 text-white hover:text-neutral-300 transition-colors"
+                className="absolute -top-12 right-0 text-white hover:text-neutral-300 transition-colors p-2"
               >
                 <span className="sr-only">Close</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <X size={32} />
               </button>
               
               <div className="grid gap-4">
@@ -328,13 +329,17 @@ const Reports: React.FC = () => {
                     src={url} 
                     alt={`Receipt ${idx + 1}`} 
                     className="w-full h-auto rounded-lg shadow-2xl"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
                   />
                 ))}
               </div>
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 };

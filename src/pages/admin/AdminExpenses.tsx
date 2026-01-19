@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { supabase } from '../../lib/supabase';
 import { Button } from '../../components/ui/Button';
-import { Edit2, Plus, Trash2, Upload, X, FileText, Calendar, DollarSign } from 'lucide-react';
+import { Edit2, Plus, Trash2, Upload, X, FileText, Calendar, DollarSign, ExternalLink } from 'lucide-react';
 import { compressImage } from '../../utils/imageOptimizer';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
@@ -33,6 +34,9 @@ export const AdminExpenses: React.FC = () => {
   const [editingItem, setEditingItem] = useState<Expense | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
+  
+  // View Receipts Modal State
+  const [viewingReceipts, setViewingReceipts] = useState<string[] | null>(null);
 
   useEffect(() => {
     fetchItems();
@@ -212,9 +216,17 @@ export const AdminExpenses: React.FC = () => {
                   {item.amount.toLocaleString()} {item.currency}
                 </AdminTableCell>
                 <AdminTableCell>
-                  <span className="text-sm text-neutral-500">
-                    {item.receipt_urls.length} {t('admin.expenses.table.files_count')}
-                  </span>
+                  {item.receipt_urls && item.receipt_urls.length > 0 ? (
+                    <button
+                      onClick={() => setViewingReceipts(item.receipt_urls)}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-primary-600 bg-primary-50 hover:bg-primary-100 hover:text-primary-700 transition-colors"
+                    >
+                      <FileText size={16} />
+                      {item.receipt_urls.length} {t('admin.expenses.table.files_count')}
+                    </button>
+                  ) : (
+                    <span className="text-sm text-neutral-400">0 {t('admin.expenses.table.files_count')}</span>
+                  )}
                 </AdminTableCell>
                 <AdminTableCell align="right">
                   <div className="flex justify-end gap-2">
@@ -391,6 +403,49 @@ export const AdminExpenses: React.FC = () => {
             </form>
           </div>
         </div>
+      )}
+
+      {/* View Receipts Modal */}
+      {viewingReceipts && createPortal(
+        <div 
+          className="fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center p-4 backdrop-blur-sm"
+          onClick={() => setViewingReceipts(null)}
+        >
+          <div className="relative max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-transparent" onClick={e => e.stopPropagation()}>
+            <button 
+              onClick={() => setViewingReceipts(null)}
+              className="absolute -top-12 right-0 text-white hover:text-neutral-300 transition-colors p-2"
+            >
+              <span className="sr-only">Close</span>
+              <X size={32} />
+            </button>
+            
+            <div className="grid gap-4">
+              {viewingReceipts.map((url, idx) => (
+                <div key={idx} className="relative group">
+                  <img 
+                    src={url} 
+                    alt={`Receipt ${idx + 1}`} 
+                    className="w-full h-auto rounded-lg shadow-2xl"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                  <a 
+                    href={url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Open original"
+                  >
+                    <ExternalLink size={20} />
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>,
+        document.body
       )}
     </div>
   );
