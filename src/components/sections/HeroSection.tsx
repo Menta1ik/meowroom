@@ -19,7 +19,7 @@ const images = [
 export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
   const { t } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [catsCount] = useState<number>(61);
+  const [catsCount] = useState<number>(62);
   
   const { items } = useJarStatus();
   
