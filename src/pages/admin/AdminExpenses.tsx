@@ -324,7 +324,18 @@ export const AdminExpenses: React.FC = () => {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-sm font-medium text-neutral-700">{t('admin.expenses.form.title_label')} (EN)</label>
+                  <div className="flex justify-between items-center">
+                    <label className="text-sm font-medium text-neutral-700">{t('admin.expenses.form.title_label')} (EN)</label>
+                    <button
+                      type="button"
+                      onClick={() => autoTranslate(editingItem.title, 'title')}
+                      className="text-xs flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium"
+                      disabled={!editingItem.title}
+                    >
+                      <Languages size={12} />
+                      Auto Translate
+                    </button>
+                  </div>
                   <div className="relative">
                     <FileText className="absolute left-3 top-3 text-neutral-400" size={18} />
                     <input
