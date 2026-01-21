@@ -173,6 +173,25 @@ export const AdminExpenses: React.FC = () => {
     setEditingItem({ ...editingItem, receipt_urls: newUrls });
   };
 
+  const autoTranslate = async (text: string, field: 'title' | 'description') => {
+    if (!text) return;
+    
+    try {
+      const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=uk|en`);
+      const data = await response.json();
+      
+      if (data.responseData?.translatedText) {
+        setEditingItem(prev => prev ? {
+          ...prev,
+          [field === 'title' ? 'title_en' : 'description_en']: data.responseData.translatedText
+        } : null);
+      }
+    } catch (error) {
+      console.error('Translation error:', error);
+      alert('Translation failed. Please try again or enter manually.');
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
