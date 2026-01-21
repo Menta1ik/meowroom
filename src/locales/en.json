@@ -446,7 +446,10 @@
         "target": "Target Amount (₴)",
         "current": "Current Amount (₴)",
         "jar_link": "Jar Link",
-        "card_number": "Card Number"
+        "card": "Card Number",
+        "is_active": "Active",
+        "cancel": "Cancel",
+        "save": "Save"
       }
     },
     "expenses": {

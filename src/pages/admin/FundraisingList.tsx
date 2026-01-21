@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Button } from '../../components/ui/Button';
-import { Edit2, RefreshCw, Plus, Trash2, ExternalLink, Upload, X } from 'lucide-react';
+import { Edit2, RefreshCw, Plus, Trash2, ExternalLink, Upload, X, Languages } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { compressImage } from '../../utils/imageOptimizer';
 import { 
@@ -17,6 +17,8 @@ interface Fundraising {
   id: string;
   title: string;
   description: string;
+  title_en?: string;
+  description_en?: string;
   target_amount: number;
   current_amount: number;
   jar_link: string;
@@ -316,6 +318,25 @@ const FundraisingList: React.FC = () => {
     }
   };
 
+  const autoTranslate = async (text: string, field: 'title' | 'description') => {
+    if (!text) return;
+    
+    try {
+      const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=uk|en`);
+      const data = await response.json();
+      
+      if (data.responseData?.translatedText) {
+        setEditingItem(prev => prev ? {
+          ...prev,
+          [field === 'title' ? 'title_en' : 'description_en']: data.responseData.translatedText
+        } : null);
+      }
+    } catch (error) {
+      console.error('Translation error:', error);
+      alert('Translation failed. Please try again or enter manually.');
+    }
+  };
+
   if (loading) return <div className="p-8 text-center">{t('common.loading')}</div>;
 
   return (
@@ -328,6 +349,8 @@ const FundraisingList: React.FC = () => {
               id: 'new',
               title: '',
               description: '',
+              title_en: '',
+              description_en: '',
               target_amount: 0,
               current_amount: 0,
               jar_link: '',
@@ -437,6 +460,28 @@ const FundraisingList: React.FC = () => {
               </div>
 
               <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.title')} (EN)</label>
+                  <button
+                    type="button"
+                    onClick={() => autoTranslate(editingItem.title, 'title')}
+                    className="text-xs flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium"
+                    disabled={!editingItem.title}
+                  >
+                    <Languages size={12} />
+                    Auto Translate
+                  </button>
+                </div>
+                <input 
+                  type="text" 
+                  value={editingItem.title_en || ''}
+                  onChange={e => setEditingItem({ ...editingItem, title_en: e.target.value })}
+                  className="w-full p-2 border border-neutral-300 rounded-lg"
+                  placeholder="English Title"
+                />
+              </div>
+
+              <div className="space-y-2">
                 <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.image_url')}</label>
                 <div className="space-y-2">
                   {editingItem.image_url && (
@@ -485,6 +530,28 @@ const FundraisingList: React.FC = () => {
                   value={editingItem.description}
                   onChange={e => setEditingItem({ ...editingItem, description: e.target.value })}
                   className="w-full p-2 border border-neutral-300 rounded-lg"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="text-sm font-medium text-neutral-700">{t('admin.fundraising.form.description')} (EN)</label>
+                  <button
+                    type="button"
+                    onClick={() => autoTranslate(editingItem.description, 'description')}
+                    className="text-xs flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium"
+                    disabled={!editingItem.description}
+                  >
+                    <Languages size={12} />
+                    Auto Translate
+                  </button>
+                </div>
+                <textarea 
+                  rows={3}
+                  value={editingItem.description_en || ''}
+                  onChange={e => setEditingItem({ ...editingItem, description_en: e.target.value })}
+                  className="w-full p-2 border border-neutral-300 rounded-lg"
+                  placeholder="English Description"
                 />
               </div>
 

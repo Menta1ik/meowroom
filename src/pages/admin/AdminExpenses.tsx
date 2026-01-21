@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { supabase } from '../../lib/supabase';
 import { Button } from '../../components/ui/Button';
-import { Edit2, Plus, Trash2, Upload, X, FileText, Calendar, DollarSign, ExternalLink } from 'lucide-react';
+import { Edit2, Plus, Trash2, Upload, X, FileText, Calendar, DollarSign, ExternalLink, Languages } from 'lucide-react';
 import { compressImage } from '../../utils/imageOptimizer';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
@@ -20,6 +20,8 @@ interface Expense {
   id: string;
   title: string;
   description: string;
+  title_en?: string;
+  description_en?: string;
   amount: number;
   currency: string;
   category: 'monthly' | 'target' | 'operational';
@@ -68,6 +70,8 @@ export const AdminExpenses: React.FC = () => {
       id: 'new',
       title: '',
       description: '',
+      title_en: '',
+      description_en: '',
       amount: 0,
       currency: 'UAH',
       category: 'monthly',
@@ -319,6 +323,20 @@ export const AdminExpenses: React.FC = () => {
                   </div>
                 </div>
 
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-sm font-medium text-neutral-700">{t('admin.expenses.form.title_label')} (EN)</label>
+                  <div className="relative">
+                    <FileText className="absolute left-3 top-3 text-neutral-400" size={18} />
+                    <input
+                      type="text"
+                      value={editingItem.title_en || ''}
+                      onChange={(e) => setEditingItem({ ...editingItem, title_en: e.target.value })}
+                      placeholder="English Title"
+                      className="w-full pl-10 pr-4 py-2 rounded-xl border border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none"
+                    />
+                  </div>
+                </div>
+
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-neutral-700">{t('admin.expenses.form.amount')}</label>
                   <div className="relative">
@@ -352,6 +370,27 @@ export const AdminExpenses: React.FC = () => {
                     onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })}
                     className="w-full px-4 py-2 rounded-xl border border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none h-24 resize-none"
                     placeholder={t('admin.expenses.form.description_placeholder')}
+                  />
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <div className="flex justify-between items-center">
+                    <label className="text-sm font-medium text-neutral-700">{t('admin.expenses.form.description')} (EN)</label>
+                    <button
+                      type="button"
+                      onClick={() => autoTranslate(editingItem.description, 'description')}
+                      className="text-xs flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium"
+                      disabled={!editingItem.description}
+                    >
+                      <Languages size={12} />
+                      Auto Translate
+                    </button>
+                  </div>
+                  <textarea
+                    value={editingItem.description_en || ''}
+                    onChange={(e) => setEditingItem({ ...editingItem, description_en: e.target.value })}
+                    className="w-full px-4 py-2 rounded-xl border border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none h-24 resize-none"
+                    placeholder="English Description"
                   />
                 </div>
 

@@ -9,6 +9,8 @@ interface UrgentFundraisingProps {
   id: string;
   title: string;
   description: string;
+  title_en?: string;
+  description_en?: string;
   currentAmount: number;
   targetAmount: number;
   jarLink: string;
@@ -19,14 +21,19 @@ export const UrgentFundraising: React.FC<UrgentFundraisingProps> = ({
   id,
   title,
   description,
+  title_en,
+  description_en,
   currentAmount,
   targetAmount,
   jarLink,
   cardNumber
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const percentage = Math.min(Math.round((currentAmount / targetAmount) * 100), 100);
+
+  const displayTitle = (i18n.language === 'en' && title_en) ? title_en : title;
+  const displayDescription = (i18n.language === 'en' && description_en) ? description_en : description;
 
   const handleCardClick = () => {
     navigate(`/fundraising/${id}`);
@@ -57,11 +64,11 @@ export const UrgentFundraising: React.FC<UrgentFundraisingProps> = ({
         </div>
 
         <h3 className="text-xl font-bold text-neutral-800 mb-3 line-clamp-2 leading-tight">
-          {title}
+          {displayTitle}
         </h3>
         
         <p className="text-neutral-600 text-sm mb-6 line-clamp-3 leading-relaxed flex-1">
-          {description}
+          {displayDescription}
         </p>
         
         {/* Progress Card */}

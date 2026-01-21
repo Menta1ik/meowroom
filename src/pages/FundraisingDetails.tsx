@@ -11,6 +11,8 @@ interface FundraisingData {
   id: string;
   title: string;
   description: string;
+  title_en?: string;
+  description_en?: string;
   current_amount: number;
   target_amount: number;
   jar_link: string;
@@ -28,7 +30,7 @@ interface FundraisingMedia {
 
 const FundraisingDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [fundraising, setFundraising] = useState<FundraisingData | null>(null);
   const [media, setMedia] = useState<FundraisingMedia[]>([]);
   const [loading, setLoading] = useState(true);
@@ -106,6 +108,9 @@ const FundraisingDetails: React.FC = () => {
 
   const percentage = Math.min(Math.round((fundraising.current_amount / fundraising.target_amount) * 100), 100);
 
+  const displayTitle = (i18n.language === 'en' && fundraising.title_en) ? fundraising.title_en : fundraising.title;
+  const displayDescription = (i18n.language === 'en' && fundraising.description_en) ? fundraising.description_en : fundraising.description;
+
   const copyCardNumber = () => {
     navigator.clipboard.writeText(fundraising.card_number.replace(/\s/g, ''));
     alert(t('urgent.copy_success'));
@@ -114,8 +119,8 @@ const FundraisingDetails: React.FC = () => {
   const shareFundraising = () => {
     if (navigator.share) {
       navigator.share({
-        title: fundraising.title,
-        text: fundraising.description,
+        title: displayTitle,
+        text: displayDescription,
         url: window.location.href,
       }).catch(console.error);
     } else {
@@ -127,8 +132,8 @@ const FundraisingDetails: React.FC = () => {
   return (
     <>
       <SEO 
-        title={`${fundraising.title} | Meowroom`}
-        description={fundraising.description.substring(0, 160)}
+        title={`${displayTitle} | Meowroom`}
+        description={displayDescription.substring(0, 160)}
         image={fundraising.image_url}
       />
 
@@ -159,12 +164,12 @@ const FundraisingDetails: React.FC = () => {
                       </span>
                     </div>
                   </div>
-                  <h1 className="text-3xl md:text-5xl font-bold leading-tight text-neutral-900">{fundraising.title}</h1>
+                  <h1 className="text-3xl md:text-5xl font-bold leading-tight text-neutral-900">{displayTitle}</h1>
                 </div>
 
                 {/* Description */}
                 <div className="prose prose-lg text-neutral-600 max-w-none">
-                  <p className="whitespace-pre-wrap">{fundraising.description}</p>
+                  <p className="whitespace-pre-wrap">{displayDescription}</p>
                 </div>
 
                 {/* Gallery Grid */}

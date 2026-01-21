@@ -17,7 +17,7 @@ const images = [
 ];
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [catsCount] = useState<number>(62);
   
@@ -129,6 +129,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
             const currentAmount = item.current || 0;
             const targetAmount = item.goal || 1;
             const percentage = Math.min(Math.round((currentAmount / targetAmount) * 100), 100);
+            
+            const displayTitle = (i18n.language === 'en' && item.title_en) ? item.title_en : item.title;
+            const displayDescription = (i18n.language === 'en' && item.description_en) ? item.description_en : item.description;
 
             return (
               <motion.div
@@ -147,14 +150,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onBooking }) => {
                   <div className="flex-1 min-w-0 pl-2">
                     <div className="flex justify-between items-start mb-1">
                       <h3 className="font-bold text-neutral-800 text-sm leading-tight truncate pr-2">
-                        {item.title}
+                        {displayTitle}
                       </h3>
                       <span className="bg-red-100 text-red-600 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide animate-pulse">
                         SOS
                       </span>
                     </div>
                     
-                    <p className="text-xs text-neutral-500 mb-2 line-clamp-1">{item.description}</p>
+                    <p className="text-xs text-neutral-500 mb-2 line-clamp-1">{displayDescription}</p>
 
                     {/* Progress */}
                     <div className="space-y-1">

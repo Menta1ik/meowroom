@@ -5,6 +5,8 @@ export interface JarStatusData {
   id: string;
   title: string;
   description: string;
+  title_en?: string;
+  description_en?: string;
   current: number;
   goal: number;
   link: string;
@@ -34,6 +36,8 @@ export const useJarStatus = () => {
             id: item.id,
             title: item.title,
             description: item.description,
+            title_en: item.title_en,
+            description_en: item.description_en,
             current: item.current_amount,
             goal: item.target_amount,
             link: item.jar_link,

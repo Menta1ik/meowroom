@@ -9,6 +9,8 @@ interface Expense {
   id: string;
   title: string;
   description: string;
+  title_en?: string;
+  description_en?: string;
   amount: number;
   currency: string;
   category: 'monthly' | 'target' | 'operational';
@@ -270,11 +272,11 @@ const Reports: React.FC = () => {
                       </span>
                     </div>
                     <h3 className="text-lg font-bold text-neutral-800 leading-tight mb-1">
-                      {item.title}
+                      {(i18n.language === 'en' && item.title_en) ? item.title_en : item.title}
                     </h3>
-                    {item.description && (
+                    {(item.description || item.description_en) && (
                       <p className="text-sm text-neutral-500 max-w-xl">
-                        {item.description}
+                        {(i18n.language === 'en' && item.description_en) ? item.description_en : item.description}
                       </p>
                     )}
                   </div>

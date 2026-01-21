@@ -52,6 +52,8 @@ const Donate: React.FC = () => {
                     id={item.id}
                     title={item.title}
                     description={item.description}
+                    title_en={item.title_en}
+                    description_en={item.description_en}
                     currentAmount={item.current}
                     targetAmount={item.goal}
                     jarLink={item.link}
