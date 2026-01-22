@@ -135,6 +135,18 @@ const FundraisingDetails: React.FC = () => {
         title={`${displayTitle} | Meowroom`}
         description={displayDescription.substring(0, 160)}
         image={fundraising.image_url}
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "SocialMediaPosting",
+          "headline": displayTitle,
+          "description": displayDescription,
+          "image": fundraising.image_url,
+          "datePublished": fundraising.created_at,
+          "author": {
+            "@type": "Organization",
+            "name": "Meowroom"
+          }
+        }}
       />
 
       <div className="pt-24 min-h-screen bg-white pb-20">

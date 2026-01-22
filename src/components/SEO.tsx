@@ -80,6 +80,15 @@ export const SEO: React.FC<SEOProps> = ({
   };
 
   const finalSchema = schema || defaultSchema;
+  
+  // Enhance schema with sameAs social links
+  if (!schema) {
+    (finalSchema as any).sameAs = [
+      "https://www.instagram.com/meowroom.kharkiv",
+      "https://www.facebook.com/profile.php?id=61551609639660",
+      "https://www.tiktok.com/@bluecrossforcats"
+    ];
+  }
 
   return (
     <Helmet>
@@ -89,7 +98,14 @@ export const SEO: React.FC<SEOProps> = ({
       <meta name="description" content={finalDescription} />
       <meta name="keywords" content={t('seo.keywords')} />
       <meta name="robots" content="index, follow" />
+      <meta name="author" content="Meowroom" />
+      <meta name="format-detection" content="telephone=no" />
       <link rel="canonical" href={canonicalUrl} />
+      
+      {/* Hreflang Tags for International SEO */}
+      <link rel="alternate" hreflang="uk" href={`${siteUrl}${currentPath}`} />
+      <link rel="alternate" hreflang="en" href={`${siteUrl}${currentPath}?lng=en`} />
+      <link rel="alternate" hreflang="x-default" href={`${siteUrl}${currentPath}`} />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
@@ -101,6 +117,8 @@ export const SEO: React.FC<SEOProps> = ({
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@meowroom.kharkiv" />
+      <meta name="twitter:creator" content="@meowroom.kharkiv" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={finalDescription} />
       <meta name="twitter:image" content={fullImage} />

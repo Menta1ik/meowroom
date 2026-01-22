@@ -98,7 +98,12 @@ export const CatsList: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
       <div className="p-6 border-b border-neutral-100 flex flex-col md:flex-row justify-between items-center gap-4">
-        <h2 className="text-xl font-bold text-neutral-800">{t('admin.cats.title')}</h2>
+        <div className="flex items-center gap-3">
+          <h2 className="text-xl font-bold text-neutral-800">{t('admin.cats.title')}</h2>
+          <span className="text-sm font-medium text-neutral-500 bg-neutral-100 px-2.5 py-0.5 rounded-full">
+            {cats.length}
+          </span>
+        </div>
         <div className="flex flex-wrap gap-2 justify-center md:justify-end">
            <Button variant="outline" onClick={handleDownloadTemplate} title={t('admin.cats.download_template')}>
              <Download size={18} />

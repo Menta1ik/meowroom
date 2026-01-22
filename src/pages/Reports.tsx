@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { supabase } from '../lib/supabase';
 import { FileText, Calendar, DollarSign, ChevronRight, CheckCircle2, Building2, HeartHandshake, Stethoscope, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SEO } from '../components/SEO';
 
 interface Expense {
   id: string;
@@ -106,48 +107,58 @@ const Reports: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 pt-24 pb-16">
-      <div className="container mx-auto px-4 md:px-6">
+    <div className="pt-24 pb-20 bg-white min-h-screen">
+      <SEO 
+        title={t('reports.title', 'Transparency & Reports')}
+        description={t('reports.subtitle')}
+      />
+      <div className="container mx-auto px-4">
         
         {/* Header Section */}
-        <div className="max-w-4xl mx-auto text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-neutral-900 mb-4">
-            {t('reports.title', 'Transparency & Reports')}
-          </h1>
-          <p className="text-lg text-neutral-600 mb-6">
-            {t('reports.subtitle', 'See exactly how your donations help cats. We cover operational costs ourselves, so 100% of your donation goes to the animals.')}
-          </p>
-
-          {/* Month Filter */}
-          <div className="inline-flex items-center bg-white rounded-xl shadow-sm border border-neutral-200 p-1">
-            <select
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(e.target.value)}
-              className="bg-transparent text-neutral-800 font-medium py-2 pl-4 pr-8 rounded-lg outline-none cursor-pointer appearance-none hover:bg-neutral-50 transition-colors"
-              style={{ backgroundImage: 'none' }}
-            >
-              <option value="all">{t('reports.filter_all_time', 'All Time')}</option>
-              {availableMonths.map(month => {
-                const date = new Date(`${month}-01`);
-                const label = date.toLocaleDateString(i18n.language, { month: 'long', year: 'numeric' });
-                // Capitalize first letter
-                return (
-                  <option key={month} value={month}>
-                    {label.charAt(0).toUpperCase() + label.slice(1)}
-                  </option>
-                );
-              })}
-            </select>
-            <div className="pr-3 pointer-events-none text-neutral-400">
-              <Calendar size={18} />
+        <div className="max-w-4xl mx-auto mb-12">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+            <div className="flex items-center justify-center md:justify-start gap-3">
+              <div className="p-2 bg-primary-100 text-primary-600 rounded-xl">
+                <FileText size={32} />
+              </div>
+              <h1 className="text-3xl md:text-4xl font-bold text-neutral-800">{t('reports.title', 'Transparency & Reports')}</h1>
+            </div>
+            
+            {/* Month Filter */}
+            <div className="inline-flex items-center bg-neutral-50 rounded-xl border border-neutral-200 p-1 self-center md:self-auto">
+              <select
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(e.target.value)}
+                className="bg-transparent text-neutral-800 font-medium py-2 pl-4 pr-8 rounded-lg outline-none cursor-pointer appearance-none hover:bg-neutral-100 transition-colors"
+                style={{ backgroundImage: 'none' }}
+              >
+                <option value="all">{t('reports.filter_all_time', 'All Time')}</option>
+                {availableMonths.map(month => {
+                  const date = new Date(`${month}-01`);
+                  const label = date.toLocaleDateString(i18n.language, { month: 'long', year: 'numeric' });
+                  // Capitalize first letter
+                  return (
+                    <option key={month} value={month}>
+                      {label.charAt(0).toUpperCase() + label.slice(1)}
+                    </option>
+                  );
+                })}
+              </select>
+              <div className="pr-3 pointer-events-none text-neutral-400">
+                <Calendar size={18} />
+              </div>
             </div>
           </div>
+
+          <p className="text-xl text-neutral-600 font-light leading-relaxed text-center md:text-left">
+            {t('reports.subtitle', 'See exactly how your donations help cats. We cover operational costs ourselves, so 100% of your donation goes to the animals.')}
+          </p>
         </div>
 
         {/* Infographics Section */}
         <div className="max-w-5xl mx-auto mb-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-100">
+            <div className="bg-neutral-50 p-6 rounded-2xl shadow-sm border border-neutral-100">
               <div className="text-sm text-neutral-500 font-medium uppercase tracking-wide mb-1">
                 {t('reports.total_expenses', 'Total Expenses')}
               </div>
@@ -183,7 +194,7 @@ const Reports: React.FC = () => {
           </div>
 
           {/* Bar Chart Visual */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-100">
+          <div className="bg-neutral-50 p-6 rounded-2xl shadow-sm border border-neutral-100">
             <h3 className="text-lg font-bold text-neutral-800 mb-6">{t('reports.budget_breakdown', 'Budget Breakdown')}</h3>
             <div className="h-8 w-full bg-neutral-100 rounded-full overflow-hidden flex">
               <div 
