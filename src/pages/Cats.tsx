@@ -8,31 +8,31 @@ import { Helmet } from 'react-helmet-async';
 const Cats: React.FC = () => {
   const { t } = useTranslation();
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": t('cats.title'),
+    "description": t('cats.seo_description'),
+    "url": "https://meowroom.top/cats",
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "url": "https://meowroom.top/cats"
+        }
+      ]
+    }
+  };
+
   return (
     <>
-      <Helmet>
-        <title>{t('cats.title')} | Meowroom</title>
-        <meta name="description" content={t('cats.subtitle')} />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            "name": t('cats.title'),
-            "description": t('cats.subtitle'),
-            "url": "https://meowroom.top/cats",
-            "mainEntity": {
-              "@type": "ItemList",
-              "itemListElement": [
-                {
-                  "@type": "ListItem",
-                  "position": 1,
-                  "url": "https://meowroom.top/cats"
-                }
-              ]
-            }
-          })}
-        </script>
-      </Helmet>
+      <SEO 
+        title={t('cats.title')} 
+        description={t('cats.seo_description')}
+        schema={schema}
+      />
 
       <div className="pt-24 pb-20 bg-white min-h-screen">
         <div className="container mx-auto px-4">

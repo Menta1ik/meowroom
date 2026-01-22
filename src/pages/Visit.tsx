@@ -18,7 +18,7 @@ const Visit: React.FC = () => {
     <>
       <SEO 
         title={t('visit.title')} 
-        description={t('visit.subtitle')} 
+        description={t('visit.seo_description')} 
       />
 
       <div className="pt-24 pb-20 bg-white min-h-screen">

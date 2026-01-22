@@ -18,7 +18,6 @@ const Home: React.FC = () => {
     <div className="flex flex-col">
       <SEO 
         title={t('hero.title')} 
-        description={t('hero.subtitle')} 
       />
       <HeroSection onBooking={openBooking} />
       <AboutSection />

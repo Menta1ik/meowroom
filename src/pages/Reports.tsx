@@ -110,7 +110,7 @@ const Reports: React.FC = () => {
     <div className="pt-24 pb-20 bg-white min-h-screen">
       <SEO 
         title={t('reports.title', 'Transparency & Reports')}
-        description={t('reports.subtitle')}
+        description={t('reports.seo_description')}
       />
       <div className="container mx-auto px-4">
         
