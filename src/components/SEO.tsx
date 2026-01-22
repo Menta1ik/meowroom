@@ -103,9 +103,9 @@ export const SEO: React.FC<SEOProps> = ({
       <link rel="canonical" href={canonicalUrl} />
       
       {/* Hreflang Tags for International SEO */}
-      <link rel="alternate" hreflang="uk" href={`${siteUrl}${currentPath}`} />
-      <link rel="alternate" hreflang="en" href={`${siteUrl}${currentPath}?lng=en`} />
-      <link rel="alternate" hreflang="x-default" href={`${siteUrl}${currentPath}`} />
+      <link rel="alternate" hrefLang="uk" href={`${siteUrl}${currentPath}`} />
+      <link rel="alternate" hrefLang="en" href={`${siteUrl}${currentPath}?lng=en`} />
+      <link rel="alternate" hrefLang="x-default" href={`${siteUrl}${currentPath}`} />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
