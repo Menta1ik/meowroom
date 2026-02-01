@@ -28,7 +28,7 @@ const Reports: React.FC = () => {
   
   // Date filtering state
   // Format: "YYYY-MM" or "all"
-  const [selectedMonth, setSelectedMonth] = useState<string>(new Date().toISOString().slice(0, 7));
+  const [selectedMonth, setSelectedMonth] = useState<string>('all');
 
   useEffect(() => {
     fetchItems();
