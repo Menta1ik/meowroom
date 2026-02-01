@@ -70,17 +70,28 @@ export const Header: React.FC = () => {
                     - Hidden when scrolled (scrolled === true)
                     - Color: White on Home (Transparent), Primary on Inner pages or when Scrolled
                 */}
-                <span 
-                  className={`font-display font-bold text-2xl tracking-tight transition-all duration-300 overflow-hidden whitespace-nowrap ${
+                <div 
+                  className={`flex flex-col transition-all duration-300 overflow-hidden whitespace-nowrap ${
                     !scrolled 
                       ? 'max-w-[200px] opacity-100' // Visible at top
                       : 'md:max-w-0 md:opacity-0 md:mr-0 max-w-[200px] opacity-100' // Hidden on desktop scroll
-                  } ${
-                    isTransparent ? 'text-white' : 'text-primary-700' // Color logic
                   }`}
                 >
-                  Meowroom
-                </span>
+                  <span 
+                    className={`font-display font-bold text-2xl tracking-tight leading-none ${
+                      isTransparent ? 'text-white' : 'text-primary-700' // Color logic
+                    }`}
+                  >
+                    Meowroom
+                  </span>
+                  <span 
+                    className={`text-[10px] font-medium tracking-widest uppercase leading-none mt-0.5 ${
+                      isTransparent ? 'text-white/80' : 'text-primary-500'
+                    }`}
+                  >
+                    {t('nav.slogan')}
+                  </span>
+                </div>
               </Link>
             </div>
 

@@ -18,9 +18,14 @@ export const Footer: React.FC = () => {
           <div className="space-y-6">
             <Link to="/" className="flex items-center gap-2 group" aria-label="Meowroom Home">
               <Logo className="w-10 h-10 transition-transform group-hover:scale-105" />
-              <span className="font-display font-bold text-2xl tracking-tight text-primary-700">
-                Meowroom
-              </span>
+              <div className="flex flex-col">
+                <span className="font-display font-bold text-2xl tracking-tight text-primary-700 leading-none">
+                  Meowroom
+                </span>
+                <span className="text-[10px] font-medium tracking-widest uppercase text-primary-500 leading-none mt-0.5">
+                  {t('nav.slogan')}
+                </span>
+              </div>
             </Link>
             <p className="text-neutral-500 leading-relaxed">
               {t('footer.about')}
