@@ -31,36 +31,42 @@ export const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchStats();
+    const controller = new AbortController();
+    fetchStats(controller.signal);
+    return () => controller.abort();
   }, []);
 
-  const fetchStats = async () => {
+  const fetchStats = async (signal?: AbortSignal) => {
     try {
       const today = new Date().toISOString().split('T')[0];
       
       const results = await Promise.allSettled([
         // 0: Total Cats
-        supabase.from('cats').select('*', { count: 'exact', head: true }),
+        supabase.from('cats').select('*', { count: 'exact', head: true }).abortSignal(signal!),
         // 1: Sponsored Cats
-        supabase.from('cats').select('*', { count: 'exact', head: true }).not('guardian_name', 'is', null),
+        supabase.from('cats').select('*', { count: 'exact', head: true }).not('guardian_name', 'is', null).abortSignal(signal!),
         // 2: Pending Requests Count
-        supabase.from('adoption_requests').select('*', { count: 'exact', head: true }).eq('status', 'new'),
+        supabase.from('adoption_requests').select('*', { count: 'exact', head: true }).eq('status', 'new').abortSignal(signal!),
         // 3: Upcoming Bookings Count
-        supabase.from('bookings').select('*', { count: 'exact', head: true }).gte('booking_date', today),
+        supabase.from('bookings').select('*', { count: 'exact', head: true }).gte('booking_date', today).abortSignal(signal!),
         // 4: Active Fundraisers
-        supabase.from('fundraisings').select('*', { count: 'exact', head: true }).eq('is_active', true),
+        supabase.from('fundraisings').select('*', { count: 'exact', head: true }).eq('is_active', true).abortSignal(signal!),
         // 5: Recent Requests List
         supabase.from('adoption_requests')
           .select('id, name, created_at, status, cat:cats(name)')
           .order('created_at', { ascending: false })
-          .limit(5),
+          .limit(5)
+          .abortSignal(signal!),
         // 6: Upcoming Bookings List
         supabase.from('bookings')
           .select('id, customer_name, booking_date, booking_time, status, guests_count')
           .gte('booking_date', today)
           .order('booking_date', { ascending: true })
           .limit(5)
+          .abortSignal(signal!)
       ]);
+
+      if (signal?.aborted) return;
 
       const getCount = (result: PromiseSettledResult<any>) => 
         result.status === 'fulfilled' && result.value.count ? result.value.count : 0;

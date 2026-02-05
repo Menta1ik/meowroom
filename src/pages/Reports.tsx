@@ -66,8 +66,8 @@ const Reports: React.FC = () => {
   }, [items, selectedMonth]);
 
   // Calculations for Infographics (based on selected month)
-  const totalExpenses = itemsByMonth.reduce((acc, item) => acc + item.amount, 0);
-  const teamFunded = itemsByMonth.filter(i => i.category === 'operational').reduce((acc, item) => acc + item.amount, 0);
+  const totalExpenses = itemsByMonth.reduce((acc, item) => acc + (Number(item.amount) || 0), 0);
+  const teamFunded = itemsByMonth.filter(i => i.category === 'operational').reduce((acc, item) => acc + (Number(item.amount) || 0), 0);
   const donationFunded = totalExpenses - teamFunded;
   
   const teamPercentage = totalExpenses > 0 ? (teamFunded / totalExpenses) * 100 : 0;
