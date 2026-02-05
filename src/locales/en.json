@@ -378,7 +378,10 @@
     "back": "Back",
     "share": "Share",
     "link_copied": "Link copied!",
-    "not_found": "Not found"
+    "not_found": "Not found",
+    "view_all": "View All",
+    "interested_in": "Interested in",
+    "unknown": "Unknown"
   },
   "seo": {
     "default_title": "Meowroom - Cat Shelter & Anticafe in Kharkiv | Cat Cafe",
@@ -408,7 +411,14 @@
       "fundraising_stat": "Active Fundraisers",
       "quick_actions": "Quick Actions",
       "help_title": "Need help?",
-      "help_text": "Check out the reports section to see how your shelter is performing financially."
+      "help_text": "Check out the reports section to see how your shelter is performing financially.",
+      "recent_requests": "Recent Requests",
+      "upcoming_bookings": "Upcoming Bookings",
+      "no_requests": "No recent requests",
+      "no_bookings": "No upcoming bookings"
+    },
+    "cats": {
+      "add": "Add Cat"
     },
     "user": "User",
     "common": {
@@ -454,6 +464,16 @@
       "types": {
         "adopt": "Adoption",
         "guardian": "Guardianship"
+      }
+    },
+    "bookings": {
+      "status": {
+        "new": "New",
+        "contacted": "Contacted",
+        "closed": "Completed",
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "cancelled": "Cancelled"
       }
     },
     "fundraising": {

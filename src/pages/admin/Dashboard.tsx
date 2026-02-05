@@ -196,7 +196,7 @@ export const Dashboard: React.FC = () => {
                     <div>
                       <p className="font-medium text-neutral-800">{request.name}</p>
                       <p className="text-sm text-neutral-500">
-                        {t('common.interested_in', 'Interested in')}: <span className="font-medium">{request.cat?.name || 'Unknown'}</span>
+                        {t('common.interested_in', 'Interested in')}: <span className="font-medium">{request.cat?.name || t('common.unknown', 'Unknown')}</span>
                       </p>
                     </div>
                   </div>
@@ -238,7 +238,7 @@ export const Dashboard: React.FC = () => {
                       </span>
                     </div>
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${getStatusColor(booking.status)}`}>
-                      {booking.status}
+                      {t(`admin.bookings.status.${booking.status}`, { defaultValue: booking.status }) as string}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-neutral-600 mb-1">
