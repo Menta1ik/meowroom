@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 interface DashboardStats {
   totalCats: number;
-  availableCats: number;
+  sponsoredCats: number;
   pendingRequests: number;
   upcomingBookings: number;
   activeFundraisers: number;
@@ -16,7 +16,7 @@ export const Dashboard: React.FC = () => {
   const { t } = useTranslation();
   const [stats, setStats] = useState<DashboardStats>({
     totalCats: 0,
-    availableCats: 0,
+    sponsoredCats: 0,
     pendingRequests: 0,
     upcomingBookings: 0,
     activeFundraisers: 0
@@ -34,10 +34,11 @@ export const Dashboard: React.FC = () => {
         .from('cats')
         .select('*', { count: 'exact', head: true });
         
-      const { count: availableCats } = await supabase
+      // Fetch Sponsored Cats (where guardian_name is not null/empty)
+      const { count: sponsoredCats } = await supabase
         .from('cats')
         .select('*', { count: 'exact', head: true })
-        .eq('status', 'available');
+        .not('guardian_name', 'is', null);
 
       // Fetch Pending Requests
       const { count: pendingRequests } = await supabase
@@ -59,7 +60,7 @@ export const Dashboard: React.FC = () => {
 
       setStats({
         totalCats: totalCats || 0,
-        availableCats: availableCats || 0,
+        sponsoredCats: sponsoredCats || 0,
         pendingRequests: pendingRequests || 0,
         upcomingBookings: upcomingBookings || 0,
         activeFundraisers: activeFundraisers || 0
@@ -75,7 +76,7 @@ export const Dashboard: React.FC = () => {
     {
       title: t('admin.dashboard.cats_stat', 'Total Cats'),
       value: stats.totalCats,
-      subValue: `${stats.availableCats} ${t('admin.dashboard.available', 'available')}`,
+      subValue: `${stats.sponsoredCats} ${t('admin.dashboard.sponsored', 'sponsored')}`,
       icon: Cat,
       color: 'bg-orange-100 text-orange-600',
       link: '/admin/cats'
