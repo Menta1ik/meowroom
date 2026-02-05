@@ -202,7 +202,7 @@ export const Dashboard: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-4">
                     <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(request.status)}`}>
-                      {t(`admin.requests.status.${request.status}`, request.status)}
+                      {t(`admin.requests.status.${request.status}`, { defaultValue: request.status }) as string}
                     </span>
                     <span className="text-xs text-neutral-400">
                       {format(new Date(request.created_at), 'd MMM', { locale: getDateLocale(i18n.language) })}

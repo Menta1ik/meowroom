@@ -399,6 +399,21 @@
       "expenses": "Витрати",
       "logout": "Вийти"
     },
+    "requests": {
+      "title": "Заявки",
+      "status": {
+        "new": "Нова",
+        "contacted": "Зв'язалися",
+        "closed": "Закрита",
+        "confirmed": "Підтверджено",
+        "pending": "Очікує",
+        "cancelled": "Скасовано"
+      },
+      "types": {
+        "adopt": "Усиновлення",
+        "guardian": "Опікунство"
+      }
+    },
     "fundraising": {
       "title": "Збори коштів",
       "add_new": "Додати збір",

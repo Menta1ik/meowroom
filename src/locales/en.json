@@ -441,6 +441,21 @@
       "expenses": "Expenses",
       "logout": "Logout"
     },
+    "requests": {
+      "title": "Requests",
+      "status": {
+        "new": "New",
+        "contacted": "Contacted",
+        "closed": "Closed",
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "cancelled": "Cancelled"
+      },
+      "types": {
+        "adopt": "Adoption",
+        "guardian": "Guardianship"
+      }
+    },
     "fundraising": {
       "title": "Fundraising Campaigns",
       "add_new": "Add Campaign",
