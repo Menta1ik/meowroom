@@ -1,25 +1,32 @@
+
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../../lib/supabase';
-import { Cat, MessageSquare, Calendar, Heart, ArrowUpRight, ArrowRight, PawPrint } from 'lucide-react';
+import { Cat, MessageSquare, Calendar, Heart, ArrowUpRight, ArrowRight, PawPrint, Clock, User, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
+import { getDateLocale } from '../../lib/utils';
 
 interface DashboardStats {
   totalCats: number;
   sponsoredCats: number;
   pendingRequests: number;
-  upcomingBookings: number;
+  upcomingBookingsCount: number;
   activeFundraisers: number;
+  recentRequests: any[];
+  upcomingBookingsList: any[];
 }
 
 export const Dashboard: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [stats, setStats] = useState<DashboardStats>({
     totalCats: 0,
     sponsoredCats: 0,
     pendingRequests: 0,
-    upcomingBookings: 0,
-    activeFundraisers: 0
+    upcomingBookingsCount: 0,
+    activeFundraisers: 0,
+    recentRequests: [],
+    upcomingBookingsList: []
   });
   const [loading, setLoading] = useState(true);
 
@@ -29,43 +36,48 @@ export const Dashboard: React.FC = () => {
 
   const fetchStats = async () => {
     try {
-      // Fetch Cats
-      const { count: totalCats } = await supabase
-        .from('cats')
-        .select('*', { count: 'exact', head: true });
-        
-      // Fetch Sponsored Cats (where guardian_name is not null/empty)
-      const { count: sponsoredCats } = await supabase
-        .from('cats')
-        .select('*', { count: 'exact', head: true })
-        .not('guardian_name', 'is', null);
-
-      // Fetch Pending Requests
-      const { count: pendingRequests } = await supabase
-        .from('adoption_requests')
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'new');
-
-      // Fetch Upcoming Bookings (future dates)
       const today = new Date().toISOString().split('T')[0];
-      const { count: upcomingBookings } = await supabase
-        .from('bookings')
-        .select('*', { count: 'exact', head: true })
-        .gte('booking_date', today);
+      
+      const results = await Promise.allSettled([
+        // 0: Total Cats
+        supabase.from('cats').select('*', { count: 'exact', head: true }),
+        // 1: Sponsored Cats
+        supabase.from('cats').select('*', { count: 'exact', head: true }).not('guardian_name', 'is', null),
+        // 2: Pending Requests Count
+        supabase.from('adoption_requests').select('*', { count: 'exact', head: true }).eq('status', 'new'),
+        // 3: Upcoming Bookings Count
+        supabase.from('bookings').select('*', { count: 'exact', head: true }).gte('booking_date', today),
+        // 4: Active Fundraisers
+        supabase.from('fundraisings').select('*', { count: 'exact', head: true }).eq('is_active', true),
+        // 5: Recent Requests List
+        supabase.from('adoption_requests')
+          .select('id, name, created_at, status, cat:cats(name)')
+          .order('created_at', { ascending: false })
+          .limit(5),
+        // 6: Upcoming Bookings List
+        supabase.from('bookings')
+          .select('id, customer_name, booking_date, booking_time, status, guests_count')
+          .gte('booking_date', today)
+          .order('booking_date', { ascending: true })
+          .limit(5)
+      ]);
 
-      // Fetch Active Fundraisers
-      const { count: activeFundraisers } = await supabase
-        .from('fundraisings')
-        .select('*', { count: 'exact', head: true })
-        .eq('is_active', true);
+      const getCount = (result: PromiseSettledResult<any>) => 
+        result.status === 'fulfilled' && result.value.count ? result.value.count : 0;
+      
+      const getData = (result: PromiseSettledResult<any>) => 
+        result.status === 'fulfilled' && result.value.data ? result.value.data : [];
 
       setStats({
-        totalCats: totalCats || 0,
-        sponsoredCats: sponsoredCats || 0,
-        pendingRequests: pendingRequests || 0,
-        upcomingBookings: upcomingBookings || 0,
-        activeFundraisers: activeFundraisers || 0
+        totalCats: getCount(results[0]),
+        sponsoredCats: getCount(results[1]),
+        pendingRequests: getCount(results[2]),
+        upcomingBookingsCount: getCount(results[3]),
+        activeFundraisers: getCount(results[4]),
+        recentRequests: getData(results[5]),
+        upcomingBookingsList: getData(results[6])
       });
+
     } catch (error) {
       console.error('Error fetching dashboard stats:', error);
     } finally {
@@ -91,7 +103,7 @@ export const Dashboard: React.FC = () => {
     },
     {
       title: t('admin.dashboard.bookings_stat', 'Upcoming Bookings'),
-      value: stats.upcomingBookings,
+      value: stats.upcomingBookingsCount,
       icon: Calendar,
       color: 'bg-purple-100 text-purple-600',
       link: '/admin/bookings'
@@ -104,6 +116,18 @@ export const Dashboard: React.FC = () => {
       link: '/admin/fundraising'
     }
   ];
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'new': return 'bg-blue-100 text-blue-700';
+      case 'contacted': return 'bg-yellow-100 text-yellow-700';
+      case 'closed': return 'bg-green-100 text-green-700';
+      case 'confirmed': return 'bg-green-100 text-green-700';
+      case 'pending': return 'bg-yellow-100 text-yellow-700';
+      case 'cancelled': return 'bg-red-100 text-red-700';
+      default: return 'bg-neutral-100 text-neutral-700';
+    }
+  };
 
   if (loading) {
     return (
@@ -152,58 +176,122 @@ export const Dashboard: React.FC = () => {
         ))}
       </div>
 
-      {/* Quick Actions & Recent Activity Placeholder */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Quick Actions */}
-        <div className="bg-white p-6 rounded-2xl border border-neutral-100 shadow-sm">
-          <h2 className="text-lg font-bold text-neutral-800 mb-6">{t('admin.dashboard.quick_actions', 'Quick Actions')}</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <Link to="/admin/cats/new" className="flex flex-col items-center justify-center p-6 bg-neutral-50 rounded-xl border border-neutral-100 hover:bg-orange-50 hover:border-orange-100 hover:text-orange-600 transition-all gap-3 group">
-              <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center text-neutral-400 group-hover:text-orange-500">
-                <Cat size={20} />
-              </div>
-              <span className="font-medium">{t('admin.cats.add', 'Add Cat')}</span>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Recent Requests */}
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden">
+          <div className="p-6 border-b border-neutral-100 flex justify-between items-center">
+            <h2 className="text-lg font-bold text-neutral-800">{t('admin.dashboard.recent_requests', 'Recent Requests')}</h2>
+            <Link to="/admin/requests" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
+              {t('common.view_all', 'View All')}
             </Link>
-            <Link to="/admin/bookings" className="flex flex-col items-center justify-center p-6 bg-neutral-50 rounded-xl border border-neutral-100 hover:bg-purple-50 hover:border-purple-100 hover:text-purple-600 transition-all gap-3 group">
-              <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center text-neutral-400 group-hover:text-purple-500">
-                <Calendar size={20} />
+          </div>
+          <div className="divide-y divide-neutral-50">
+            {stats.recentRequests.length > 0 ? (
+              stats.recentRequests.map((request) => (
+                <div key={request.id} className="p-4 hover:bg-neutral-50 transition-colors flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-500">
+                      <User size={20} />
+                    </div>
+                    <div>
+                      <p className="font-medium text-neutral-800">{request.name}</p>
+                      <p className="text-sm text-neutral-500">
+                        {t('common.interested_in', 'Interested in')}: <span className="font-medium">{request.cat?.name || 'Unknown'}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(request.status)}`}>
+                      {t(`admin.requests.status.${request.status}`, request.status)}
+                    </span>
+                    <span className="text-xs text-neutral-400">
+                      {format(new Date(request.created_at), 'd MMM', { locale: getDateLocale(i18n.language) })}
+                    </span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="p-8 text-center text-neutral-400">
+                {t('admin.dashboard.no_requests', 'No recent requests')}
               </div>
-              <span className="font-medium">{t('admin.nav.bookings', 'Bookings')}</span>
-            </Link>
-            <Link to="/admin/expenses" className="flex flex-col items-center justify-center p-6 bg-neutral-50 rounded-xl border border-neutral-100 hover:bg-green-50 hover:border-green-100 hover:text-green-600 transition-all gap-3 group">
-              <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center text-neutral-400 group-hover:text-green-500">
-                <PawPrint size={20} />
-              </div>
-              <span className="font-medium">{t('admin.nav.expenses', 'Expenses')}</span>
-            </Link>
-             <Link to="/admin/fundraising" className="flex flex-col items-center justify-center p-6 bg-neutral-50 rounded-xl border border-neutral-100 hover:bg-red-50 hover:border-red-100 hover:text-red-600 transition-all gap-3 group">
-              <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center text-neutral-400 group-hover:text-red-500">
-                <Heart size={20} />
-              </div>
-              <span className="font-medium">{t('admin.nav.fundraising', 'Fundraising')}</span>
-            </Link>
+            )}
           </div>
         </div>
 
-        {/* Helpful Links or Info */}
-        <div className="bg-primary-50 p-6 rounded-2xl border border-primary-100 relative overflow-hidden">
-          <div className="relative z-10">
-            <h2 className="text-lg font-bold text-primary-900 mb-2">{t('admin.dashboard.help_title', 'Need help?')}</h2>
-            <p className="text-primary-700 mb-6 max-w-sm leading-relaxed">
-              {t('admin.dashboard.help_text', 'Check out the reports section to see how your shelter is performing financially.')}
-            </p>
-            <Link to="/admin/expenses" className="inline-flex items-center gap-2 bg-white text-primary-600 px-5 py-2.5 rounded-xl font-medium shadow-sm hover:shadow-md transition-all">
-              {t('admin.nav.reports', 'Go to Reports')}
-              <ArrowRight size={16} />
+        {/* Upcoming Bookings */}
+        <div className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden">
+          <div className="p-6 border-b border-neutral-100 flex justify-between items-center">
+            <h2 className="text-lg font-bold text-neutral-800">{t('admin.dashboard.upcoming_bookings', 'Upcoming Bookings')}</h2>
+            <Link to="/admin/bookings" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
+              {t('common.view_all', 'View All')}
             </Link>
           </div>
-          
-          {/* Decorative Circle */}
-          <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-primary-100/50 rounded-full blur-3xl"></div>
+          <div className="divide-y divide-neutral-50">
+            {stats.upcomingBookingsList.length > 0 ? (
+              stats.upcomingBookingsList.map((booking) => (
+                <div key={booking.id} className="p-4 hover:bg-neutral-50 transition-colors">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <Calendar size={14} className="text-neutral-400" />
+                      <span className="text-sm font-medium text-neutral-800">
+                        {format(new Date(booking.booking_date), 'd MMM yyyy', { locale: getDateLocale(i18n.language) })}
+                      </span>
+                    </div>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${getStatusColor(booking.status)}`}>
+                      {booking.status}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-neutral-600 mb-1">
+                    <Clock size={14} className="text-neutral-400" />
+                    <span>{booking.booking_time}</span>
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <p className="text-sm font-medium text-neutral-800 truncate max-w-[120px]">{booking.customer_name}</p>
+                    <span className="text-xs text-neutral-400 flex items-center gap-1">
+                      <User size={12} /> {booking.guests_count}
+                    </span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="p-8 text-center text-neutral-400">
+                {t('admin.dashboard.no_bookings', 'No upcoming bookings')}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-white p-6 rounded-2xl border border-neutral-100 shadow-sm">
+        <h2 className="text-lg font-bold text-neutral-800 mb-6">{t('admin.dashboard.quick_actions', 'Quick Actions')}</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Link to="/admin/cats/new" className="flex flex-col items-center justify-center p-6 bg-neutral-50 rounded-xl border border-neutral-100 hover:bg-orange-50 hover:border-orange-100 hover:text-orange-600 transition-all gap-3 group">
+            <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center text-neutral-400 group-hover:text-orange-500">
+              <Cat size={20} />
+            </div>
+            <span className="font-medium text-center">{t('admin.cats.add', 'Add Cat')}</span>
+          </Link>
+          <Link to="/admin/bookings" className="flex flex-col items-center justify-center p-6 bg-neutral-50 rounded-xl border border-neutral-100 hover:bg-purple-50 hover:border-purple-100 hover:text-purple-600 transition-all gap-3 group">
+            <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center text-neutral-400 group-hover:text-purple-500">
+              <Calendar size={20} />
+            </div>
+            <span className="font-medium text-center">{t('admin.nav.bookings', 'Bookings')}</span>
+          </Link>
+          <Link to="/admin/expenses" className="flex flex-col items-center justify-center p-6 bg-neutral-50 rounded-xl border border-neutral-100 hover:bg-green-50 hover:border-green-100 hover:text-green-600 transition-all gap-3 group">
+            <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center text-neutral-400 group-hover:text-green-500">
+              <PawPrint size={20} />
+            </div>
+            <span className="font-medium text-center">{t('admin.nav.expenses', 'Expenses')}</span>
+          </Link>
+          <Link to="/admin/fundraising" className="flex flex-col items-center justify-center p-6 bg-neutral-50 rounded-xl border border-neutral-100 hover:bg-red-50 hover:border-red-100 hover:text-red-600 transition-all gap-3 group">
+            <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center text-neutral-400 group-hover:text-red-500">
+              <Heart size={20} />
+            </div>
+            <span className="font-medium text-center">{t('admin.nav.fundraising', 'Fundraising')}</span>
+          </Link>
         </div>
       </div>
     </div>
   );
 };
-
-export default Dashboard;
