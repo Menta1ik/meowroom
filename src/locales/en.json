@@ -397,6 +397,18 @@
 
   "admin": {
     "title": "Admin Panel",
+    "dashboard": {
+      "title": "Dashboard",
+      "welcome": "Welcome back to Meowroom Admin Panel",
+      "cats_stat": "Total Cats",
+      "available": "available",
+      "requests_stat": "Pending Requests",
+      "bookings_stat": "Upcoming Bookings",
+      "fundraising_stat": "Active Fundraisers",
+      "quick_actions": "Quick Actions",
+      "help_title": "Need help?",
+      "help_text": "Check out the reports section to see how your shelter is performing financially."
+    },
     "user": "User",
     "common": {
         "loading": "Loading...",
@@ -418,6 +430,7 @@
       "error": "Invalid email or password"
     },
     "nav": {
+      "dashboard": "Dashboard",
       "cats": "Cats",
       "requests": "Requests",
       "services": "Services",

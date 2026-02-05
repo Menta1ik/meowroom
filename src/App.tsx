@@ -22,6 +22,7 @@ const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfUse = React.lazy(() => import('./pages/TermsOfUse'));
 const LoginPage = React.lazy(() => import('./pages/admin/Login').then(module => ({ default: module.LoginPage })));
 const CreateCat = React.lazy(() => import('./pages/admin/CreateCat').then(module => ({ default: module.CreateCat })));
+const Dashboard = React.lazy(() => import('./pages/admin/Dashboard').then(module => ({ default: module.Dashboard })));
 const EditCat = React.lazy(() => import('./pages/admin/EditCat').then(module => ({ default: module.EditCat })));
 const CatsList = React.lazy(() => import('./pages/admin/CatsList').then(module => ({ default: module.CatsList })));
 const AdoptionRequests = React.lazy(() => import('./pages/admin/AdoptionRequests').then(module => ({ default: module.AdoptionRequests })));
@@ -55,7 +56,7 @@ function App() {
               
               <Route element={<ProtectedRoute />}>
                 <Route path="/admin" element={<AdminLayout />}>
-                  <Route index element={<Navigate to="cats" replace />} />
+                  <Route index element={<Dashboard />} />
                   <Route path="cats" element={<CatsList />} />
                   <Route path="cats/new" element={<CreateCat />} />
                   <Route path="cats/:id" element={<EditCat />} />

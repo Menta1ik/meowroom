@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import LanguageSelector from '../ui/LanguageSelector';
-import { LogOut, Cat, MessageSquare, Menu, X, PawPrint, ChevronLeft, ChevronRight, Settings, Calendar, Heart, FileBarChart } from 'lucide-react';
+import { LogOut, Cat, MessageSquare, Menu, X, PawPrint, ChevronLeft, ChevronRight, Settings, Calendar, Heart, FileBarChart, LayoutDashboard } from 'lucide-react';
 import { useState } from 'react';
 
 export const AdminLayout: React.FC = () => {
@@ -20,6 +20,7 @@ export const AdminLayout: React.FC = () => {
   };
 
   const navItems = [
+    { to: '/admin', icon: LayoutDashboard, label: t('admin.nav.dashboard', 'Dashboard'), end: true },
     { to: '/admin/cats', icon: Cat, label: t('admin.nav.cats') },
     { to: '/admin/requests', icon: MessageSquare, label: t('admin.nav.requests') },
     { to: '/admin/services', icon: Settings, label: t('admin.nav.services') },
