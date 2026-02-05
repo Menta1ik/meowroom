@@ -44,10 +44,10 @@ export const Dashboard: React.FC = () => {
       const { count: pendingRequests } = await supabase
         .from('adoption_requests')
         .select('*', { count: 'exact', head: true })
-        .eq('status', 'pending');
+        .eq('status', 'new');
 
       // Fetch Upcoming Bookings (future dates)
-      const today = new Date().toISOString();
+      const today = new Date().toISOString().split('T')[0];
       const { count: upcomingBookings } = await supabase
         .from('bookings')
         .select('*', { count: 'exact', head: true })
@@ -55,8 +55,9 @@ export const Dashboard: React.FC = () => {
 
       // Fetch Active Fundraisers
       const { count: activeFundraisers } = await supabase
-        .from('fundraising_items')
-        .select('*', { count: 'exact', head: true }); // Assuming all are active for now, or filter by collected < target
+        .from('fundraisings')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_active', true);
 
       setStats({
         totalCats: totalCats || 0,
